@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Injury Comeback Tracker | TAYLOR VECTOR TERMINAL</title>
+    <link rel="stylesheet" href="/static/css/theme.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+        <span class="theme-icon">◐</span>
+        <span id="theme-text">Dark</span>
+    </button>
+
+
+    <div class="container">
+        <header>
+            <h1> Injury Comeback Tracker</h1>
+            <p class="subtitle">Track NBA player performance before and after major injuries</p>
+            <p class="subtitle">Educational tool showing resilience or decline</p>
+        </header>
+
+        <div class="stats-overview">
+            <div class="stat-card">
+                <div class="stat-value" id="total-injuries">22</div>
+                <div class="stat-label">Injuries Tracked</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="current-injuries">3</div>
+                <div class="stat-label">Current Injuries</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="avg-pvr-drop">-2.8</div>
+                <div class="stat-label">Avg PVR Drop (2yr)</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="best-recovery">117%</div>
+                <div class="stat-label">Best Recovery (LaVine)</div>
+            </div>
+        </div>
+
+        <div class="panel">
+            <h2 class="panel-title"> Current Injury Watch</h2>
+            <div id="current-injury-watch"></div>
+        </div>
+
+        <div class="main-grid">
+            <div class="panel">
+                <h2 class="panel-title"> Tracked Injuries</h2>
+                <div>
+                    <input type="text" id="search-input" placeholder=" Search by player name or injury type..." 
+                          >
+                </div>
+                <div class="injury-list" id="injury-list"></div>
+            </div>
+
+            <div class="panel">
+                <h2 class="panel-title"> Recovery Analysis</h2>
+                <div id="selected-injury-info">
+                    <p>
+                        Select an injury from the list to view detailed recovery analysis
+                    </p>
+                </div>
+                <div class="chart-container">
+                    <canvas id="recovery-chart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel insights-panel">
+            <h2 class="panel-title"> Key Insights</h2>
+            <div class="insights-grid" id="insights-grid"></div>
+        </div>
+
+        <div class="panel">
+            <h2 class="panel-title"> Injury Type Trends</h2>
+            <div class="injury-trends" id="injury-trends"></div>
+        </div>
+
+        <div class="panel">
+            <h2 class="panel-title"> Add New Injury</h2>
+            <div class="add-injury-form">
+                <form id="injury-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="player-name">Player Name</label>
+                            <input type="text" id="player-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="injury-type-input">Injury Type</label>
+                            <select id="injury-type-input" required>
+                                <option value="">Select injury type</option>
+                                <option value="ACL Tear">ACL Tear</option>
+                                <option value="Achilles Tear">Achilles Tear</option>
+                                <option value="Leg Fracture">Leg Fracture</option>
+                                <option value="Ankle Fracture">Ankle Fracture</option>
+                                <option value="Quad Rupture">Quad Rupture</option>
+                                <option value="Meniscus Tear">Meniscus Tear</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="injury-date-input">Injury Date</label>
+                            <input type="date" id="injury-date-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="injury-season">Season</label>
+                            <input type="text" id="injury-season" placeholder="e.g., 2023-24" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="pre-tusg">Pre-Injury TUSG%</label>
+                            <input type="number" id="pre-tusg" step="0.1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="pre-pvr">Pre-Injury PVR</label>
+                            <input type="number" id="pre-pvr" step="0.1" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-submit"> Add Injury & Generate Projection</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let injuryData = null;
+        let selectedInjury = null;
+        let recoveryChart = null;
+
+        async function loadInjuryData() {
+            try {
+                const response = await fetch('injury_tracker_data.json');
+                injuryData = await response.json();
+                renderInjuryList();
+                renderCurrentInjuryWatch();
+                renderInsights();
+                renderInjuryTrends();
+                updateOverviewStats();
+                setupSearch();
+            } catch (error) {
+                console.error('Error loading injury data:', error);
+            }
+        }
+
+        function updateOverviewStats() {
+            if (!injuryData) return;
+
+            document.getElementById('total-injuries').textContent = injuryData.total_injuries_tracked;
+            document.getElementById('current-injuries').textContent = injuryData.current_injuries || 0;
+
+            const twoYearInjuries = injuryData.injuries.filter(i => i.post_injury_2yr);
+            const avgPvrDrop = twoYearInjuries.reduce((sum, i) => 
+                sum + (i.recovery_2yr?.pvr_delta || 0), 0) / twoYearInjuries.length;
+
+            document.getElementById('avg-pvr-drop').textContent = avgPvrDrop.toFixed(1);
+
+            const bestRecovery = Math.max(...twoYearInjuries.map(i => i.recovery_2yr?.pvr_retention || 0));
+            document.getElementById('best-recovery').textContent = bestRecovery.toFixed(0) + '%';
+        }
+
+        function renderCurrentInjuryWatch() {
+            const watchElement = document.getElementById('current-injury-watch');
+            if (!injuryData.current_injury_watch || injuryData.current_injury_watch.length === 0) {
+                watchElement.innerHTML = '<p>No current injuries being tracked</p>';
+                return;
+            }
+
+            watchElement.innerHTML = '';
+            injuryData.current_injury_watch.forEach(current => {
+                const card = document.createElement('div');
+                card.style.cssText = 'background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%); color: #1a1a1a; padding: 20px; border-radius: 12px; margin-bottom: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.2);';
+                
+                const daysText = current.days_until_return > 0 
+                    ? `${current.days_until_return} days until expected return` 
+                    : 'Return date passed';
+
+                card.innerHTML = `
+                    <div>
+                        <div>
+                            <h3>${current.player}</h3>
+                            <p>${current.injury_type}</p>
+                        </div>
+                        <div>
+                            <div>
+                                ${daysText}
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div>
+                            <div>Pre-Injury PVR</div>
+                            <div>${current.pre_injury_current.pvr.toFixed(1)}</div>
+                        </div>
+                        <div>
+                            <div>Projected PVR (1yr)</div>
+                            <div>${current.projection.projected_1yr_pvr.toFixed(1)}</div>
+                            <div>${((current.projection.projected_1yr_pvr / current.pre_injury_current.pvr) * 100).toFixed(0)}% retention</div>
+                        </div>
+                        <div>
+                            <div>Impact</div>
+                            <div>${current.projected_impact}</div>
+                        </div>
+                    </div>
+                    <div>
+                         ${current.notes}
+                    </div>
+                `;
+                
+                watchElement.appendChild(card);
+            });
+        }
+
+        function setupSearch() {
+            const searchInput = document.getElementById('search-input');
+            searchInput.addEventListener('input', (e) => {
+                const searchTerm = e.target.value.toLowerCase();
+                renderInjuryList(searchTerm);
+            });
+
+            searchInput.addEventListener('focus', () => {
+                searchInput.style.borderColor = '#7e22ce';
+            });
+
+            searchInput.addEventListener('blur', () => {
+                searchInput.style.borderColor = '#ddd';
+            });
+        }
+
+        function getRecoveryClass(retention) {
+            if (retention >= 95) return 'recovery-excellent';
+            if (retention >= 85) return 'recovery-good';
+            if (retention >= 70) return 'recovery-moderate';
+            return 'recovery-poor';
+        }
+
+        function renderInjuryList(searchTerm = '') {
+            const listElement = document.getElementById('injury-list');
+            listElement.innerHTML = '';
+
+            const filteredInjuries = injuryData.injuries.filter(injury => {
+                if (!searchTerm) return true;
+                const playerMatch = injury.player.toLowerCase().includes(searchTerm);
+                const injuryTypeMatch = injury.injury_type.toLowerCase().includes(searchTerm);
+                return playerMatch || injuryTypeMatch;
+            });
+
+            if (filteredInjuries.length === 0) {
+                listElement.innerHTML = '<p>No injuries found matching your search</p>';
+                return;
+            }
+
+            filteredInjuries.forEach((injury) => {
+                const originalIndex = injuryData.injuries.indexOf(injury);
+                const card = document.createElement('div');
+                card.className = 'injury-card';
+                card.onclick = () => selectInjury(originalIndex);
+
+                const recovery2yr = injury.recovery_2yr;
+                const recoveryInfo = recovery2yr 
+                    ? `<span class="recovery-indicator ${getRecoveryClass(recovery2yr.pvr_retention)}">${recovery2yr.pvr_retention.toFixed(0)}% PVR</span>`
+                    : '<span class="recovery-indicator recovery-moderate">In Progress</span>';
+
+                card.innerHTML = `
+                    <div class="injury-header">
+                        <div class="player-name">${injury.player}</div>
+                        <div class="injury-type-badge">${injury.injury_type}</div>
+                    </div>
+                    <div class="injury-details">
+                        <div class="metric">
+                            <span class="metric-label">Date:</span>
+                            <span>${new Date(injury.injury_date).toLocaleDateString()}</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Recovery:</span>
+                            ${recoveryInfo}
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Pre-PVR:</span>
+                            <span>${injury.pre_injury.pvr.toFixed(1)}</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Pre-TUSG:</span>
+                            <span>${injury.pre_injury.tusg.toFixed(1)}%</span>
+                        </div>
+                    </div>
+                `;
+
+                listElement.appendChild(card);
+            });
+        }
+
+        function selectInjury(index) {
+            selectedInjury = injuryData.injuries[index];
+            
+            document.querySelectorAll('.injury-card').forEach((card, i) => {
+                card.classList.toggle('selected', i === index);
+            });
+
+            renderInjuryDetails();
+            renderRecoveryChart();
+        }
+
+        function renderInjuryDetails() {
+            const infoElement = document.getElementById('selected-injury-info');
+            const injury = selectedInjury;
+
+            const recovery1yr = injury.recovery_1yr;
+            const recovery2yr = injury.recovery_2yr;
+
+            let detailsHTML = `
+                <div>
+                    <h3>${injury.player} - ${injury.injury_type}</h3>
+                    <p>${injury.recovery_notes}</p>
+                    
+                    <div>
+                        <div>
+                            <div>Pre-Injury (${injury.pre_injury.season})</div>
+                            <div>TUSG%: ${injury.pre_injury.tusg.toFixed(1)}%</div>
+                            <div>PVR: ${injury.pre_injury.pvr.toFixed(1)}</div>
+                            <div>PPG: ${injury.pre_injury.ppg.toFixed(1)}</div>
+                            <div>APG: ${injury.pre_injury.apg.toFixed(1)}</div>
+                        </div>
+            `;
+
+            if (recovery1yr) {
+                detailsHTML += `
+                    <div>
+                        <div>1 Year Post (${injury.post_injury_1yr.season})</div>
+                        <div>TUSG%: ${injury.post_injury_1yr.tusg.toFixed(1)}% (${recovery1yr.tusg_retention.toFixed(0)}%)</div>
+                        <div>PVR: ${injury.post_injury_1yr.pvr.toFixed(1)} (${recovery1yr.pvr_retention.toFixed(0)}%)</div>
+                        <div>PPG: ${injury.post_injury_1yr.ppg.toFixed(1)}</div>
+                        <div>Games: ${injury.post_injury_1yr.games}</div>
+                    </div>
+                `;
+            }
+
+            if (recovery2yr) {
+                detailsHTML += `
+                    <div>
+                        <div>2 Years Post (${injury.post_injury_2yr.season})</div>
+                        <div>TUSG%: ${injury.post_injury_2yr.tusg.toFixed(1)}% (${recovery2yr.tusg_retention.toFixed(0)}%)</div>
+                        <div>PVR: ${injury.post_injury_2yr.pvr.toFixed(1)} (${recovery2yr.pvr_retention.toFixed(0)}%)</div>
+                        <div>PPG: ${injury.post_injury_2yr.ppg.toFixed(1)}</div>
+                        <div>Games: ${injury.post_injury_2yr.games}</div>
+                    </div>
+                `;
+            }
+
+            detailsHTML += `
+                        <div>
+                            <div>Projected Recovery</div>
+                            <div>Timeline: ${injury.projection.recovery_time_months} months</div>
+                            <div>1yr TUSG%: ${injury.projection.projected_1yr_tusg.toFixed(1)}%</div>
+                            <div>1yr PVR: ${injury.projection.projected_1yr_pvr.toFixed(1)}</div>
+                            <div>Severity: ${injury.projection.severity}</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            infoElement.innerHTML = detailsHTML;
+        }
+
+        function renderRecoveryChart() {
+            const ctx = document.getElementById('recovery-chart').getContext('2d');
+            const injury = selectedInjury;
+
+            if (recoveryChart) {
+                recoveryChart.destroy();
+            }
+
+            const labels = ['Pre-Injury'];
+            const actualTUSG = [injury.pre_injury.tusg];
+            const actualPVR = [injury.pre_injury.pvr];
+            const projectedTUSG = [injury.pre_injury.tusg];
+            const projectedPVR = [injury.pre_injury.pvr];
+
+            labels.push('1 Year Post');
+            projectedTUSG.push(injury.projection.projected_1yr_tusg);
+            projectedPVR.push(injury.projection.projected_1yr_pvr);
+            
+            if (injury.post_injury_1yr) {
+                actualTUSG.push(injury.post_injury_1yr.tusg);
+                actualPVR.push(injury.post_injury_1yr.pvr);
+            } else {
+                actualTUSG.push(null);
+                actualPVR.push(null);
+            }
+
+            labels.push('2 Years Post');
+            projectedTUSG.push(injury.projection.projected_2yr_tusg);
+            projectedPVR.push(injury.projection.projected_2yr_pvr);
+            
+            if (injury.post_injury_2yr) {
+                actualTUSG.push(injury.post_injury_2yr.tusg);
+                actualPVR.push(injury.post_injury_2yr.pvr);
+            } else {
+                actualTUSG.push(null);
+                actualPVR.push(null);
+            }
+
+            recoveryChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'Actual PVR',
+                            data: actualPVR,
+                            borderColor: '#7e22ce',
+                            backgroundColor: 'rgba(126, 34, 206, 0.1)',
+                            borderWidth: 3,
+                            pointRadius: 6,
+                            pointHoverRadius: 8,
+                            tension: 0.3
+                        },
+                        {
+                            label: 'Projected PVR',
+                            data: projectedPVR,
+                            borderColor: '#7e22ce',
+                            backgroundColor: 'rgba(126, 34, 206, 0.05)',
+                            borderWidth: 2,
+                            borderDash: [5, 5],
+                            pointRadius: 4,
+                            tension: 0.3
+                        },
+                        {
+                            label: 'Actual TUSG%',
+                            data: actualTUSG,
+                            borderColor: '#2a5298',
+                            backgroundColor: 'rgba(42, 82, 152, 0.1)',
+                            borderWidth: 3,
+                            pointRadius: 6,
+                            pointHoverRadius: 8,
+                            tension: 0.3
+                        },
+                        {
+                            label: 'Projected TUSG%',
+                            data: projectedTUSG,
+                            borderColor: '#2a5298',
+                            backgroundColor: 'rgba(42, 82, 152, 0.05)',
+                            borderWidth: 2,
+                            borderDash: [5, 5],
+                            pointRadius: 4,
+                            tension: 0.3
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: `${injury.player} - Recovery Curve (Projected vs Actual)`,
+                            font: { size: 16, weight: 'bold' },
+                            color: '#1e3c72'
+                        },
+                        legend: {
+                            position: 'bottom'
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Metric Value'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function renderInsights() {
+            const gridElement = document.getElementById('insights-grid');
+            gridElement.innerHTML = '';
+
+            injuryData.insights.slice(0, 6).forEach(insight => {
+                const card = document.createElement('div');
+                card.className = 'insight-card';
+                card.innerHTML = `
+                    <div class="insight-text">${insight.insight}</div>
+                    <div class="insight-stats">
+                        <span> TUSG: ${insight.tusg_retention.toFixed(0)}%</span>
+                        <span> PVR: ${insight.pvr_retention.toFixed(0)}%</span>
+                    </div>
+                `;
+                gridElement.appendChild(card);
+            });
+        }
+
+        function renderInjuryTrends() {
+            const trendsElement = document.getElementById('injury-trends');
+            trendsElement.innerHTML = '';
+
+            Object.entries(injuryData.injury_trends).forEach(([injuryType, stats]) => {
+                const trend = document.createElement('div');
+                trend.className = 'trend-item';
+                trend.innerHTML = `
+                    <div class="trend-title">${injuryType} (${stats.cases} cases)</div>
+                    <div class="trend-stats">
+                        <span>Avg TUSG% drop (1yr): ${stats.avg_tusg_drop_1yr}</span>
+                        <span>Avg PVR drop (1yr): ${stats.avg_pvr_drop_1yr}</span>
+                        <span>Avg TUSG% drop (2yr): ${stats.avg_tusg_drop_2yr}</span>
+                        <span>Avg PVR drop (2yr): ${stats.avg_pvr_drop_2yr}</span>
+                    </div>
+                `;
+                trendsElement.appendChild(trend);
+            });
+        }
+
+        document.getElementById('injury-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const playerName = document.getElementById('player-name').value;
+            const injuryType = document.getElementById('injury-type-input').value;
+            const preTUSG = parseFloat(document.getElementById('pre-tusg').value);
+            const prePVR = parseFloat(document.getElementById('pre-pvr').value);
+
+            const injuryStats = injuryData.injury_type_stats[injuryType] || {
+                avg_recovery_time_months: 9,
+                expected_pvr_retention_1yr: 0.80,
+                expected_pvr_retention_2yr: 0.88,
+                expected_tusg_retention_1yr: 0.85,
+                expected_tusg_retention_2yr: 0.92,
+                severity: 'Moderate'
+            };
+
+            const projection = {
+                recovery_time_months: injuryStats.avg_recovery_time_months,
+                projected_1yr_tusg: (preTUSG * injuryStats.expected_tusg_retention_1yr).toFixed(1),
+                projected_1yr_pvr: (prePVR * injuryStats.expected_pvr_retention_1yr).toFixed(1),
+                projected_2yr_tusg: (preTUSG * injuryStats.expected_tusg_retention_2yr).toFixed(1),
+                projected_2yr_pvr: (prePVR * injuryStats.expected_pvr_retention_2yr).toFixed(1),
+                severity: injuryStats.severity
+            };
+
+            alert(`Injury Added: ${playerName}
+
+Injury Type: ${injuryType}
+Pre-Injury TUSG%: ${preTUSG}
+Pre-Injury PVR: ${prePVR}
+
+Recovery Projection:
+- Timeline: ${projection.recovery_time_months} months
+- 1-Year TUSG%: ${projection.projected_1yr_tusg}% (${(injuryStats.expected_tusg_retention_1yr * 100).toFixed(0)}% retention)
+- 1-Year PVR: ${projection.projected_1yr_pvr} (${(injuryStats.expected_pvr_retention_1yr * 100).toFixed(0)}% retention)
+- 2-Year TUSG%: ${projection.projected_2yr_tusg}% (${(injuryStats.expected_tusg_retention_2yr * 100).toFixed(0)}% retention)
+- 2-Year PVR: ${projection.projected_2yr_pvr} (${(injuryStats.expected_pvr_retention_2yr * 100).toFixed(0)}% retention)
+- Severity: ${projection.severity}
+
+Note: This is a projection based on historical ${injuryType} recovery data.`);
+
+            this.reset();
+        });
+
+        loadInjuryData();
+    </script>
+    <script src="/static/js/theme.js"></script>
+</body>
+</html>

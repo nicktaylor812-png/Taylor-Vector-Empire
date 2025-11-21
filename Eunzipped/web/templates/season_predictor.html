@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Season Prediction Engine | Taylor Vector Terminal</title>
+    <link rel="stylesheet" href="/static/css/theme.css">
+</head>
+<body>
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+        <span class="theme-icon">◐</span>
+        <span id="theme-text">Dark</span>
+    </button>
+
+
+    <div class="container">
+        <header>
+            <h1> Season Prediction Engine</h1>
+            <div class="subtitle">TUSG% + PVR Analytics | 2024-25 NBA Season</div>
+            <div class="update-info" id="lastUpdate">Loading predictions...</div>
+        </header>
+
+        <div class="controls">
+            <button onclick="generatePredictions()" id="generateBtn"> Generate Predictions</button>
+            <button onclick="window.location.href='/'">← Back to Dashboard</button>
+        </div>
+
+        <div id="loadingDiv" class="loading" style="display: none;">
+            <div class="spinner"></div>
+            <p>Analyzing rosters and generating predictions...</p>
+        </div>
+
+        <div id="contentDiv" style="display: none;">
+            <div class="tabs">
+                <button class="tab active" onclick="showTab('wins')"> Win Predictions</button>
+                <button class="tab" onclick="showTab('mvp')"> MVP Race</button>
+                <button class="tab" onclick="showTab('dpoy')"> DPOY Race</button>
+                <button class="tab" onclick="showTab('mip')"> MIP Race</button>
+                <button class="tab" onclick="showTab('roy')"> ROY Race</button>
+                <button class="tab" onclick="showTab('breakout')"> Breakout Players</button>
+            </div>
+
+            <!-- Win Predictions Tab -->
+            <div id="winsTab" class="tab-content active">
+                <div class="card">
+                    <h2>Team Win Predictions (2024-25 Season)</h2>
+                    <div class="grid">
+                        <div class="summary-box">
+                            <h3>Model Accuracy</h3>
+                            <div class="value" id="modelAccuracy">--</div>
+                        </div>
+                        <div class="summary-box">
+                            <h3>Teams Analyzed</h3>
+                            <div class="value" id="teamsAnalyzed">30</div>
+                        </div>
+                    </div>
+                    <table id="winsTable">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Team</th>
+                                <th>Predicted W-L</th>
+                                <th>Avg PVR</th>
+                                <th>Avg TUSG%</th>
+                                <th>Vegas Total</th>
+                                <th>ESPN Pred</th>
+                                <th>Confidence</th>
+                            </tr>
+                        </thead>
+                        <tbody id="winsBody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- MVP Race Tab -->
+            <div id="mvpTab" class="tab-content">
+                <div class="card">
+                    <h2>MVP Race Leaderboard</h2>
+                    <p style="margin-bottom: 20px; color: #aaa;">Based on PVR, TUSG%, and team performance (45+ win teams)</p>
+                    <table id="mvpTable">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Player</th>
+                                <th>Team</th>
+                                <th>PVR</th>
+                                <th>TUSG%</th>
+                                <th>Stats</th>
+                                <th>Confidence</th>
+                            </tr>
+                        </thead>
+                        <tbody id="mvpBody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- DPOY Race Tab -->
+            <div id="dpoyTab" class="tab-content">
+                <div class="card">
+                    <h2>Defensive Player of the Year Race</h2>
+                    <p style="margin-bottom: 20px; color: #aaa;">Based on defensive metrics (STL, BLK, REB)</p>
+                    <table id="dpoyTable">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Player</th>
+                                <th>Team</th>
+                                <th>STL</th>
+                                <th>BLK</th>
+                                <th>RPG</th>
+                                <th>Def Score</th>
+                                <th>Confidence</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dpoyBody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- MIP Race Tab -->
+            <div id="mipTab" class="tab-content">
+                <div class="card">
+                    <h2>Most Improved Player Race</h2>
+                    <p style="margin-bottom: 20px; color: #aaa;">Year-over-year improvement in PVR and scoring</p>
+                    <table id="mipTable">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Player</th>
+                                <th>Team</th>
+                                <th>Current PPG</th>
+                                <th>Previous PPG</th>
+                                <th>PPG Increase</th>
+                                <th>PVR Increase</th>
+                                <th>Confidence</th>
+                            </tr>
+                        </thead>
+                        <tbody id="mipBody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ROY Race Tab -->
+            <div id="royTab" class="tab-content">
+                <div class="card">
+                    <h2>Rookie of the Year Race</h2>
+                    <p style="margin-bottom: 20px; color: #aaa;">Top rookie performers by PVR and production</p>
+                    <table id="royTable">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Player</th>
+                                <th>Team</th>
+                                <th>PPG</th>
+                                <th>APG</th>
+                                <th>RPG</th>
+                                <th>PVR</th>
+                                <th>Confidence</th>
+                            </tr>
+                        </thead>
+                        <tbody id="royBody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Breakout Players Tab -->
+            <div id="breakoutTab" class="tab-content">
+                <div class="card">
+                    <h2>Breakout Candidate Watch List</h2>
+                    <p style="margin-bottom: 20px; color: #aaa;">High PVR players with low minutes (underutilized talent)</p>
+                    <table id="breakoutTable">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Player</th>
+                                <th>Team</th>
+                                <th>Current MPG</th>
+                                <th>Current PPG</th>
+                                <th>PVR</th>
+                                <th>Potential Increase</th>
+                                <th>Confidence</th>
+                            </tr>
+                        </thead>
+                        <tbody id="breakoutBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentPredictions = null;
+
+        function showTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Show selected tab
+            document.getElementById(tabName + 'Tab').classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function getConfidenceBadge(confidence) {
+            let cssClass = 'high';
+            if (confidence < 70) cssClass = 'medium';
+            if (confidence < 60) cssClass = 'low';
+            return `<span class="confidence ${cssClass}">${confidence}%</span>`;
+        }
+
+        function getRankBadge(rank) {
+            let cssClass = 'other';
+            if (rank === 1) cssClass = 'gold';
+            else if (rank === 2) cssClass = 'silver';
+            else if (rank === 3) cssClass = 'bronze';
+            return `<span class="rank ${cssClass}">${rank}</span>`;
+        }
+
+        function formatDiff(diff) {
+            if (diff > 0) return `<span class="diff-positive">+${diff}</span>`;
+            if (diff < 0) return `<span class="diff-negative">${diff}</span>`;
+            return diff;
+        }
+
+        function renderWinPredictions(predictions) {
+            const tbody = document.getElementById('winsBody');
+            tbody.innerHTML = '';
+
+            predictions.team_wins.forEach((team, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${getRankBadge(index + 1)}</td>
+                    <td><strong>${team.team_name}</strong></td>
+                    <td><strong>${team.predicted_wins}-${team.predicted_losses}</strong></td>
+                    <td><span class="stat-badge">${team.avg_pvr}</span></td>
+                    <td><span class="stat-badge">${team.avg_tusg}%</span></td>
+                    <td>${team.vegas_wins > 0 ? team.vegas_wins + ' (' + formatDiff(team.vegas_diff) + ')' : 'N/A'}</td>
+                    <td>${team.espn_wins > 0 ? team.espn_wins + ' (' + formatDiff(team.espn_diff) + ')' : 'N/A'}</td>
+                    <td>${getConfidenceBadge(team.confidence)}</td>
+                `;
+                tbody.appendChild(row);
+            });
+
+            // Calculate average confidence as model accuracy
+            const avgConfidence = predictions.team_wins.reduce((sum, t) => sum + t.confidence, 0) / predictions.team_wins.length;
+            document.getElementById('modelAccuracy').textContent = avgConfidence.toFixed(1) + '%';
+        }
+
+        function renderMVPRace(predictions) {
+            const tbody = document.getElementById('mvpBody');
+            tbody.innerHTML = '';
+
+            predictions.mvp_race.forEach((player, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${getRankBadge(index + 1)}</td>
+                    <td><strong>${player.player_name}</strong></td>
+                    <td>${player.team_name}</td>
+                    <td><span class="stat-badge">${player.pvr}</span></td>
+                    <td><span class="stat-badge">${player.tusg}%</span></td>
+                    <td>${player.ppg} PPG, ${player.apg} APG, ${player.rpg} RPG</td>
+                    <td>${getConfidenceBadge(player.confidence)}</td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function renderDPOYRace(predictions) {
+            const tbody = document.getElementById('dpoyBody');
+            tbody.innerHTML = '';
+
+            predictions.dpoy_race.forEach((player, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${getRankBadge(index + 1)}</td>
+                    <td><strong>${player.player_name}</strong></td>
+                    <td>${player.team_name}</td>
+                    <td><span class="stat-badge">${player.stl}</span></td>
+                    <td><span class="stat-badge">${player.blk}</span></td>
+                    <td><span class="stat-badge">${player.rpg}</span></td>
+                    <td><span class="stat-badge">${player.defensive_score}</span></td>
+                    <td>${getConfidenceBadge(player.confidence)}</td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function renderMIPRace(predictions) {
+            const tbody = document.getElementById('mipBody');
+            tbody.innerHTML = '';
+
+            predictions.mip_race.forEach((player, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${getRankBadge(index + 1)}</td>
+                    <td><strong>${player.player_name}</strong></td>
+                    <td>${player.team_name}</td>
+                    <td><span class="stat-badge">${player.current_ppg}</span></td>
+                    <td>${player.previous_ppg}</td>
+                    <td><span class="diff-positive">+${player.ppg_increase}</span></td>
+                    <td><span class="diff-positive">+${player.pvr_increase}</span></td>
+                    <td>${getConfidenceBadge(player.confidence)}</td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function renderROYRace(predictions) {
+            const tbody = document.getElementById('royBody');
+            tbody.innerHTML = '';
+
+            predictions.roy_race.forEach((player, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${getRankBadge(index + 1)}</td>
+                    <td><strong>${player.player_name}</strong></td>
+                    <td>${player.team_name}</td>
+                    <td><span class="stat-badge">${player.ppg}</span></td>
+                    <td><span class="stat-badge">${player.apg}</span></td>
+                    <td><span class="stat-badge">${player.rpg}</span></td>
+                    <td><span class="stat-badge">${player.pvr}</span></td>
+                    <td>${getConfidenceBadge(player.confidence)}</td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function renderBreakoutCandidates(predictions) {
+            const tbody = document.getElementById('breakoutBody');
+            tbody.innerHTML = '';
+
+            predictions.breakout_candidates.forEach((player, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td><strong>${player.player_name}</strong></td>
+                    <td>${player.team_name}</td>
+                    <td><span class="stat-badge">${player.mpg}</span></td>
+                    <td><span class="stat-badge">${player.ppg}</span></td>
+                    <td><span class="stat-badge">${player.pvr}</span></td>
+                    <td><span class="diff-positive">${player.potential_increase}</span></td>
+                    <td>${getConfidenceBadge(player.confidence)}</td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        async function generatePredictions() {
+            document.getElementById('loadingDiv').style.display = 'block';
+            document.getElementById('contentDiv').style.display = 'none';
+            document.getElementById('generateBtn').disabled = true;
+
+            try {
+                const response = await fetch('/api/season-predictions/generate', {
+                    method: 'POST'
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    currentPredictions = data.predictions;
+                    
+                    // Render all sections
+                    renderWinPredictions(currentPredictions);
+                    renderMVPRace(currentPredictions);
+                    renderDPOYRace(currentPredictions);
+                    renderMIPRace(currentPredictions);
+                    renderROYRace(currentPredictions);
+                    renderBreakoutCandidates(currentPredictions);
+
+                    // Update timestamp
+                    const date = new Date(currentPredictions.generated_at);
+                    document.getElementById('lastUpdate').textContent = 
+                        `Last updated: ${date.toLocaleString()} | Season: ${currentPredictions.season}`;
+
+                    document.getElementById('contentDiv').style.display = 'block';
+                } else {
+                    alert('Error generating predictions: ' + data.error);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to generate predictions. Please try again.');
+            } finally {
+                document.getElementById('loadingDiv').style.display = 'none';
+                document.getElementById('generateBtn').disabled = false;
+            }
+        }
+
+        async function loadExistingPredictions() {
+            try {
+                const response = await fetch('/api/season-predictions/latest');
+                const data = await response.json();
+
+                if (data.predictions) {
+                    currentPredictions = data.predictions;
+                    
+                    renderWinPredictions(currentPredictions);
+                    renderMVPRace(currentPredictions);
+                    renderDPOYRace(currentPredictions);
+                    renderMIPRace(currentPredictions);
+                    renderROYRace(currentPredictions);
+                    renderBreakoutCandidates(currentPredictions);
+
+                    const date = new Date(currentPredictions.generated_at);
+                    document.getElementById('lastUpdate').textContent = 
+                        `Last updated: ${date.toLocaleString()} | Season: ${currentPredictions.season}`;
+
+                    document.getElementById('contentDiv').style.display = 'block';
+                } else {
+                    // No existing predictions, show instruction
+                    document.getElementById('lastUpdate').textContent = 
+                        'No predictions available. Click "Generate Predictions" to create them.';
+                }
+            } catch (error) {
+                console.error('Error loading predictions:', error);
+                document.getElementById('lastUpdate').textContent = 
+                    'Click "Generate Predictions" to start.';
+            }
+        }
+
+        // Load predictions on page load
+        loadExistingPredictions();
+    </script>
+    <script src="/static/js/theme.js"></script>
+</body>
+</html>

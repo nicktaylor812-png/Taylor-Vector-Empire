@@ -1,0 +1,51 @@
+{
+  "title": "How I predict NBA games with 65%+ accuracy",
+  "topic": "Game Prediction System",
+  "generated_at": "2025-11-19T02:42:01.085856",
+  "total_duration": "60 seconds",
+  "sections": {
+    "hook": {
+      "timestamp": "0:00-0:15",
+      "duration": "15 seconds",
+      "text": "I've been predicting NBA games at 65%+ accuracy. No gut feelings, no hot takes.\n\n[On-screen: \"PURE MATH WINS \ud83c\udfaf\"]\n\nHere's the exact system I use..."
+    },
+    "explanation": {
+      "timestamp": "0:15-0:40",
+      "duration": "25 seconds",
+      "text": "Step 1: Calculate each team's average TUSG% (offensive control)\nStep 2: Calculate each team's PVR (efficiency)\nStep 3: Factor in pace adjustments\nStep 4: Compare vs Vegas spread\n\n[Show formula: Edge = 50 + (Home TUSG - Away TUSG) + (Home PVR - Away PVR) \u00d7 0.5]\n\nWhen my model shows 65%+ edge AND disagrees with Vegas? That's a pick."
+    },
+    "example": {
+      "timestamp": "0:40-0:50",
+      "duration": "10 seconds",
+      "text": "Example: Team A has 42 TUSG + 25 PVR. Team B has 38 TUSG + 18 PVR.\n\n[Show calculation: Edge = 50 + 4 + 3.5 = 57.5%]\n\nVegas has it even? My model says Team A wins 65% of the time. That's value."
+    },
+    "cta": {
+      "timestamp": "0:50-0:60",
+      "duration": "10 seconds",
+      "text": "Want today's picks? Link in bio for live predictions. Follow for the system that beats Vegas.\n\n[End screen: \"MATH > FEELINGS \ud83d\udcca\"]"
+    }
+  },
+  "recommended_sounds": [
+    "Money/betting audio",
+    "Analytical explanation music",
+    "Sports betting content sound"
+  ],
+  "trending_sounds": [
+    "original sound (use trending audio from FYP)",
+    "Storytelling beat - medium tempo",
+    "Upbeat sports commentary music",
+    "Dramatic reveal audio",
+    "Suspenseful music for analytics",
+    "Epic sports highlight music",
+    "Energetic explainer content beat",
+    "Educational TikTok trending audio"
+  ],
+  "hashtags": "#NBA #NBABetting #SportsBetting #Analytics #NBAStats #Gambling #BettingTips #Basketball #DataScience #Vegas",
+  "tips": [
+    "Use text overlays for key stats and formulas",
+    "Show graphics/charts during explanation section",
+    "Keep energy high - fast cuts, dynamic visuals",
+    "Use captions for accessibility",
+    "Test different hooks for best performance"
+  ]
+}

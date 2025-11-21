@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Westbrook Rule Historical Machine | TAYLOR VECTOR TERMINAL</title>
+    <link rel="stylesheet" href="/static/css/theme.css">
+</head>
+<body>
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+        <span class="theme-icon">◐</span>
+        <span id="theme-text">Dark</span>
+    </button>
+
+
+    <div class="container">
+        <header>
+            <h1> Westbrook Rule Historical Machine</h1>
+            <div class="subtitle">Named after Russell Westbrook: 48.10% TUSG, only 25.11 PVR due to AST/TOV ratio</div>
+            <div class="subtitle">Educational tool showing why the AST/TOV multiplier matters (1950-2025)</div>
+        </header>
+
+        <div class="search-section">
+            <h2> Search Player Seasons</h2>
+            <div class="search-box">
+                <input type="text" id="searchInput" class="search-input" placeholder="Search by player name or season (e.g., 'Westbrook' or '2016-17')...">
+            </div>
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all">All Seasons</button>
+                <button class="filter-btn" data-filter="broken">Broken (AST/TOV > 3.0)</button>
+                <button class="filter-btn" data-filter="validated">Validated (2.3x Multiplier)</button>
+                <button class="filter-btn" data-filter="exposed">Exposed (1.8x Multiplier)</button>
+                <button class="filter-btn" data-filter="elite">Elite AST/TOV (> 4.0)</button>
+                <button class="filter-btn" data-filter="poor">Poor AST/TOV (< 1.0)</button>
+            </div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-label">Total Seasons</div>
+                <div class="stat-value" id="totalSeasons">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Broken Seasons</div>
+                <div class="stat-value" id="brokenCount">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Highest AST/TOV</div>
+                <div class="stat-value" id="highestRatio">0.00</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Highest TUSG%</div>
+                <div class="stat-value" id="highestTusg">0.0%</div>
+            </div>
+        </div>
+
+        <div class="legend">
+            <div class="legend-title"> Understanding the Westbrook Rule</div>
+            <div class="legend-items">
+                <div class="legend-item">
+                    <div class="legend-icon"></div>
+                    <div class="legend-text"><strong>Broken Season:</strong> AST/TOV > 3.0 + high usage. Would be astronomical with higher multipliers.</div>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-icon"></div>
+                    <div class="legend-text"><strong>Validated:</strong> AST/TOV ≥ 1.8 → 2.3x multiplier. Elite playmaking rewarded.</div>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-icon"></div>
+                    <div class="legend-text"><strong>Exposed:</strong> AST/TOV < 1.8 → 1.8x multiplier. Inefficiency penalized.</div>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-icon"></div>
+                    <div class="legend-text"><strong>PVR Delta:</strong> How much PVR gained from achieving the 2.3x multiplier threshold.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="results-container" id="resultsContainer"></div>
+        <div class="no-results" id="noResults">
+            No seasons found matching your search criteria.
+        </div>
+    </div>
+
+    <script>
+        let allSeasons = [];
+        let currentFilter = 'all';
+
+        async function loadData() {
+            try {
+                const response = await fetch('westbrook_rule_results.json');
+                const data = await response.json();
+                allSeasons = data.analysis || [];
+                
+                updateStats();
+                renderResults(allSeasons);
+            } catch (error) {
+                console.error('Error loading data:', error);
+                document.getElementById('noResults').style.display = 'block';
+                document.getElementById('noResults').textContent = 'Error loading data. Please make sure westbrook_rule_results.json exists.';
+            }
+        }
+
+        function updateStats() {
+            document.getElementById('totalSeasons').textContent = allSeasons.length;
+            document.getElementById('brokenCount').textContent = allSeasons.filter(s => s.is_broken).length;
+            
+            const highestRatio = Math.max(...allSeasons.map(s => s.ast_tov_ratio));
+            document.getElementById('highestRatio').textContent = highestRatio.toFixed(2);
+            
+            const highestTusg = Math.max(...allSeasons.map(s => s.tusg_actual));
+            document.getElementById('highestTusg').textContent = highestTusg.toFixed(1) + '%';
+        }
+
+        function filterSeasons(seasons, filter) {
+            switch(filter) {
+                case 'broken':
+                    return seasons.filter(s => s.is_broken);
+                case 'validated':
+                    return seasons.filter(s => s.multiplier_used === 2.3);
+                case 'exposed':
+                    return seasons.filter(s => s.multiplier_used === 1.8);
+                case 'elite':
+                    return seasons.filter(s => s.ast_tov_ratio >= 4.0);
+                case 'poor':
+                    return seasons.filter(s => s.ast_tov_ratio < 1.0);
+                default:
+                    return seasons;
+            }
+        }
+
+        function searchSeasons(seasons, query) {
+            if (!query) return seasons;
+            
+            query = query.toLowerCase();
+            return seasons.filter(s => 
+                s.player.toLowerCase().includes(query) || 
+                s.season.toLowerCase().includes(query)
+            );
+        }
+
+        function renderResults(seasons) {
+            const container = document.getElementById('resultsContainer');
+            const noResults = document.getElementById('noResults');
+            
+            if (seasons.length === 0) {
+                container.innerHTML = '';
+                noResults.style.display = 'block';
+                return;
+            }
+            
+            noResults.style.display = 'none';
+            
+            const sortedSeasons = [...seasons].sort((a, b) => b.pvr_delta - a.pvr_delta);
+            
+            container.innerHTML = sortedSeasons.map(season => {
+                const isBroken = season.is_broken;
+                const multiplierClass = season.multiplier_used === 2.3 ? 'multiplier-high' : 'multiplier-low';
+                const multiplierText = season.multiplier_used === 2.3 ? '2.3x Multiplier' : '1.8x Multiplier';
+                
+                let badge = '';
+                if (isBroken) {
+                    badge = '<span class="broken-badge"> BROKEN</span>';
+                } else if (season.multiplier_used === 2.3) {
+                    badge = '<span class="validated-badge"> VALIDATED</span>';
+                } else {
+                    badge = '<span class="exposed-badge"> EXPOSED</span>';
+                }
+                
+                let impactDescription = '';
+                if (season.pvr_delta > 15) {
+                    impactDescription = `Elite playmaking efficiency! Gains +${season.pvr_delta.toFixed(1)} PVR from the 2.3x multiplier. ${season.player} has exceptional ball security.`;
+                } else if (season.pvr_delta > 8) {
+                    impactDescription = `Strong multiplier benefit: +${season.pvr_delta.toFixed(1)} PVR. ${season.player} demonstrates good AST/TOV control.`;
+                } else if (season.multiplier_used === 2.3) {
+                    impactDescription = `Modest multiplier benefit: +${season.pvr_delta.toFixed(1)} PVR. ${season.player} just qualifies for the 2.3x multiplier.`;
+                } else {
+                    const potentialGain = (season.pvr_always_high - season.pvr_actual).toFixed(1);
+                    impactDescription = `Misses 2.3x multiplier threshold. Would gain +${potentialGain} PVR with better AST/TOV ratio (needs ${(1.8 - season.ast_tov_ratio).toFixed(2)} improvement).`;
+                }
+                
+                return `
+                    <div class="player-card ${isBroken ? 'broken' : ''}">
+                        <div class="player-header">
+                            <div>
+                                <div class="player-name">${season.player}</div>
+                                <div class="player-season">${season.season}</div>
+                            </div>
+                            <div>
+                                ${badge}
+                                <div>
+                                    <span class="${multiplierClass}">${multiplierText}</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="player-stats">
+                            <div class="mini-stat">
+                                <div class="mini-stat-label">AST/TOV</div>
+                                <div class="mini-stat-value">${season.ast_tov_ratio.toFixed(2)}</div>
+                            </div>
+                            <div class="mini-stat">
+                                <div class="mini-stat-label">TUSG%</div>
+                                <div class="mini-stat-value">${season.tusg_actual.toFixed(1)}%</div>
+                            </div>
+                            <div class="mini-stat">
+                                <div class="mini-stat-label">PVR</div>
+                                <div class="mini-stat-value">${season.pvr_actual.toFixed(1)}</div>
+                            </div>
+                            <div class="mini-stat">
+                                <div class="mini-stat-label">PVR Delta</div>
+                                <div class="mini-stat-value">${season.pvr_delta > 0 ? '+' : ''}${season.pvr_delta.toFixed(1)}</div>
+                            </div>
+                            <div class="mini-stat">
+                                <div class="mini-stat-label">PPG</div>
+                                <div class="mini-stat-value">${season.ppg.toFixed(1)}</div>
+                            </div>
+                            <div class="mini-stat">
+                                <div class="mini-stat-label">APG</div>
+                                <div class="mini-stat-value">${season.apg.toFixed(1)}</div>
+                            </div>
+                            <div class="mini-stat">
+                                <div class="mini-stat-label">TOV</div>
+                                <div class="mini-stat-value">${season.tov.toFixed(1)}</div>
+                            </div>
+                            <div class="mini-stat">
+                                <div class="mini-stat-label">Era Pace</div>
+                                <div class="mini-stat-value">${season.era_pace.toFixed(0)}</div>
+                            </div>
+                        </div>
+                        
+                        <div class="impact-box">
+                            <div class="impact-title"> Westbrook Rule Impact:</div>
+                            <div class="impact-details">${impactDescription}</div>
+                            ${season.multiplier_used === 1.8 ? `
+                                <div>
+                                    <strong>If 2.3x multiplier:</strong> PVR would be ${season.pvr_always_high.toFixed(1)} (currently ${season.pvr_actual.toFixed(1)})
+                                </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const query = e.target.value;
+            let filtered = filterSeasons(allSeasons, currentFilter);
+            filtered = searchSeasons(filtered, query);
+            renderResults(filtered);
+        });
+
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                currentFilter = btn.dataset.filter;
+                const query = document.getElementById('searchInput').value;
+                let filtered = filterSeasons(allSeasons, currentFilter);
+                filtered = searchSeasons(filtered, query);
+                renderResults(filtered);
+            });
+        });
+
+        loadData();
+    </script>
+    <script src="/static/js/theme.js"></script>
+</body>
+</html>

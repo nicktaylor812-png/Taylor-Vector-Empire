@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weekly Player Deep Dive - Taylor Vector Terminal</title>
+    <link rel="stylesheet" href="/static/css/theme.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+        <span class="theme-icon">◐</span>
+        <span id="theme-text">Dark</span>
+    </button>
+
+
+    <div class="container">
+        <a href="/" class="back-link">← Back to Dashboard</a>
+
+        <header>
+            <h1> Weekly Player Deep Dive</h1>
+            <p class="subtitle">Comprehensive One-Player Metric Breakdowns</p>
+        </header>
+
+        <div id="statusMessage" class="status-message"></div>
+
+        <div class="control-panel">
+            <h2 style="color: #10a37f; margin-bottom: 20px;">Select Player</h2>
+            
+            <div class="control-row">
+                <div class="control-group">
+                    <label for="playerSelect">Choose a Player:</label>
+                    <select id="playerSelect">
+                        <option value="">Loading players...</option>
+                    </select>
+                </div>
+                
+                <button class="btn btn-primary" onclick="generateDeepDive()">
+                     Generate Deep Dive
+                </button>
+                
+                <button class="btn btn-success" onclick="generatePDF()" id="pdfButton" style="display: none;">
+                     Export as PDF
+                </button>
+            </div>
+
+            <div style="margin-top: 20px; padding: 15px; background: rgba(0, 255, 136, 0.1); border: 2px solid #00ff88; border-radius: 8px;">
+                <h3 style="color: #10a37f; margin-bottom: 10px;"> Weekly Feature</h3>
+                <p>A featured player is automatically highlighted every Monday. Check back weekly for new deep dives!</p>
+                <p id="featuredPlayer" style="margin-top: 10px; font-weight: 600;"></p>
+            </div>
+        </div>
+
+        <div class="loading" id="loadingSpinner">
+            <div class="spinner"></div>
+            <p style="margin-top: 15px; font-size: 1.1em;">Analyzing career statistics...</p>
+        </div>
+
+        <div class="player-overview" id="playerOverview">
+            <div class="stat-card">
+                <div class="stat-label">Career TUSG%</div>
+                <div class="stat-value" id="careerTUSG">-</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Career PVR</div>
+                <div class="stat-value" id="careerPVR">-</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Career PPG</div>
+                <div class="stat-value" id="careerPPG">-</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Total Seasons</div>
+                <div class="stat-value" id="totalSeasons">-</div>
+            </div>
+        </div>
+
+        <div class="charts-section" id="chartsSection">
+            <h2> Career Progression</h2>
+            
+            <div class="chart-container">
+                <canvas id="tusgChart"></canvas>
+            </div>
+            
+            <div class="chart-container">
+                <canvas id="pvrChart"></canvas>
+            </div>
+            
+            <div class="chart-container">
+                <canvas id="combinedChart"></canvas>
+            </div>
+        </div>
+
+        <div class="season-breakdown" id="seasonBreakdown">
+            <h2> Season-by-Season Breakdown</h2>
+            <div style="overflow-x: auto;">
+                <table class="season-table" id="seasonTable">
+                    <thead>
+                        <tr>
+                            <th>Season</th>
+                            <th>Team</th>
+                            <th>Games</th>
+                            <th>MPG</th>
+                            <th>PPG</th>
+                            <th>APG</th>
+                            <th>RPG</th>
+                            <th>TUSG%</th>
+                            <th>PVR</th>
+                        </tr>
+                    </thead>
+                    <tbody id="seasonTableBody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="analysis-section" id="analysisSection">
+            <h2> Strengths & Weaknesses Analysis</h2>
+            <p id="analysisSummary" style="margin-bottom: 20px;"></p>
+            
+            <h3> Key Strengths</h3>
+            <ul id="strengthsList"></ul>
+            
+            <h3> Areas for Improvement</h3>
+            <ul id="weaknessesList"></ul>
+        </div>
+
+        <div class="video-section" id="videoSection">
+            <h2> Video Companion</h2>
+            <div class="video-placeholder">
+                <div style="text-align: center;">
+                    <p style="font-size: 1.5em; margin-bottom: 10px;"></p>
+                    <p>YouTube video analysis placeholder</p>
+                    <p style="font-size: 0.9em; opacity: 0.7; margin-top: 10px;">
+                        Feature coming soon: In-depth video breakdowns
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="share-section" id="shareSection">
+            <h2> Share This Deep Dive</h2>
+            <div class="share-buttons">
+                <a href="#" class="share-btn share-twitter" onclick="shareToTwitter()" target="_blank">
+                    <span></span>
+                    <span>Share on Twitter</span>
+                </a>
+                <a href="#" class="share-btn share-facebook" onclick="shareToFacebook()" target="_blank">
+                    <span></span>
+                    <span>Share on Facebook</span>
+                </a>
+                <a href="#" class="share-btn share-linkedin" onclick="shareToLinkedIn()" target="_blank">
+                    <span></span>
+                    <span>Share on LinkedIn</span>
+                </a>
+                <a href="#" class="share-btn share-reddit" onclick="shareToReddit()" target="_blank">
+                    <span></span>
+                    <span>Share on Reddit</span>
+                </a>
+                <button class="btn btn-secondary" onclick="copyLink()">
+                     Copy Link
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentPlayerData = null;
+        let currentPlayerName = null;
+        let tusgChart, pvrChart, combinedChart;
+
+        function showStatus(message, type) {
+            const statusEl = document.getElementById('statusMessage');
+            statusEl.textContent = message;
+            statusEl.className = `status-message status-${type}`;
+            statusEl.style.display = 'block';
+            setTimeout(() => {
+                statusEl.style.display = 'none';
+            }, 5000);
+        }
+
+        async function loadPlayers() {
+            try {
+                const response = await fetch('/api/player-deepdive/players');
+                const data = await response.json();
+
+                const select = document.getElementById('playerSelect');
+                
+                if (data.players && data.players.length > 0) {
+                    select.innerHTML = '<option value="">-- Select a player --</option>' +
+                        data.players.map(p => `<option value="${p.slug}">${p.name} (${p.team})</option>`).join('');
+                } else {
+                    select.innerHTML = '<option value="">No players available</option>';
+                }
+            } catch (error) {
+                console.error('Error loading players:', error);
+                showStatus('Error loading players', 'error');
+            }
+        }
+
+        async function loadFeaturedPlayer() {
+            try {
+                const response = await fetch('/api/player-deepdive/featured');
+                const data = await response.json();
+                
+                if (data.player) {
+                    document.getElementById('featuredPlayer').innerHTML = 
+                        `This week's featured player: <span style="color: #10a37f;">${data.player}</span>`;
+                }
+            } catch (error) {
+                console.error('Error loading featured player:', error);
+            }
+        }
+
+        async function generateDeepDive() {
+            const playerSlug = document.getElementById('playerSelect').value;
+            
+            if (!playerSlug) {
+                showStatus('Please select a player', 'error');
+                return;
+            }
+
+            const loadingEl = document.getElementById('loadingSpinner');
+            loadingEl.style.display = 'block';
+
+            // Hide previous results
+            document.getElementById('playerOverview').style.display = 'none';
+            document.getElementById('chartsSection').style.display = 'none';
+            document.getElementById('seasonBreakdown').style.display = 'none';
+            document.getElementById('analysisSection').style.display = 'none';
+            document.getElementById('videoSection').style.display = 'none';
+            document.getElementById('shareSection').style.display = 'none';
+            document.getElementById('pdfButton').style.display = 'none';
+
+            try {
+                const response = await fetch('/api/player-deepdive/analyze', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ player_slug: playerSlug })
+                });
+
+                const data = await response.json();
+
+                if (data.success && data.career_stats && data.career_stats.length > 0) {
+                    currentPlayerData = data;
+                    currentPlayerName = data.player_name;
+                    
+                    displayPlayerData(data);
+                    showStatus(`Deep dive generated for ${data.player_name}!`, 'success');
+                    document.getElementById('pdfButton').style.display = 'inline-block';
+                } else {
+                    showStatus(data.error || 'No career data found for this player', 'error');
+                }
+            } catch (error) {
+                showStatus(`Error generating deep dive: ${error.message}`, 'error');
+            } finally {
+                loadingEl.style.display = 'none';
+            }
+        }
+
+        function displayPlayerData(data) {
+            const stats = data.career_stats;
+            const analysis = data.analysis;
+
+            // Calculate career averages
+            const careerTUSG = stats.reduce((sum, s) => sum + s.tusg, 0) / stats.length;
+            const careerPVR = stats.reduce((sum, s) => sum + s.pvr, 0) / stats.length;
+            const careerPPG = stats.reduce((sum, s) => sum + s.pts, 0) / stats.length;
+
+            // Overview cards
+            document.getElementById('careerTUSG').textContent = careerTUSG.toFixed(2) + '%';
+            document.getElementById('careerPVR').textContent = careerPVR.toFixed(2);
+            document.getElementById('careerPPG').textContent = careerPPG.toFixed(1);
+            document.getElementById('totalSeasons').textContent = stats.length;
+            document.getElementById('playerOverview').style.display = 'grid';
+
+            // Charts
+            createCharts(stats);
+            document.getElementById('chartsSection').style.display = 'block';
+
+            // Season table
+            const tbody = document.getElementById('seasonTableBody');
+            tbody.innerHTML = stats.map(s => `
+                <tr>
+                    <td>${s.season_str}</td>
+                    <td>${s.team}</td>
+                    <td>${s.games}</td>
+                    <td>${s.min.toFixed(1)}</td>
+                    <td>${s.pts.toFixed(1)}</td>
+                    <td>${s.ast.toFixed(1)}</td>
+                    <td>${s.reb.toFixed(1)}</td>
+                    <td>${s.tusg.toFixed(2)}%</td>
+                    <td>${s.pvr.toFixed(2)}</td>
+                </tr>
+            `).join('');
+            document.getElementById('seasonBreakdown').style.display = 'block';
+
+            // Analysis
+            document.getElementById('analysisSummary').textContent = analysis.summary;
+            document.getElementById('strengthsList').innerHTML = 
+                analysis.strengths.map(s => `<li>${s}</li>`).join('');
+            
+            if (analysis.weaknesses.length > 0) {
+                document.getElementById('weaknessesList').innerHTML = 
+                    analysis.weaknesses.map(w => `<li>${w}</li>`).join('');
+            } else {
+                document.getElementById('weaknessesList').innerHTML = '<li>No significant weaknesses identified</li>';
+            }
+            document.getElementById('analysisSection').style.display = 'block';
+
+            // Video section
+            document.getElementById('videoSection').style.display = 'block';
+
+            // Share section
+            document.getElementById('shareSection').style.display = 'block';
+        }
+
+        function createCharts(stats) {
+            const seasons = stats.map(s => s.season_str);
+            const tusgData = stats.map(s => s.tusg);
+            const pvrData = stats.map(s => s.pvr);
+            const ptsData = stats.map(s => s.pts);
+
+            // Destroy existing charts
+            if (tusgChart) tusgChart.destroy();
+            if (pvrChart) pvrChart.destroy();
+            if (combinedChart) combinedChart.destroy();
+
+            // TUSG Chart
+            const tusgCtx = document.getElementById('tusgChart').getContext('2d');
+            tusgChart = new Chart(tusgCtx, {
+                type: 'line',
+                data: {
+                    labels: seasons,
+                    datasets: [{
+                        label: 'TUSG%',
+                        data: tusgData,
+                        borderColor: '#00d4ff',
+                        backgroundColor: 'rgba(0, 212, 255, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.3
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: { color: '#e8f4f8' }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Career TUSG% Progression',
+                            color: '#00d4ff',
+                            font: { size: 16, weight: 'bold' }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            ticks: { color: '#e8f4f8' },
+                            grid: { color: 'rgba(232, 244, 248, 0.1)' }
+                        },
+                        x: {
+                            ticks: { color: '#e8f4f8' },
+                            grid: { color: 'rgba(232, 244, 248, 0.1)' }
+                        }
+                    }
+                }
+            });
+
+            // PVR Chart
+            const pvrCtx = document.getElementById('pvrChart').getContext('2d');
+            pvrChart = new Chart(pvrCtx, {
+                type: 'line',
+                data: {
+                    labels: seasons,
+                    datasets: [{
+                        label: 'PVR',
+                        data: pvrData,
+                        borderColor: '#00ff88',
+                        backgroundColor: 'rgba(0, 255, 136, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.3
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: { color: '#e8f4f8' }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Career PVR Progression',
+                            color: '#00ff88',
+                            font: { size: 16, weight: 'bold' }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            ticks: { color: '#e8f4f8' },
+                            grid: { color: 'rgba(232, 244, 248, 0.1)' }
+                        },
+                        x: {
+                            ticks: { color: '#e8f4f8' },
+                            grid: { color: 'rgba(232, 244, 248, 0.1)' }
+                        }
+                    }
+                }
+            });
+
+            // Combined Chart
+            const combinedCtx = document.getElementById('combinedChart').getContext('2d');
+            combinedChart = new Chart(combinedCtx, {
+                type: 'line',
+                data: {
+                    labels: seasons,
+                    datasets: [
+                        {
+                            label: 'TUSG%',
+                            data: tusgData,
+                            borderColor: '#00d4ff',
+                            backgroundColor: 'rgba(0, 212, 255, 0.1)',
+                            borderWidth: 2,
+                            yAxisID: 'y',
+                            tension: 0.3
+                        },
+                        {
+                            label: 'PVR',
+                            data: pvrData,
+                            borderColor: '#00ff88',
+                            backgroundColor: 'rgba(0, 255, 136, 0.1)',
+                            borderWidth: 2,
+                            yAxisID: 'y1',
+                            tension: 0.3
+                        },
+                        {
+                            label: 'PPG',
+                            data: ptsData,
+                            borderColor: '#ff6b6b',
+                            backgroundColor: 'rgba(255, 107, 107, 0.1)',
+                            borderWidth: 2,
+                            yAxisID: 'y2',
+                            tension: 0.3
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: { color: '#e8f4f8' }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Combined Career Metrics',
+                            color: '#00d4ff',
+                            font: { size: 16, weight: 'bold' }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            type: 'linear',
+                            position: 'left',
+                            ticks: { color: '#00d4ff' },
+                            grid: { color: 'rgba(232, 244, 248, 0.1)' },
+                            title: {
+                                display: true,
+                                text: 'TUSG%',
+                                color: '#00d4ff'
+                            }
+                        },
+                        y1: {
+                            type: 'linear',
+                            position: 'right',
+                            ticks: { color: '#00ff88' },
+                            grid: { display: false },
+                            title: {
+                                display: true,
+                                text: 'PVR',
+                                color: '#00ff88'
+                            }
+                        },
+                        y2: {
+                            type: 'linear',
+                            position: 'right',
+                            ticks: { color: '#ff6b6b' },
+                            grid: { display: false },
+                            title: {
+                                display: true,
+                                text: 'PPG',
+                                color: '#ff6b6b'
+                            }
+                        },
+                        x: {
+                            ticks: { color: '#e8f4f8' },
+                            grid: { color: 'rgba(232, 244, 248, 0.1)' }
+                        }
+                    }
+                }
+            });
+        }
+
+        async function generatePDF() {
+            if (!currentPlayerData) {
+                showStatus('No player data available', 'error');
+                return;
+            }
+
+            const loadingEl = document.getElementById('loadingSpinner');
+            loadingEl.style.display = 'block';
+
+            try {
+                const response = await fetch('/api/player-deepdive/generate-pdf', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        player_name: currentPlayerName,
+                        career_stats: currentPlayerData.career_stats
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    window.location.href = `/api/player-deepdive/download-pdf?path=${encodeURIComponent(data.filepath)}`;
+                    showStatus('PDF generated successfully!', 'success');
+                } else {
+                    showStatus(data.error || 'Error generating PDF', 'error');
+                }
+            } catch (error) {
+                showStatus(`Error: ${error.message}`, 'error');
+            } finally {
+                loadingEl.style.display = 'none';
+            }
+        }
+
+        function shareToTwitter() {
+            const text = `Check out this deep dive on ${currentPlayerName} from Taylor Vector Terminal!  Career TUSG% and PVR analysis.`;
+            const url = window.location.href;
+            window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`, '_blank');
+        }
+
+        function shareToFacebook() {
+            const url = window.location.href;
+            window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank');
+        }
+
+        function shareToLinkedIn() {
+            const url = window.location.href;
+            window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`, '_blank');
+        }
+
+        function shareToReddit() {
+            const title = `Player Deep Dive: ${currentPlayerName} - TUSG% & PVR Analysis`;
+            const url = window.location.href;
+            window.open(`https://reddit.com/submit?title=${encodeURIComponent(title)}&url=${encodeURIComponent(url)}`, '_blank');
+        }
+
+        function copyLink() {
+            navigator.clipboard.writeText(window.location.href).then(() => {
+                showStatus('Link copied to clipboard!', 'success');
+            });
+        }
+
+        // Load players on page load
+        loadPlayers();
+        loadFeaturedPlayer();
+    </script>
+    <script src="/static/js/theme.js"></script>
+</body>
+</html>

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Edge Report - Taylor Vector Terminal</title>
+    <link rel="stylesheet" href="/static/css/theme.css">
+</head>
+<body>
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+        <span class="theme-icon">◐</span>
+        <span id="theme-text">Dark</span>
+    </button>
+
+
+    <div class="container">
+        <a href="/" class="back-link">← Back to Dashboard</a>
+
+        <header>
+            <h1> Daily Edge Report Generator</h1>
+            <p class="subtitle">Premium PDF Reports with Top 5 Betting Edges</p>
+        </header>
+
+        <div id="statusMessage" class="status-message"></div>
+
+        <div class="control-panel">
+            <h2 style="color: #10a37f; margin-bottom: 20px;">Generate Report</h2>
+            
+            <div class="control-row">
+                <div class="control-group">
+                    <label for="reportDate">Select Date:</label>
+                    <input type="date" id="reportDate" max="">
+                </div>
+                
+                <div class="control-group" style="display: flex; align-items: flex-end;">
+                    <button class="btn btn-primary" onclick="generateReport()">
+                         Generate Report
+                    </button>
+                </div>
+            </div>
+
+            <div class="schedule-info">
+                <h3> Automated Schedule</h3>
+                <p>Reports are automatically generated daily at 6:00 AM EST with the previous day's top edges.</p>
+            </div>
+        </div>
+
+        <div class="loading" id="loadingSpinner">
+            <div class="spinner"></div>
+            <p style="margin-top: 10px;">Generating report...</p>
+        </div>
+
+        <div class="preview-section" id="previewSection" style="display: none;">
+            <h2> Report Preview</h2>
+            <iframe id="pdfPreview" class="pdf-preview"></iframe>
+            <div style="margin-top: 20px; display: flex; gap: 15px;">
+                <button class="btn btn-secondary" onclick="downloadReport()">
+                     Download PDF
+                </button>
+                <button class="btn btn-success" onclick="showEmailDialog()">
+                     Email Report
+                </button>
+            </div>
+        </div>
+
+        <div class="reports-list">
+            <h2> Recent Reports</h2>
+            <div id="reportsList">
+                <p>Loading recent reports...</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentReportPath = null;
+
+        // Set max date to today
+        document.getElementById('reportDate').max = new Date().toISOString().split('T')[0];
+        document.getElementById('reportDate').value = new Date().toISOString().split('T')[0];
+
+        function showStatus(message, type) {
+            const statusEl = document.getElementById('statusMessage');
+            statusEl.textContent = message;
+            statusEl.className = `status-message status-${type}`;
+            statusEl.style.display = 'block';
+            setTimeout(() => {
+                statusEl.style.display = 'none';
+            }, 5000);
+        }
+
+        async function generateReport() {
+            const date = document.getElementById('reportDate').value;
+            
+            if (!date) {
+                showStatus('Please select a date', 'error');
+                return;
+            }
+
+            const loadingEl = document.getElementById('loadingSpinner');
+            loadingEl.style.display = 'block';
+
+            try {
+                const response = await fetch('/api/daily-report/generate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ date: date })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    currentReportPath = data.filepath;
+                    showStatus(`Report generated successfully: ${data.filename}`, 'success');
+                    
+                    // Show preview
+                    const previewSection = document.getElementById('previewSection');
+                    const pdfPreview = document.getElementById('pdfPreview');
+                    pdfPreview.src = `/api/daily-report/view?path=${encodeURIComponent(data.filepath)}`;
+                    previewSection.style.display = 'block';
+                    
+                    // Refresh reports list
+                    loadRecentReports();
+                } else {
+                    showStatus(`Error: ${data.error}`, 'error');
+                }
+            } catch (error) {
+                showStatus(`Error generating report: ${error.message}`, 'error');
+            } finally {
+                loadingEl.style.display = 'none';
+            }
+        }
+
+        function downloadReport() {
+            if (!currentReportPath) {
+                showStatus('No report to download', 'error');
+                return;
+            }
+            
+            window.location.href = `/api/daily-report/download?path=${encodeURIComponent(currentReportPath)}`;
+        }
+
+        function showEmailDialog() {
+            const email = prompt('Enter email address to send report:');
+            if (email) {
+                sendEmail(email);
+            }
+        }
+
+        async function sendEmail(email) {
+            if (!currentReportPath) {
+                showStatus('No report to send', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/daily-report/email', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        filepath: currentReportPath
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    showStatus(`Report sent to ${email}`, 'success');
+                } else {
+                    showStatus(`Error sending email: ${data.error}`, 'error');
+                }
+            } catch (error) {
+                showStatus(`Error: ${error.message}`, 'error');
+            }
+        }
+
+        async function loadRecentReports() {
+            try {
+                const response = await fetch('/api/daily-report/list');
+                const data = await response.json();
+
+                const reportsListEl = document.getElementById('reportsList');
+
+                if (data.reports && data.reports.length > 0) {
+                    reportsListEl.innerHTML = data.reports.map(report => `
+                        <div class="report-item">
+                            <div class="report-info">
+                                <div class="report-name">${report.filename}</div>
+                                <div class="report-meta">
+                                    ${new Date(report.created * 1000).toLocaleString()} 
+                                    | ${(report.size / 1024).toFixed(1)} KB
+                                </div>
+                            </div>
+                            <div class="report-actions">
+                                <button class="btn btn-secondary" onclick="viewReport('${report.filepath}')">
+                                     View
+                                </button>
+                                <button class="btn btn-primary" onclick="downloadReportByPath('${report.filepath}')">
+                                     Download
+                                </button>
+                            </div>
+                        </div>
+                    `).join('');
+                } else {
+                    reportsListEl.innerHTML = '<p>No reports found. Generate your first report!</p>';
+                }
+            } catch (error) {
+                console.error('Error loading reports:', error);
+                document.getElementById('reportsList').innerHTML = 
+                    '<p>Error loading reports. Please try again.</p>';
+            }
+        }
+
+        function viewReport(filepath) {
+            currentReportPath = filepath;
+            const previewSection = document.getElementById('previewSection');
+            const pdfPreview = document.getElementById('pdfPreview');
+            pdfPreview.src = `/api/daily-report/view?path=${encodeURIComponent(filepath)}`;
+            previewSection.style.display = 'block';
+            previewSection.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function downloadReportByPath(filepath) {
+            window.location.href = `/api/daily-report/download?path=${encodeURIComponent(filepath)}`;
+        }
+
+        // Load recent reports on page load
+        loadRecentReports();
+    </script>
+    <script src="/static/js/theme.js"></script>
+</body>
+</html>

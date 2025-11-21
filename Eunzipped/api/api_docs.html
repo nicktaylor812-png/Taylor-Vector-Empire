@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taylor Vector Terminal - API Documentation</title>
+    <link rel="stylesheet" href="/static/css/theme.css">
+</head>
+<body>
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+        <span class="theme-icon">◐</span>
+        <span id="theme-text">Dark</span>
+    </button>
+
+
+    <div class="container">
+        <header>
+            <div class="hero">
+                <h1> Taylor Vector Terminal API</h1>
+                <p>Access TUSG% and PVR analytics through our premium REST API</p>
+                <p>Version 1.0 | Updated November 2025</p>
+            </div>
+        </header>
+
+        <nav class="nav">
+            <a href="#getting-started">Getting Started</a>
+            <a href="#authentication">Authentication</a>
+            <a href="#pricing">Pricing</a>
+            <a href="#endpoints">Endpoints</a>
+            <a href="#examples">Code Examples</a>
+            <a href="#use-cases">Use Cases</a>
+            <a href="#errors">Error Handling</a>
+        </nav>
+
+        <section class="section" id="getting-started">
+            <h2> Getting Started</h2>
+            <p>The Taylor Vector Terminal API provides programmatic access to advanced NBA analytics including True Usage Share (TUSG%) and Player Value Rating (PVR) metrics.</p>
+            
+            <h3>Base URL</h3>
+            <div class="code-block">
+                <pre>https://your-domain.replit.app/api</pre>
+            </div>
+
+            <h3>What You Can Do</h3>
+            <ul class="feature-list">
+                <li>Access real-time player TUSG% and PVR statistics</li>
+                <li>Query historical leaderboards sorted by any metric</li>
+                <li>Get live betting edges with confidence scores</li>
+                <li>Compare players across eras with advanced metrics</li>
+                <li>Calculate custom TUSG%/PVR for any player stats</li>
+                <li>Retrieve historical season data for analysis</li>
+            </ul>
+        </section>
+
+        <section class="section" id="authentication">
+            <h2> Authentication</h2>
+            <p>All API requests require authentication using an API key. Include your API key in requests using either:</p>
+            
+            <h3>Method 1: Request Header (Recommended)</h3>
+            <div class="code-block">
+                <pre>X-API-Key: tvt_your_api_key_here</pre>
+            </div>
+
+            <h3>Method 2: Query Parameter</h3>
+            <div class="code-block">
+                <pre>?api_key=tvt_your_api_key_here</pre>
+            </div>
+
+            <div class="alert info">
+                <strong>Security Note:</strong> Always use HTTPS in production and never expose your API key in client-side code. Store it as an environment variable.
+            </div>
+
+            <div class="api-key-generator">
+                <h3>Generate API Key (Demo)</h3>
+                <p>Enter your email to generate a free tier API key:</p>
+                <input type="email" id="email-input" placeholder="your.email@example.com">
+                <button class="btn" onclick="generateKey()">Generate Free API Key</button>
+                <div id="key-result" class="api-key-result"></div>
+            </div>
+        </section>
+
+        <section class="section" id="pricing">
+            <h2> Pricing & Rate Limits</h2>
+            
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <h3>Free Tier</h3>
+                    <div class="price">$0<span>/month</span></div>
+                    <ul class="feature-list">
+                        <li>100 requests per hour</li>
+                        <li>Access to all endpoints</li>
+                        <li>Community support</li>
+                        <li>Basic analytics</li>
+                    </ul>
+                    <button class="btn secondary" onclick="generateKey()">Get Started Free</button>
+                </div>
+
+                <div class="pricing-card paid">
+                    <h3> Premium Tier</h3>
+                    <div class="price">$49<span>/month</span></div>
+                    <ul class="feature-list">
+                        <li>1,000 requests per hour</li>
+                        <li>Priority support</li>
+                        <li>Advanced analytics</li>
+                        <li>Usage dashboard</li>
+                        <li>Custom integrations</li>
+                    </ul>
+                    <button class="btn">Upgrade to Premium</button>
+                </div>
+            </div>
+
+            <div class="alert">
+                <strong>Rate Limits:</strong> Rate limits reset every hour. Exceeding limits returns a 429 error. Response headers include remaining quota.
+            </div>
+        </section>
+
+        <section class="section" id="endpoints">
+            <h2> API Endpoints</h2>
+
+            <div class="endpoint">
+                <h3><span class="method get">GET</span> /v1/player/{name}</h3>
+                <p>Get TUSG% and PVR statistics for a specific player.</p>
+                
+                <h4>Path Parameters</h4>
+                <table>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td>name</td>
+                        <td>string</td>
+                        <td>Player name (e.g., "russell-westbrook", "lebron-james")</td>
+                    </tr>
+                </table>
+
+                <h4>Example Request</h4>
+                <div class="language-label">cURL</div>
+                <div class="code-block">
+                    <pre>curl -H "X-API-Key: tvt_your_api_key" \
+  https://your-domain.replit.app/api/v1/player/russell-westbrook</pre>
+                </div>
+
+                <h4>Example Response</h4>
+                <div class="language-label">JSON</div>
+                <div class="code-block">
+                    <pre>{
+  "player": "Russell Westbrook",
+  "season": "2016-17",
+  "metrics": {
+    "tusg": 48.1,
+    "pvr": 25.11
+  },
+  "stats": {
+    "mpg": 34.6,
+    "ppg": 31.6,
+    "apg": 10.4
+  },
+  "context": {
+    "era_pace": 98.0,
+    "rank": 1
+  },
+  "api_info": {
+    "tier": "free",
+    "rate_limit_remaining": 95
+  }
+}</pre>
+                </div>
+            </div>
+
+            <div class="endpoint">
+                <h3><span class="method get">GET</span> /v1/leaderboard</h3>
+                <p>Get rankings leaderboard sorted by TUSG% or PVR.</p>
+                
+                <h4>Query Parameters</h4>
+                <table>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Type</th>
+                        <th>Default</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td>metric</td>
+                        <td>string</td>
+                        <td>tusg</td>
+                        <td>Metric to sort by: "tusg" or "pvr"</td>
+                    </tr>
+                    <tr>
+                        <td>limit</td>
+                        <td>integer</td>
+                        <td>50</td>
+                        <td>Number of results (max 100)</td>
+                    </tr>
+                </table>
+
+                <h4>Example Request</h4>
+                <div class="language-label">cURL</div>
+                <div class="code-block">
+                    <pre>curl -H "X-API-Key: tvt_your_api_key" \
+  "https://your-domain.replit.app/api/v1/leaderboard?metric=pvr&limit=10"</pre>
+                </div>
+            </div>
+
+            <div class="endpoint">
+                <h3><span class="method get">GET</span> /v1/edges</h3>
+                <p>Get current betting edges with confidence scores.</p>
+                
+                <h4>Query Parameters</h4>
+                <table>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Type</th>
+                        <th>Default</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td>min_confidence</td>
+                        <td>float</td>
+                        <td>65.0</td>
+                        <td>Minimum edge confidence percentage</td>
+                    </tr>
+                </table>
+
+                <h4>Example Response</h4>
+                <div class="language-label">JSON</div>
+                <div class="code-block">
+                    <pre>{
+  "min_confidence": 65.0,
+  "count": 3,
+  "edges": [
+    {
+      "game": "Lakers @ Warriors",
+      "pick": "Warriors -5.5",
+      "edge": 72.3,
+      "timestamp": "2025-11-19 20:30:00",
+      "metrics": {
+        "home_tusg": 38.5,
+        "away_tusg": 35.2,
+        "home_pvr": 28.3,
+        "away_pvr": 22.1
+      },
+      "spread": -5.5
+    }
+  ],
+  "last_updated": "2025-11-19 20:30:00"
+}</pre>
+                </div>
+            </div>
+
+            <div class="endpoint">
+                <h3><span class="method get">GET</span> /v1/compare</h3>
+                <p>Compare two players head-to-head.</p>
+                
+                <h4>Query Parameters</h4>
+                <table>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td>p1</td>
+                        <td>string</td>
+                        <td>First player name</td>
+                    </tr>
+                    <tr>
+                        <td>p2</td>
+                        <td>string</td>
+                        <td>Second player name</td>
+                    </tr>
+                </table>
+
+                <h4>Example Request</h4>
+                <div class="language-label">cURL</div>
+                <div class="code-block">
+                    <pre>curl -H "X-API-Key: tvt_your_api_key" \
+  "https://your-domain.replit.app/api/v1/compare?p1=michael-jordan&p2=lebron-james"</pre>
+                </div>
+            </div>
+
+            <div class="endpoint">
+                <h3><span class="method get">GET</span> /v1/historical/{player}/{season}</h3>
+                <p>Get historical player data for a specific season.</p>
+                
+                <h4>Path Parameters</h4>
+                <table>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td>player</td>
+                        <td>string</td>
+                        <td>Player name</td>
+                    </tr>
+                    <tr>
+                        <td>season</td>
+                        <td>string</td>
+                        <td>Season (e.g., "2016-17")</td>
+                    </tr>
+                </table>
+
+                <h4>Example Request</h4>
+                <div class="language-label">cURL</div>
+                <div class="code-block">
+                    <pre>curl -H "X-API-Key: tvt_your_api_key" \
+  https://your-domain.replit.app/api/v1/historical/stephen-curry/2015-16</pre>
+                </div>
+            </div>
+
+            <div class="endpoint">
+                <h3><span class="method post">POST</span> /v1/calculate</h3>
+                <p>Calculate custom TUSG% and PVR from provided statistics.</p>
+                
+                <h4>Request Body</h4>
+                <table>
+                    <tr>
+                        <th>Field</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td>mpg</td>
+                        <td>float</td>
+                        <td>Minutes per game</td>
+                    </tr>
+                    <tr>
+                        <td>ppg</td>
+                        <td>float</td>
+                        <td>Points per game</td>
+                    </tr>
+                    <tr>
+                        <td>apg</td>
+                        <td>float</td>
+                        <td>Assists per game</td>
+                    </tr>
+                    <tr>
+                        <td>fga</td>
+                        <td>float</td>
+                        <td>Field goal attempts per game</td>
+                    </tr>
+                    <tr>
+                        <td>fta</td>
+                        <td>float</td>
+                        <td>Free throw attempts per game</td>
+                    </tr>
+                    <tr>
+                        <td>tov</td>
+                        <td>float</td>
+                        <td>Turnovers per game</td>
+                    </tr>
+                    <tr>
+                        <td>team_pace</td>
+                        <td>float</td>
+                        <td>Team pace (possessions per 48 min)</td>
+                    </tr>
+                </table>
+
+                <h4>Example Request</h4>
+                <div class="language-label">cURL</div>
+                <div class="code-block">
+                    <pre>curl -X POST -H "X-API-Key: tvt_your_api_key" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "mpg": 36.0,
+    "ppg": 28.5,
+    "apg": 7.2,
+    "fga": 20.5,
+    "fta": 8.2,
+    "tov": 3.5,
+    "team_pace": 100.0
+  }' \
+  https://your-domain.replit.app/api/v1/calculate</pre>
+                </div>
+
+                <h4>Example Response</h4>
+                <div class="language-label">JSON</div>
+                <div class="code-block">
+                    <pre>{
+  "input": { ... },
+  "results": {
+    "tusg": 41.2,
+    "pvr": 32.5
+  },
+  "interpretation": {
+    "tusg_rating": "Elite",
+    "pvr_rating": "Elite"
+  }
+}</pre>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="examples">
+            <h2> Code Examples</h2>
+
+            <h3>Python</h3>
+            <div class="language-label">Python</div>
+            <div class="code-block">
+                <pre>import requests
+
+API_KEY = "tvt_your_api_key_here"
+BASE_URL = "https://your-domain.replit.app/api"
+
+headers = {
+    "X-API-Key": API_KEY
+}
+
+# Get player stats
+response = requests.get(
+    f"{BASE_URL}/v1/player/russell-westbrook",
+    headers=headers
+)
+player_data = response.json()
+print(f"TUSG%: {player_data['metrics']['tusg']}")
+print(f"PVR: {player_data['metrics']['pvr']}")
+
+# Get leaderboard
+response = requests.get(
+    f"{BASE_URL}/v1/leaderboard?metric=pvr&limit=10",
+    headers=headers
+)
+leaderboard = response.json()
+for player in leaderboard['leaderboard']:
+    print(f"{player['rank']}. {player['player']} - PVR: {player['pvr']}")
+
+# Calculate custom metrics
+stats = {
+    "mpg": 36.0,
+    "ppg": 28.5,
+    "apg": 7.2,
+    "fga": 20.5,
+    "fta": 8.2,
+    "tov": 3.5,
+    "team_pace": 100.0
+}
+
+response = requests.post(
+    f"{BASE_URL}/v1/calculate",
+    headers=headers,
+    json=stats
+)
+results = response.json()
+print(f"Calculated TUSG%: {results['results']['tusg']}")
+print(f"Calculated PVR: {results['results']['pvr']}")</pre>
+            </div>
+
+            <h3>JavaScript</h3>
+            <div class="language-label">JavaScript</div>
+            <div class="code-block">
+                <pre>const API_KEY = 'tvt_your_api_key_here';
+const BASE_URL = 'https://your-domain.replit.app/api';
+
+// Get player stats
+async function getPlayerStats(playerName) {
+  const response = await fetch(
+    `${BASE_URL}/v1/player/${playerName}`,
+    {
+      headers: {
+        'X-API-Key': API_KEY
+      }
+    }
+  );
+  const data = await response.json();
+  console.log(`TUSG%: ${data.metrics.tusg}`);
+  console.log(`PVR: ${data.metrics.pvr}`);
+  return data;
+}
+
+// Get betting edges
+async function getBettingEdges(minConfidence = 65) {
+  const response = await fetch(
+    `${BASE_URL}/v1/edges?min_confidence=${minConfidence}`,
+    {
+      headers: {
+        'X-API-Key': API_KEY
+      }
+    }
+  );
+  const data = await response.json();
+  data.edges.forEach(edge => {
+    console.log(`${edge.game}: ${edge.pick} (Edge: ${edge.edge}%)`);
+  });
+  return data;
+}
+
+// Compare two players
+async function comparePlayers(player1, player2) {
+  const response = await fetch(
+    `${BASE_URL}/v1/compare?p1=${player1}&p2=${player2}`,
+    {
+      headers: {
+        'X-API-Key': API_KEY
+      }
+    }
+  );
+  const data = await response.json();
+  console.log(data.comparison);
+  return data;
+}
+
+// Usage
+getPlayerStats('russell-westbrook');
+getBettingEdges(70);
+comparePlayers('michael-jordan', 'lebron-james');</pre>
+            </div>
+
+            <h3>Node.js (with axios)</h3>
+            <div class="language-label">JavaScript</div>
+            <div class="code-block">
+                <pre>const axios = require('axios');
+
+const API_KEY = 'tvt_your_api_key_here';
+const BASE_URL = 'https://your-domain.replit.app/api';
+
+const api = axios.create({
+  baseURL: BASE_URL,
+  headers: {
+    'X-API-Key': API_KEY
+  }
+});
+
+// Get leaderboard
+async function getLeaderboard(metric = 'tusg', limit = 50) {
+  try {
+    const response = await api.get('/v1/leaderboard', {
+      params: { metric, limit }
+    });
+    return response.data;
+  } catch (error) {
+    console.error('API Error:', error.response.data);
+  }
+}
+
+// Calculate custom metrics
+async function calculateMetrics(stats) {
+  try {
+    const response = await api.post('/v1/calculate', stats);
+    return response.data;
+  } catch (error) {
+    console.error('API Error:', error.response.data);
+  }
+}
+
+// Example usage
+getLeaderboard('pvr', 10).then(data => {
+  console.log(`Top 10 PVR Leaders:`);
+  data.leaderboard.forEach(p => {
+    console.log(`${p.rank}. ${p.player} - ${p.pvr}`);
+  });
+});</pre>
+            </div>
+        </section>
+
+        <section class="section" id="use-cases">
+            <h2> Use Cases & Tutorials</h2>
+
+            <h3>Use Case 1: Building a Sports Betting Assistant</h3>
+            <div class="code-block">
+                <pre># Fetch high-confidence betting edges
+edges = get_edges(min_confidence=70)
+
+# Analyze the best opportunities
+for edge in edges['edges']:
+    if edge['edge'] >= 75:
+        print(f" STRONG PICK: {edge['pick']}")
+        print(f"   Edge: {edge['edge']}%")
+        print(f"   TUSG Advantage: {edge['metrics']['home_tusg'] - edge['metrics']['away_tusg']:.1f}")
+        print(f"   PVR Advantage: {edge['metrics']['home_pvr'] - edge['metrics']['away_pvr']:.1f}")</pre>
+            </div>
+
+            <h3>Use Case 2: Fantasy Basketball Optimization</h3>
+            <div class="code-block">
+                <pre># Get top efficiency players (high PVR, moderate TUSG)
+leaderboard = get_leaderboard(metric='pvr', limit=100)
+
+# Filter for efficient players with balanced usage
+efficient_players = [
+    p for p in leaderboard['leaderboard']
+    if p['pvr'] > 30 and 25 < p['tusg'] < 40
+]
+
+print("Top Efficient Fantasy Picks:")
+for player in efficient_players[:10]:
+    print(f"{player['player']}: PVR {player['pvr']}, TUSG {player['tusg']}")</pre>
+            </div>
+
+            <h3>Use Case 3: Historical Analysis Dashboard</h3>
+            <div class="code-block">
+                <pre># Compare GOAT candidates across eras
+players = [
+    ('michael-jordan', '1987-88'),
+    ('lebron-james', '2012-13'),
+    ('magic-johnson', '1986-87'),
+    ('stephen-curry', '2015-16')
+]
+
+for player, season in players:
+    data = get_historical(player, season)
+    print(f"{data['player']} ({season}):")
+    print(f"  TUSG: {data['metrics']['tusg']}")
+    print(f"  PVR: {data['metrics']['pvr']}")
+    print(f"  PPG: {data['stats']['ppg']}, APG: {data['stats']['apg']}")</pre>
+            </div>
+
+            <h3>Use Case 4: Custom Analytics Platform</h3>
+            <div class="code-block">
+                <pre># Calculate metrics for current season stats
+player_stats = {
+    "mpg": 35.2,
+    "ppg": 29.8,
+    "apg": 8.1,
+    "fga": 21.3,
+    "fta": 7.5,
+    "tov": 3.2,
+    "team_pace": 101.5
+}
+
+results = calculate_custom(player_stats)
+print(f"Custom Analysis:")
+print(f"  TUSG%: {results['results']['tusg']}")
+print(f"  PVR: {results['results']['pvr']}")
+print(f"  Rating: {results['interpretation']['pvr_rating']}")</pre>
+            </div>
+        </section>
+
+        <section class="section" id="errors">
+            <h2> Error Handling</h2>
+
+            <h3>HTTP Status Codes</h3>
+            <table>
+                <tr>
+                    <th>Code</th>
+                    <th>Meaning</th>
+                    <th>Description</th>
+                </tr>
+                <tr>
+                    <td>200</td>
+                    <td>OK</td>
+                    <td>Request successful</td>
+                </tr>
+                <tr>
+                    <td>400</td>
+                    <td>Bad Request</td>
+                    <td>Invalid parameters or missing required fields</td>
+                </tr>
+                <tr>
+                    <td>401</td>
+                    <td>Unauthorized</td>
+                    <td>Invalid or missing API key</td>
+                </tr>
+                <tr>
+                    <td>404</td>
+                    <td>Not Found</td>
+                    <td>Player or resource not found</td>
+                </tr>
+                <tr>
+                    <td>429</td>
+                    <td>Too Many Requests</td>
+                    <td>Rate limit exceeded</td>
+                </tr>
+                <tr>
+                    <td>500</td>
+                    <td>Internal Server Error</td>
+                    <td>Server error, please contact support</td>
+                </tr>
+            </table>
+
+            <h3>Error Response Format</h3>
+            <div class="language-label">JSON</div>
+            <div class="code-block">
+                <pre>{
+  "error": "Rate limit exceeded",
+  "message": "Rate limit of 100 requests/hour exceeded",
+  "current_usage": 101,
+  "limit": 100,
+  "tier": "free",
+  "upgrade_info": "Upgrade to paid tier for 1000 req/hr at /api-docs"
+}</pre>
+            </div>
+
+            <h3>Best Practices</h3>
+            <ul class="feature-list">
+                <li>Implement exponential backoff for 429 errors</li>
+                <li>Cache responses when possible to reduce API calls</li>
+                <li>Monitor your rate limit usage via response headers</li>
+                <li>Handle network errors gracefully with retries</li>
+                <li>Validate input before making API calls</li>
+                <li>Use webhooks for real-time updates (coming soon)</li>
+            </ul>
+        </section>
+
+        <section class="section">
+            <h2> Support & Resources</h2>
+            <p>Need help or have questions?</p>
+            <ul class="feature-list">
+                <li><strong>Documentation:</strong> You're reading it!</li>
+                <li><strong>Example Code:</strong> GitHub repository (coming soon)</li>
+                <li><strong>Support:</strong> support@taylorvector.com</li>
+                <li><strong>Status:</strong> status.taylorvector.com</li>
+                <li><strong>Community:</strong> Discord server (link in footer)</li>
+            </ul>
+
+            <div class="alert success">
+                <strong>Pro Tip:</strong> Join our developer community on Discord for code examples, troubleshooting, and feature requests!
+            </div>
+        </section>
+
+        <div>
+            <p>&copy; 2025 Taylor Vector Terminal. All rights reserved.</p>
+            <p>
+                <a href="/">Dashboard</a> |
+                <a href="/api-docs">API Docs</a> |
+                <a href="#">Terms</a> |
+                <a href="#">Privacy</a>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        function generateKey() {
+            const email = document.getElementById('email-input').value;
+            if (!email || !email.includes('@')) {
+                alert('Please enter a valid email address');
+                return;
+            }
+
+            const resultDiv = document.getElementById('key-result');
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = '<strong> Generating your API key...</strong>';
+
+            setTimeout(() => {
+                const mockApiKey = 'tvt_' + Math.random().toString(36).substring(2, 34);
+                resultDiv.innerHTML = `
+                    <strong> API Key Generated!</strong><br><br>
+                    <strong>Email:</strong> ${email}<br>
+                    <strong>API Key:</strong> ${mockApiKey}<br>
+                    <strong>Tier:</strong> Free (100 req/hr)<br><br>
+                    <em> This is a demo. In production, API keys would be stored securely and sent via email.</em>
+                `;
+            }, 1000);
+        }
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+    <script src="/static/js/theme.js"></script>
+</body>
+</html>

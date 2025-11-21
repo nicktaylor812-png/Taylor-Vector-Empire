@@ -1,0 +1,50 @@
+{
+  "title": "What is PVR? The efficiency metric that predicted Joki\u0107's MVP",
+  "topic": "PVR Basics",
+  "generated_at": "2025-11-19T02:03:05.169758",
+  "total_duration": "60 seconds",
+  "sections": {
+    "hook": {
+      "timestamp": "0:00-0:15",
+      "duration": "15 seconds",
+      "text": "This metric predicted Nikola Joki\u0107's MVP 3 years before anyone else saw it coming.\n\n[On-screen: \"THE METRIC THAT KNEW \ud83c\udfc6\"]\n\nIt's called PVR. And it's about to change how you watch basketball."
+    },
+    "explanation": {
+      "timestamp": "0:15-0:40",
+      "duration": "25 seconds",
+      "text": "PVR = Production-to-Volume Ratio. How many points you GENERATE per possession you USE.\n\n[Show formula: (PTS + AST\u00d7Mult) / (FGA + TOV + FTA\u00d70.44 + AST) - 1] \u00d7 100\n\nTS% only counts your own scoring. PVR counts assists - the points you CREATE for teammates.\n\nHigh PVR = elite efficiency. You're not just scoring, you're making everyone better."
+    },
+    "example": {
+      "timestamp": "0:40-0:50",
+      "duration": "10 seconds",
+      "text": "Joki\u0107 2021-22: 44.54 PVR - HIGHEST in the top 15 all-time.\n\n[Show: Curry 40.27, Magic 44.03, Joki\u0107 44.54]\n\nHe scored 27 PPG + 8 APG with zero wasted possessions. That's MVP-level efficiency."
+    },
+    "cta": {
+      "timestamp": "0:50-0:60",
+      "duration": "10 seconds",
+      "text": "Want to see your favorite player's PVR? Link in bio. Follow for more analytics that actually matter.\n\n[End screen: \"PVR = TRUE EFFICIENCY\" + emoji]"
+    }
+  },
+  "recommended_sounds": [
+    "Suspenseful reveal audio",
+    "Upbeat analytical content music",
+    "Sports highlight reel sound"
+  ],
+  "trending_sounds": [
+    "original sound (use trending audio from FYP)",
+    "Storytelling beat - medium tempo",
+    "Upbeat sports commentary music",
+    "Dramatic reveal audio",
+    "Suspenseful music for analytics",
+    "Epic sports highlight music",
+    "Energetic explainer content beat",
+    "Educational TikTok trending audio"
+  ],
+  "tips": [
+    "Use text overlays for key stats and formulas",
+    "Show graphics/charts during explanation section",
+    "Keep energy high - fast cuts, dynamic visuals",
+    "Use captions for accessibility",
+    "Test different hooks for best performance"
+  ]
+}

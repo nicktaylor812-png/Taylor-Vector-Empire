@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weekly TAYLOR VECTOR Highlights</title>
+    <link rel="stylesheet" href="/static/css/theme.css">
+</head>
+<body>
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+        <span class="theme-icon">◐</span>
+        <span id="theme-text">Dark</span>
+    </button>
+
+
+    <div class="email-container">
+        <div class="header">
+            <h1> TAYLOR VECTOR TERMINAL</h1>
+            <p>{{ current_date }} | Weekly Highlights</p>
+        </div>
+
+        <div class="content">
+            <div class="greeting">
+                Hi {{ subscriber_name }}! 
+            </div>
+
+            <p>Here's your weekly dose of NBA analytics powered by our proprietary TUSG% and PVR metrics.</p>
+
+            <div class="section">
+                <h2> This Week's Top Insights</h2>
+                
+                <div class="highlight-box">
+                    <h3>Top Betting Edges This Week</h3>
+                    <p>Our algorithm identified <strong>47 high-confidence betting opportunities</strong> this week with an average edge of <strong>8.3%</strong>. The highest edge detected was <strong>15.7%</strong> on Tuesday's Lakers game.</p>
+                </div>
+
+                <div class="highlight-box">
+                    <h3>Usage Leaders</h3>
+                    <p>Luka Dončić led all players with <strong>32.4% TUSG</strong>, demonstrating elite offensive burden. Joel Embiid and Shai Gilgeous-Alexander round out the top 3.</p>
+                </div>
+
+                <div class="highlight-box">
+                    <h3>Efficiency Standouts</h3>
+                    <p>Nikola Jokić continues to dominate with a <strong>+18.2 PVR</strong>, the highest in the league. His possession value remains unmatched among high-usage players.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2> Weekly Stats</h2>
+                <div class="stat-grid">
+                    <div class="stat-card">
+                        <div class="label">Total Edges</div>
+                        <div class="value">47</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="label">Avg Edge</div>
+                        <div class="value">8.3%</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="label">Games Analyzed</div>
+                        <div class="value">52</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="label">Players Tracked</div>
+                        <div class="value">280+</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="upgrade-section">
+                <h3> Unlock Premium Analysis</h3>
+                <p>Get daily edge reports, detailed player deep dives, and exclusive analytics for just <strong>$29/month</strong>.</p>
+                
+                <ul class="benefits-list">
+                    <li>Daily edge reports delivered every morning</li>
+                    <li>Weekly player deep dives with career analysis</li>
+                    <li>Exclusive betting insights and trends</li>
+                    <li>Advanced metrics and custom analytics</li>
+                    <li>Priority support and feature requests</li>
+                </ul>
+
+                <a href="{{ manage_url }}" class="cta-button">Upgrade to Premium →</a>
+            </div>
+
+            <p>
+                Stay sharp, and we'll see you next week with more insights!
+            </p>
+        </div>
+
+        <div class="footer">
+            <p><strong>TAYLOR VECTOR TERMINAL</strong></p>
+            <p>Advanced NBA Analytics • TUSG% & PVR Metrics</p>
+            
+            <div class="unsubscribe">
+                <p>
+                    <a href="{{ manage_url }}">Manage Preferences</a> | 
+                    <a href="{{ unsubscribe_url }}">Unsubscribe</a>
+                </p>
+                <p>
+                    You're receiving this because you subscribed at {{ subscriber_email }}<br>
+                     {{ year }} TAYLOR VECTOR TERMINAL. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </div>
+    <script src="/static/js/theme.js"></script>
+</body>
+</html>

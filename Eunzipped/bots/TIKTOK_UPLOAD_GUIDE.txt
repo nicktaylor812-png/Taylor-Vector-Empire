@@ -1,0 +1,364 @@
+═══════════════════════════════════════════════════════════════════════════
+        TIKTOK UPLOAD GUIDE - TAYLOR VECTOR TERMINAL
+         NBA Analytics Content | 60-Second Tutorial Videos
+═══════════════════════════════════════════════════════════════════════════
+
+📋 OVERVIEW
+-----------
+This guide provides best practices for manually uploading NBA analytics 
+tutorial videos to TikTok. Since TikTok API integration requires separate 
+OAuth approval, this focuses on the manual upload process to maximize reach 
+and engagement.
+
+
+🎬 PRE-UPLOAD CHECKLIST
+-----------------------
+Before uploading your video, ensure you have:
+
+✅ Video file (MP4, MOV, or WEBM format)
+   - Resolution: 1080x1920 (9:16 vertical format)
+   - Duration: 15-60 seconds (aim for 55-60s for full content)
+   - Frame rate: 23.98-60 fps
+   - File size: Under 287.6 MB
+
+✅ Script ready (from bots/tiktok_scripts/)
+   - Review all timing indicators
+   - Verify visual cue markers are followed
+   - Check hook/body/CTA structure is clear
+
+✅ Text overlays prepared
+   - Key stats and formulas visible
+   - On-screen graphics ready for critical moments
+   - Ensure text is readable on mobile screens
+
+✅ Caption text (from script's CTA section)
+   - Keep under 2,200 characters (aim for 300-500)
+   - Include primary hashtags
+   - Add link-in-bio call-to-action
+
+
+📱 UPLOAD PROCESS (STEP-BY-STEP)
+---------------------------------
+
+STEP 1: Open TikTok App
+   - Use TikTok mobile app (iOS/Android) for best results
+   - Desktop uploads available but limited features
+
+STEP 2: Click "+" Button
+   - Located at bottom center of screen
+   - Select "Upload" option
+
+STEP 3: Select Your Video
+   - Choose your pre-edited NBA analytics video
+   - TikTok will auto-adjust to 9:16 if needed (avoid this - upload correct ratio)
+
+STEP 4: Edit & Enhance (Optional)
+   - Add trending sounds (see TRENDING SOUNDS section)
+   - Apply filters (subtle recommended for analytics content)
+   - Adjust clip timing if needed
+   - Add TikTok's native text/stickers sparingly
+
+STEP 5: Add Caption
+   Format:
+   [Hook/teaser line from script]
+   
+   [Key insight in 1-2 sentences]
+   
+   Link in bio for full leaderboard/calculator/predictions
+   
+   [Hashtags - see HASHTAG STRATEGY section]
+
+   Example:
+   "MJ vs LeBron: The metrics finally settle it 🐐
+   
+   MJ had higher usage (40.13 TUSG%) while LeBron dominated with efficiency 
+   (39.21 PVR). Both are top 15 all-time in their respective metrics.
+   
+   Link in bio for full cross-era rankings 📊
+   
+   #NBA #MichaelJordan #LeBronJames #GOAT #GOATDebate #Basketball #NBAHistory"
+
+STEP 6: Select Cover Image
+   - Choose a frame showing a key stat or graphic
+   - Ensure text is readable in thumbnail
+   - Faces + stats perform best
+
+STEP 7: Advanced Settings
+   ✅ Turn on "Allow Comments" (engagement boost)
+   ✅ Turn on "Allow Duet" (virality potential)
+   ✅ Turn on "Allow Stitch" (reach expansion)
+   ✅ Disable "Allow downloads" (protect original content)
+   ⚠️  Location: Add "United States" or specific NBA city
+   ⚠️  Disclosure: Mark "Branded content" if sponsored
+
+STEP 8: Post Timing
+   - Best times: 6-9 AM, 12-1 PM, 7-11 PM EST
+   - Avoid game times (users watching live games)
+   - Post 2-4 hours before major NBA games for max engagement
+   - Weekdays > Weekends for analytics content
+
+STEP 9: Click "Post"
+   - Video goes live immediately
+   - Monitor first hour for engagement signals
+
+
+🎵 TRENDING SOUNDS STRATEGY
+---------------------------
+TikTok's algorithm heavily favors trending sounds. Choose from:
+
+CURRENT TRENDING (Check TikTok's "Sounds" page):
+   • Sports commentary/hype audio
+   • Dramatic reveal/mind-blown sounds
+   • Educational content beats
+   • "I told you so" victory audio
+
+EVERGREEN SOUNDS FOR ANALYTICS:
+   • "original sound" (your own voiceover - best for credibility)
+   • Storytelling beats (medium tempo, non-distracting)
+   • Background music for explainer content
+   • Upbeat sports highlight music
+
+PRO TIP: Use trending sounds for first 5-7 videos to build audience, 
+then switch to original sound for brand authority.
+
+
+#️⃣ HASHTAG STRATEGY
+--------------------
+Use 5-10 hashtags per video. Mix broad reach + niche targeting.
+
+TIER 1 - BROAD REACH (Always include 2-3):
+   #NBA #Basketball #NBAStats #Stats #Analytics
+
+TIER 2 - NICHE TARGETING (Include 2-3 based on content):
+   #TUSG #PVR #Efficiency #Usage #NBAAnalytics #HoopsAnalytics
+   #BasketballIQ #NBATikTok #DataScience
+
+TIER 3 - TRENDING/SPECIFIC (Include 2-3 based on video topic):
+   #MichaelJordan #LeBronJames #StephenCurry #Westbrook #Jokic
+   #MVP #GOAT #GOATDebate #NBAHistory #TripleDouble #73Wins
+
+TIER 4 - VIRAL/ENGAGEMENT (Optional 1-2):
+   #FYP #ForYou #Viral #LearnOnTikTok #TikTokSports
+
+AVOID:
+   ❌ Banned hashtags (#gambling with money emoji, explicit betting terms)
+   ❌ Too many hashtags (looks spammy, reduces credibility)
+   ❌ Irrelevant trending hashtags (algorithm penalizes)
+
+
+📊 CONTENT CALENDAR RECOMMENDATIONS
+------------------------------------
+Post consistently for algorithm favor. Suggested schedule:
+
+WEEK 1-2 (Build Foundation):
+   • Mon/Wed/Fri: Post 1 script from library
+   • Focus on basics: TUSG%, PVR, Westbrook Rule
+   • Use trending sounds for initial reach
+
+WEEK 3-4 (Engagement Focus):
+   • Mon/Wed/Fri/Sun: 4x per week
+   • Add debate/comparison content: MJ vs LeBron, Usage vs Efficiency
+   • Respond to ALL comments within first hour
+
+WEEK 5+ (Authority Building):
+   • Daily posting (7x per week)
+   • Mix evergreen content + timely game predictions
+   • Use original sound to build brand voice
+   • Experiment with different hooks for same topic
+
+
+💡 VISUAL CUE MARKERS (FROM SCRIPTS)
+-------------------------------------
+All scripts include visual cue markers like:
+   [On-screen text: "TRADITIONAL USG% IS BROKEN 🚨"]
+   [Show formula graphic: (FGA + TOV + FTA×0.44) / (MIN/48 × Pace) × 100]
+   [Show graphic: Westbrook 48.1% > League Average 20%]
+   [End screen: "BOTH GOATS 🐐🐐"]
+
+HOW TO IMPLEMENT:
+   1. Use video editing software (CapCut, InShot, Adobe Premiere)
+   2. Add text overlays at specified timestamps
+   3. Use bold, high-contrast fonts (white text + black outline)
+   4. Keep text on screen 2-4 seconds minimum
+   5. Animate text entrance/exit for engagement
+   6. Use emojis strategically (1-2 per screen)
+
+
+🎯 HOOK/BODY/CTA STRUCTURE
+---------------------------
+Every script follows proven TikTok engagement structure:
+
+HOOK (0:00-0:15) - 15 seconds:
+   • Grabs attention with bold claim or question
+   • Uses pattern interrupt (challenges common belief)
+   • Shows visual immediately (no talking head intro)
+   Example: "You've been using Usage % wrong this whole time..."
+
+BODY (0:15-0:50) - 35 seconds:
+   • EXPLANATION (0:15-0:40): Teaches concept with formula/graphic
+   • EXAMPLE (0:40-0:50): Shows real NBA player stats as proof
+   • Uses text overlays for key metrics
+   • Fast cuts every 2-3 seconds
+
+CTA (0:50-0:60) - 10 seconds:
+   • Clear next action: "Follow for more", "Link in bio"
+   • Reinforces key takeaway
+   • End screen graphic with text
+   • Loops naturally to hook (for rewatchability)
+
+
+📈 POST-UPLOAD OPTIMIZATION
+----------------------------
+
+FIRST HOUR (CRITICAL):
+   ✅ Respond to every comment
+   ✅ Like every comment
+   ✅ Pin best question/comment to top
+   ✅ Share to Instagram Reels, YouTube Shorts
+   ✅ Post teaser in IG Stories linking to TikTok
+
+FIRST 24 HOURS:
+   ✅ Monitor analytics (Views, Completion Rate, Shares)
+   ✅ If completion rate < 40%: Hook is weak, adjust next video
+   ✅ If views stall < 500: Hashtags may be wrong, try different set
+   ✅ Note which topics get most comments for future content
+
+ONGOING:
+   ✅ Repost top performers after 30 days (with slight hook variation)
+   ✅ Create "Part 2" for videos with 10k+ views
+   ✅ Use TikTok Analytics to find best posting times
+   ✅ Collaborate/duet with sports analytics creators
+
+
+🚀 GROWTH HACKS
+---------------
+
+1. COMMENT ON RELATED VIDEOS
+   - Find trending NBA debate videos
+   - Leave insightful analytical comments
+   - Include "I break this down on my page" (no link needed)
+   - Algorithm shows your profile to those users
+
+2. USE SERIES FORMAT
+   - Create numbered series: "Stats the media won't tell you #1"
+   - Viewers binge your content for full story
+   - Pin series playlist to profile
+
+3. LEVERAGE NBA MOMENTS
+   - Post within 2 hours of major NBA events
+   - "Why [player]'s performance was actually [stat insight]"
+   - Ride trending hashtags from live games
+
+4. CROSS-PROMOTE
+   - Link to your website/dashboard in bio
+   - Update bio weekly with timely hook
+   - Use Linktree for multiple links (leaderboard, predictions, etc.)
+
+5. COLLABORATE
+   - Duet popular NBA takes with analytical response
+   - Stitch viral debates with data-driven conclusion
+   - Tag NBA creators in comments (respectfully)
+
+
+⚠️ COMMON MISTAKES TO AVOID
+----------------------------
+
+❌ Talking head for first 3 seconds (instant scroll)
+✅ Start with text overlay + bold claim
+
+❌ Complex formulas without visual (confusing)
+✅ Show formula graphic with simple example
+
+❌ No captions (50%+ watch without sound)
+✅ Always add TikTok auto-captions + verify accuracy
+
+❌ Posting inconsistently (algorithm penalizes)
+✅ Post minimum 3x per week, same times
+
+❌ Ignoring comments (kills engagement rate)
+✅ Respond within first hour for algorithm boost
+
+❌ Using copyrighted NBA footage (takedown risk)
+✅ Use graphics, text, and stats instead
+
+❌ Too long (attention span is 8 seconds)
+✅ Hook must grab in first 3 seconds
+
+❌ Selling/promoting immediately (low trust)
+✅ Provide value first, subtle CTA to bio
+
+
+📊 SUCCESS METRICS
+------------------
+Track these to measure content performance:
+
+PRIMARY METRICS:
+   • Video Views: Aim for 1k+ in first 24 hours
+   • Completion Rate: Target 50%+ (60%+ is excellent)
+   • Engagement Rate: (Likes + Comments + Shares) / Views > 8%
+   • Profile Visits: 10-15% of viewers should visit profile
+
+GROWTH METRICS:
+   • Follower Growth: Expect 1-5% follower conversion from views
+   • Link Clicks: Track bio link clicks (TikTok shows this in analytics)
+   • Share Rate: 2%+ means content is highly valuable
+
+BENCHMARK GOALS:
+   Week 1-2: 500-1,000 views per video
+   Week 3-4: 2,000-5,000 views per video
+   Month 2+: 10,000+ views per video
+   Month 3+: 1 viral video (100k+ views) per month
+
+
+🔗 LINK IN BIO STRATEGY
+------------------------
+Your TikTok bio link is CRITICAL for converting viewers. Best practices:
+
+BIO TEXT (150 character limit):
+   "NBA analytics that predict the future 🏀
+   TUSG% + PVR = Better than Vegas
+   👇 Free leaderboards, predictions & tools"
+
+LINK OPTIONS:
+   Option 1 - Direct to main dashboard
+   Option 2 - Linktree with multiple destinations:
+      • All-Time TUSG% Leaderboard
+      • Today's Game Predictions
+      • PVR Calculator
+      • Westbrook Hall of Fame
+      • Premium Reports (if monetizing)
+
+UPDATE WEEKLY:
+   - Change based on your latest viral video
+   - If "MJ vs LeBron" video goes viral → Link to Cross-Era Rankings
+   - If "Game Predictions" blows up → Link to Today's Picks
+
+
+📧 SUPPORT & RESOURCES
+----------------------
+For questions or issues:
+
+SCRIPT GENERATION:
+   • Run: python bots/tiktok_bot.py
+   • Or use web interface at /tiktok-scripts
+   • 10 pre-written scripts in bots/tiktok_scripts/
+
+CUSTOMIZATION:
+   • Edit templates in bots/tiktok_bot.py
+   • Modify SCRIPT_TEMPLATES dictionary
+   • Regenerate scripts after changes
+
+ANALYTICS DASHBOARD:
+   • Use Taylor Vector Terminal dashboard for live stats
+   • Export data for video graphics
+   • Update scripts with latest player rankings
+
+
+═══════════════════════════════════════════════════════════════════════════
+                            READY TO GO VIRAL? 
+                        
+                Post your first video today!
+         Use the scripts in bots/tiktok_scripts/ to get started.
+                            
+                  Tag @TaylorVectorTerminal if you blow up 🚀
+═══════════════════════════════════════════════════════════════════════════

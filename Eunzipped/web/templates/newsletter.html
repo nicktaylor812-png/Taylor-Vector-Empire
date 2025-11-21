@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Newsletter Management - TAYLOR VECTOR</title>
+    <link rel="stylesheet" href="/static/css/theme.css">
+</head>
+<body>
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+        <span class="theme-icon">◐</span>
+        <span id="theme-text">Dark</span>
+    </button>
+
+
+    <div class="container">
+        <div class="header">
+            <h1> Newsletter Management</h1>
+            <p>TAYLOR VECTOR TERMINAL - Subscriber Dashboard</p>
+        </div>
+
+        <div id="alerts"></div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="label">Total Subscribers</div>
+                <div class="value" id="total-subscribers">0</div>
+                <div class="change">+0 this week</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="label">Free Tier</div>
+                <div class="value" id="free-subscribers">0</div>
+                <div class="change">Active subscribers</div>
+            </div>
+            
+            <div class="stat-card paid">
+                <div class="label">Premium Tier</div>
+                <div class="value" id="paid-subscribers">0</div>
+                <div class="change">$29/month each</div>
+            </div>
+            
+            <div class="stat-card revenue">
+                <div class="label">Monthly Revenue</div>
+                <div class="value" id="monthly-revenue">$0</div>
+                <div class="change" id="annual-revenue">$0/year</div>
+            </div>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="panel">
+                <h2> New Subscriber</h2>
+                
+                <form id="signup-form">
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <input type="email" id="email" name="email" required placeholder="subscriber@example.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="name">Name (Optional)</label>
+                        <input type="text" id="name" name="name" placeholder="John Doe">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Select Tier *</label>
+                        <div class="tier-selector">
+                            <div class="tier-option selected" onclick="selectTier('free')">
+                                <input type="radio" name="tier" value="free" id="tier-free" checked>
+                                <div class="tier-content">
+                                    <div class="tier-name">Free</div>
+                                    <div class="tier-price">$0</div>
+                                    <div class="tier-desc">Weekly highlights</div>
+                                </div>
+                            </div>
+                            <div class="tier-option" onclick="selectTier('paid')">
+                                <input type="radio" name="tier" value="paid" id="tier-paid">
+                                <div class="tier-content">
+                                    <div class="tier-name">Premium</div>
+                                    <div class="tier-price">$29</div>
+                                    <div class="tier-desc">Daily edges + deep dives</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Add Subscriber</button>
+                </form>
+            </div>
+
+            <div class="panel">
+                <h2> Send Newsletter</h2>
+                
+                <form id="send-form">
+                    <div class="form-group">
+                        <label for="template">Email Template</label>
+                        <select id="template" name="template" required>
+                            <option value="">-- Select Template --</option>
+                            <option value="free_weekly.html">Weekly Highlights (Free)</option>
+                            <option value="paid_daily.html">Daily Edge Report (Paid)</option>
+                            <option value="paid_deepdive.html">Player Deep Dive (Paid)</option>
+                            <option value="welcome_free.html">Welcome Email (Free)</option>
+                            <option value="welcome_paid.html">Welcome Email (Paid)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="send-tier">Send To</label>
+                        <select id="send-tier" name="tier" required>
+                            <option value="">-- Select Recipients --</option>
+                            <option value="free">Free Subscribers Only</option>
+                            <option value="paid">Premium Subscribers Only</option>
+                            <option value="all">All Active Subscribers</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="preview-email">Preview Email (Optional)</label>
+                        <input type="email" id="preview-email" name="preview_email" placeholder="Send test to this email">
+                    </div>
+                    
+                    <div class="action-buttons" style="justify-content: space-between;">
+                        <button type="button" class="btn btn-secondary" onclick="previewEmail()">Preview</button>
+                        <button type="submit" class="btn btn-success">Send to All</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="panel subscribers-panel">
+            <h2> Subscriber List</h2>
+            
+            <div class="filters">
+                <select id="filter-tier" onchange="loadSubscribers()">
+                    <option value="">All Tiers</option>
+                    <option value="free">Free</option>
+                    <option value="paid">Paid</option>
+                </select>
+                
+                <select id="filter-status" onchange="loadSubscribers()">
+                    <option value="">All Statuses</option>
+                    <option value="active" selected>Active</option>
+                    <option value="cancelled">Cancelled</option>
+                    <option value="unsubscribed">Unsubscribed</option>
+                </select>
+                
+                <button class="btn btn-secondary btn-sm" onclick="loadSubscribers()"> Refresh</button>
+            </div>
+            
+            <div id="subscribers-container">
+                <div class="loading">Loading subscribers...</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function selectTier(tier) {
+            document.querySelectorAll('.tier-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            
+            const selected = tier === 'free' ? document.querySelector('.tier-option:first-child') : document.querySelector('.tier-option:last-child');
+            selected.classList.add('selected');
+            
+            document.getElementById(`tier-${tier}`).checked = true;
+        }
+
+        function showAlert(message, type = 'success') {
+            const alertsDiv = document.getElementById('alerts');
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${type}`;
+            alert.textContent = message;
+            alertsDiv.appendChild(alert);
+            
+            setTimeout(() => {
+                alert.remove();
+            }, 5000);
+        }
+
+        async function loadStats() {
+            try {
+                const response = await fetch('/newsletter/api/stats');
+                const data = await response.json();
+                
+                document.getElementById('total-subscribers').textContent = data.total_subscribers || 0;
+                document.getElementById('free-subscribers').textContent = data.free_subscribers || 0;
+                document.getElementById('paid-subscribers').textContent = data.paid_subscribers || 0;
+                document.getElementById('monthly-revenue').textContent = `$${data.monthly_revenue || 0}`;
+                document.getElementById('annual-revenue').textContent = `$${data.annual_revenue || 0}/year`;
+            } catch (error) {
+                console.error('Error loading stats:', error);
+            }
+        }
+
+        async function loadSubscribers() {
+            const tier = document.getElementById('filter-tier').value;
+            const status = document.getElementById('filter-status').value;
+            
+            const params = new URLSearchParams();
+            if (tier) params.append('tier', tier);
+            if (status) params.append('status', status);
+            
+            try {
+                const response = await fetch(`/newsletter/api/subscribers?${params}`);
+                const subscribers = await response.json();
+                
+                const container = document.getElementById('subscribers-container');
+                
+                if (subscribers.length === 0) {
+                    container.innerHTML = '<div class="loading">No subscribers found</div>';
+                    return;
+                }
+                
+                let html = `
+                    <table class="subscribers-table">
+                        <thead>
+                            <tr>
+                                <th>Email</th>
+                                <th>Name</th>
+                                <th>Tier</th>
+                                <th>Status</th>
+                                <th>Joined</th>
+                                <th>Last Email</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+                
+                subscribers.forEach(sub => {
+                    html += `
+                        <tr>
+                            <td>${sub.email}</td>
+                            <td>${sub.name || '-'}</td>
+                            <td><span class="badge ${sub.tier}">${sub.tier}</span></td>
+                            <td><span class="badge ${sub.status}">${sub.status}</span></td>
+                            <td>${sub.join_date ? new Date(sub.join_date).toLocaleDateString() : '-'}</td>
+                            <td>${sub.last_email_sent ? new Date(sub.last_email_sent).toLocaleDateString() : 'Never'}</td>
+                        </tr>
+                    `;
+                });
+                
+                html += '</tbody></table>';
+                container.innerHTML = html;
+            } catch (error) {
+                console.error('Error loading subscribers:', error);
+                showAlert('Failed to load subscribers', 'error');
+            }
+        }
+
+        document.getElementById('signup-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = {
+                email: document.getElementById('email').value,
+                name: document.getElementById('name').value,
+                tier: document.querySelector('input[name="tier"]:checked').value
+            };
+            
+            try {
+                const response = await fetch('/newsletter/api/subscribe', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                const data = await response.json();
+                
+                if (data.success || data.subscriber) {
+                    showAlert('Subscriber added successfully!', 'success');
+                    document.getElementById('signup-form').reset();
+                    selectTier('free');
+                    loadStats();
+                    loadSubscribers();
+                } else {
+                    showAlert(data.error || 'Failed to add subscriber', 'error');
+                }
+            } catch (error) {
+                console.error('Error adding subscriber:', error);
+                showAlert('Failed to add subscriber', 'error');
+            }
+        });
+
+        document.getElementById('send-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            if (!confirm('Are you sure you want to send this newsletter to all selected subscribers?')) {
+                return;
+            }
+            
+            const formData = {
+                template: document.getElementById('template').value,
+                tier: document.getElementById('send-tier').value
+            };
+            
+            try {
+                const response = await fetch('/newsletter/api/send-batch', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                const data = await response.json();
+                
+                if (data.success || data.sent) {
+                    showAlert(`Newsletter sent successfully! Sent: ${data.sent}, Failed: ${data.failed}`, 'success');
+                    loadSubscribers();
+                } else {
+                    showAlert(data.error || 'Failed to send newsletter', 'error');
+                }
+            } catch (error) {
+                console.error('Error sending newsletter:', error);
+                showAlert('Failed to send newsletter', 'error');
+            }
+        });
+
+        function previewEmail() {
+            const template = document.getElementById('template').value;
+            const email = document.getElementById('preview-email').value;
+            
+            if (!template) {
+                showAlert('Please select a template', 'error');
+                return;
+            }
+            
+            if (!email) {
+                showAlert('Please enter a preview email address', 'error');
+                return;
+            }
+            
+            showAlert('Preview feature coming soon!', 'info');
+        }
+
+        loadStats();
+        loadSubscribers();
+        setInterval(loadStats, 30000);
+    </script>
+    <script src="/static/js/theme.js"></script>
+</body>
+</html>

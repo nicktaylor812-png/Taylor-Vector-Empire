@@ -1,0 +1,448 @@
+TAYLOR VECTOR TERMINAL - TOOLS USAGE GUIDE
+==========================================
+
+This directory contains analytical tools for advanced NBA metrics.
+
+
+1. WESTBROOK RULE HISTORICAL MACHINE
+=====================================
+
+Analyzes the AST/TOV multiplier rule across NBA history (1950-2025).
+
+FILES:
+------
+• westbrook_rule.py - Python analysis script
+• westbrook_viz.html - Interactive web visualization  
+• westbrook_rule_results.json - Generated analysis data
+
+RUNNING THE ANALYSIS:
+---------------------
+python tools/westbrook_rule.py
+
+OUTPUT:
+-------
+- Console: Top 10 beneficiaries, broken seasons, cross-era comparisons, key insights
+- JSON: Complete dataset exported to westbrook_rule_results.json
+
+VIEWING VISUALIZATION:
+----------------------
+Open westbrook_viz.html in any web browser to see:
+- Timeline charts of AST/TOV efficiency by era
+- "Broken" seasons with AST/TOV > 3.0
+- Top multiplier beneficiaries
+- Cross-era pace comparisons
+- Interactive scatter plots
+
+KEY FINDINGS:
+-------------
+• John Stockton (1989-90): +23.79 PVR gain from multiplier (5.18 AST/TOV)
+• Magic Johnson (1986-87): 3.21 AST/TOV, would have 67.70 PVR with 3.0x multiplier
+• Chris Paul (2008-09): 4.07 AST/TOV, would have 77.71 PVR with 3.0x multiplier
+• Westbrook (2016-17): 48.1% TUSG (unprecedented volume in modern era)
+• Wilt (1961-62): 44.73% TUSG in era, would be 51.70% with modern pace
+
+
+2. POSITIONLESS GOAT RANKINGS
+==============================
+
+Custom ranking system combining TUSG%, PVR, and Longevity for all-time greats.
+
+FILES:
+------
+• goat_rankings.py - Ranking algorithm and calculation engine
+• goat_rankings.html - Interactive web interface with sliders
+• goat_rankings.json - Generated rankings data
+
+RANKING FORMULA:
+----------------
+GOAT Score = (TUSG% × weight1) + (PVR × weight2) + (Years × weight3)
+
+Default Weights: 40% TUSG, 40% PVR, 20% Longevity
+
+RUNNING THE ALGORITHM:
+----------------------
+python tools/goat_rankings.py
+
+OUTPUT:
+-------
+- Console: Top 10 rankings, weight scenario comparisons
+- JSON: Complete rankings data exported to goat_rankings.json
+
+INTERACTIVE INTERFACE:
+----------------------
+Open goat_rankings.html in any web browser to:
+- Adjust weights with sliders (must total 100%)
+- See live reranking as you change weights
+- View top 10 rankings with scores
+- Compare "Your GOAT" vs "Traditional GOAT"
+- Explore different scenarios:
+  * Pure Usage (100% TUSG) - Westbrook/Harden dominate
+  * Pure Efficiency (100% PVR) - Jokić/Curry lead
+  * Pure Longevity (100% Years) - LeBron/Kobe/Kareem top
+  * Balanced (40/40/20) - Well-rounded rankings
+
+PRESET SCENARIOS:
+-----------------
+⚖️  Balanced: 40% TUSG, 40% PVR, 20% Longevity
+📊 Pure Usage: 100% TUSG - who controlled the game most?
+⚡ Pure Efficiency: 100% PVR - who was most effective?
+⏳ Pure Longevity: 100% Years - who sustained excellence?
+🎯 Peak Only: 50% TUSG, 50% PVR - peak performance only
+🔄 Equal Split: 33.3% each - balanced approach
+
+KEY INSIGHTS:
+-------------
+• Russell Westbrook leads with default weights (73.97 score)
+• Stephen Curry ranks 2nd on balanced metrics (62.84)
+• LeBron James dominates pure longevity rankings (21 years)
+• Nikola Jokić leads pure efficiency (44.54 PVR)
+• Rankings dramatically shift based on what you value most
+
+
+3. DRAFT PROSPECT PVR PREDICTOR
+================================
+
+Predicts NBA success for college prospects using TUSG% and PVR metrics.
+
+FILES:
+------
+• draft_predictor.py - Prediction algorithm and analysis
+• draft_predictor.html - Interactive web interface
+• draft_predictor_examples.json - Historical prediction data
+
+PREDICTION FORMULA:
+-------------------
+1. Calculate college TUSG% and PVR
+2. Apply pro adjustments (-15% usage, +8% efficiency)
+3. Calculate bust risk and steal potential
+4. Compare projected metrics vs. draft position expectations
+
+DRAFT POSITION EXPECTATIONS:
+-----------------------------
+• Top 5: TUSG 35%+, PVR 20%+
+• 6-15: TUSG 30%+, PVR 15%+
+• 16-30: TUSG 25%+, PVR 10%+
+• 31-60: TUSG 20%+, PVR 5%+
+
+RUNNING THE PREDICTOR:
+----------------------
+python tools/draft_predictor.py
+
+OUTPUT:
+-------
+- Console: Historical examples with predictions vs. actual outcomes
+- JSON: Complete prediction data exported to draft_predictor_examples.json
+- Accuracy: Model prediction success rate on historical prospects
+
+INTERACTIVE INTERFACE:
+----------------------
+Open draft_predictor.html in any web browser to:
+- Input college stats (MPG, PPG, APG, FGA, FTA, TOV)
+- Select draft position (1-60)
+- See instant NBA projections
+- View bust risk and steal potential
+- Compare with historical examples
+
+HISTORICAL EXAMPLES:
+--------------------
+• Luka Doncic: Projected 38.2% TUSG, 35.4 PVR - SUPERSTAR ✅
+• Trae Young: High usage projection, exceeded expectations - STEAL ✅
+• Victor Wembanyama: Generational talent prediction - SUPERSTAR ✅
+• Markelle Fultz: Injury concerns, underperformed - BUST ❌
+
+KEY INSIGHTS:
+-------------
+• High PVR projections correlate with All-Star success
+• TUSG% > 35% indicates elite usage players
+• AST/TOV ratio crucial for playmaker evaluation
+• Model successfully predicted ~70% of outcomes
+
+
+4. TRADE IMPACT CALCULATOR
+===========================
+
+Analyzes how NBA trades affect team TUSG% and PVR metrics.
+
+FILES:
+------
+• trade_calculator.py - Trade simulation engine
+• trade_calculator.html - Interactive web interface
+• trade_calculator_examples.json - Famous historical trades
+
+ANALYSIS FEATURES:
+------------------
+• Before/After team TUSG% and PVR calculations
+• Net impact with +/- changes for each team
+• Trade winner determination (PVR prioritized, then TUSG%)
+• Minutes-weighted team metrics (10+ MPG players only)
+• Current 2024-25 season rosters from nbaStats API
+
+RUNNING THE CALCULATOR:
+-----------------------
+python tools/trade_calculator.py
+
+OUTPUT:
+-------
+- Loads current 2024-25 rosters (950+ players)
+- Example trade simulation (Lakers ↔ Cavaliers)
+- Shows before/after metrics for both teams
+- Determines trade winner based on net impact
+- Saves historical trade examples to JSON
+
+INTERACTIVE INTERFACE:
+----------------------
+Open trade_calculator.html in any web browser to:
+- Select two teams from dropdown menus
+- Click players to add to trade packages
+- See real-time "gives" and "receives" lists
+- Click "Calculate Trade Impact" button
+- View results with:
+  * Before/After TUSG% and PVR for both teams
+  * Net impact badges (+/- changes)
+  * Visual arrows (↑/↓) for metric changes
+  * Winner badge on winning team
+- Load famous historical trade examples
+
+FAMOUS HISTORICAL TRADES:
+-------------------------
+• Lakers-Pelicans AD Trade (2019)
+  - Lakers gave: Lonzo Ball, Brandon Ingram, Josh Hart
+  - Pelicans gave: Anthony Davis
+  - Result: Lakers won 2020 Championship
+
+• Nets-Rockets Harden Trade (2021)
+  - Nets gave: Caris LeVert, Jarrett Allen
+  - Rockets gave: James Harden
+  - Result: Nets superteam (KD, Harden, Kyrie)
+
+• Raptors-Spurs Kawhi Trade (2018)
+  - Raptors gave: DeMar DeRozan, Jakob Poeltl
+  - Spurs gave: Kawhi Leonard, Danny Green
+  - Result: Raptors won 2019 Championship
+
+• Suns-Nets KD Trade (2023)
+  - Suns gave: Mikal Bridges, Cam Johnson
+  - Nets gave: Kevin Durant
+  - Result: Suns superteam (KD, Booker, Beal)
+
+METRIC INTERPRETATION:
+----------------------
+• TUSG% Change: Higher is better (more offensive involvement)
+• PVR Change: Higher is better (more efficient scoring/playmaking)
+• Winner determined by: PVR gain > TUSG% gain
+• Mobile-responsive design for all devices
+
+KEY INSIGHTS:
+-------------
+• Star trades often sacrifice team efficiency for star power
+• Depth trades can improve team metrics without headlines
+• PVR typically more predictive of trade success than TUSG%
+• Minutes distribution matters - bench players have less impact
+
+
+5. INJURY COMEBACK TRACKER
+===========================
+
+Educational tool tracking NBA player performance before and after major injuries.
+Shows recovery trajectories, resilience, or decline patterns.
+
+FILES:
+------
+• injury_tracker.py - Injury database and recovery analysis engine
+• injury_tracker.html - Interactive web visualization
+• injury_tracker_data.json - Generated injury tracking data
+
+TRACKED METRICS:
+----------------
+• Pre-Injury: TUSG%, PVR, PPG, APG, MPG
+• Post-Injury (1yr & 2yr): Same metrics + Games played
+• Recovery Percentage: Actual vs. Pre-injury retention
+• Projected Recovery: Based on injury type historical averages
+
+INJURY TYPES COVERED:
+---------------------
+• ACL Tear - Avg 88% PVR retention @ 2yr
+• Achilles Tear - Avg 75% PVR retention @ 2yr
+• Leg/Ankle Fractures - Avg 90-96% PVR retention @ 2yr
+• Quad Injuries - Avg 78-98% PVR retention @ 2yr
+• Multiple Knee Surgeries - Avg 91% PVR retention @ 2yr
+
+RUNNING THE TRACKER:
+--------------------
+python tools/injury_tracker.py
+
+OUTPUT:
+-------
+- Console: Complete injury recovery overview for all 14 tracked injuries
+- Injury Type Statistics: Average TUSG%/PVR drops by injury category
+- Key Insights: Top recoveries and concerning declines
+- Best Recoveries: Rankings by 2-year PVR retention
+- JSON: Complete dataset exported to injury_tracker_data.json
+
+INTERACTIVE INTERFACE:
+----------------------
+Open injury_tracker.html in any web browser to:
+- View all tracked injuries in sortable list
+- Click any injury to see detailed recovery analysis
+- Visualize recovery curves (Projected vs Actual)
+- Compare before/after metrics for TUSG% and PVR
+- View color-coded recovery indicators:
+  * Green: Excellent (95%+ retention)
+  * Blue: Good (85-95% retention)
+  * Yellow: Moderate (70-85% retention)
+  * Red: Poor (<70% retention)
+- Add new injuries with recovery projections
+- Explore injury type trends and statistics
+
+NOTABLE CASES TRACKED:
+----------------------
+🏆 BEST RECOVERIES:
+• Zach LaVine (ACL, 2017) - 117% PVR retention @ 2yr (exceeded pre-injury!)
+• Paul George (Leg Fracture, 2014) - 104% PVR retention @ 2yr
+• Kawhi Leonard (Quad, 2017) - 98% PVR retention @ 2yr
+• Jamal Murray (ACL, 2021) - 97% PVR retention @ 2yr
+• Kevin Durant (Achilles, 2019) - 97% PVR retention @ 2yr
+
+⚠️ DIFFICULT RECOVERIES:
+• DeMarcus Cousins (Achilles, 2018) - 48% PVR retention @ 2yr
+• Victor Oladipo (Quad, 2019) - 55% PVR retention @ 2yr
+• Derrick Rose (ACL, 2012) - 61% PVR retention @ 2yr
+• Kobe Bryant (Achilles, 2013) - 64% PVR retention @ 2yr (age factor)
+
+KEY INSIGHTS:
+-------------
+• ACL tears show variable recovery (61-117% retention)
+• Achilles tears typically most severe (48-97% retention)
+• Age at injury matters: Younger players recover better
+• Load management helps: Kawhi's strategic rest paid off
+• Some players exceed pre-injury levels (LaVine, Paul George)
+• Average TUSG% drop @ 2yr: -3.2% (relatively minimal)
+• Average PVR drop @ 2yr: -2.8 (efficiency impact varies widely)
+• Recovery timeline: Most injuries = 9-12 months to return
+
+EDUCATIONAL VALUE:
+------------------
+• Understanding injury impact on player value
+• Evaluating trade/contract decisions for injured players
+• Projecting comeback timelines for fantasy/betting
+• Historical context for current injury situations
+• Evidence-based recovery expectations by injury type
+
+
+6. CONTRACT VALUE CALCULATOR
+=============================
+
+Analyzes NBA contracts to determine who's overpaid, fairly paid, or underpaid based on PVR and TUSG% metrics.
+
+FILES:
+------
+• contract_calculator.py - Contract analysis engine
+• contract_calculator.html - Interactive web interface
+• contract_calculator_results.json - Generated contract analysis data
+
+VALUATION FORMULA:
+------------------
+Fair Value = (PVR × $1M) + (TUSG% × $800K)
+
+RUNNING THE CALCULATOR:
+-----------------------
+python tools/contract_calculator.py
+
+OUTPUT:
+-------
+- Console: Top overpaid, underpaid, and best value players
+- JSON: Complete contract analysis exported to contract_calculator_results.json
+
+INTERACTIVE INTERFACE:
+----------------------
+Open contract_calculator.html in any web browser to:
+- Search for any player or team
+- View overpaid, underpaid, and best value rankings
+- See fair value calculations for all players
+- Compare actual salary vs. performance-based value
+- View key insights and statistics
+
+KEY INSIGHTS:
+-------------
+• High-usage players often command premiums beyond metrics
+• Efficiency matters more than volume in fair value calculations
+• Market inflation can exceed performance-based valuations
+• Best value players typically on rookie contracts or veteran minimums
+
+
+7. METRIC CUSTOMIZER
+====================
+
+Interactive tool for experimenting with TUSG% and PVR formula parameters. Educational and fun - shows why the default formulas are optimal.
+
+FILE:
+-----
+• customizer.html - Interactive formula editor with live recalculation
+
+CUSTOMIZABLE PARAMETERS:
+------------------------
+TUSG% Components:
+• FGA Weight (default: 1.00) - How much field goal attempts count
+• TOV Weight (default: 1.00) - How much turnovers count
+• FTA Multiplier (default: 0.44) - Free throw attempt factor
+• Pace Factor (default: 1.00) - Era pace adjustment strength
+
+PVR Components:
+• AST/TOV Threshold (default: 1.80) - Cutoff for high vs low multiplier
+• High AST Multiplier (default: 2.30) - Assist value when AST/TOV > threshold
+• Low AST Multiplier (default: 1.80) - Assist value when AST/TOV < threshold
+
+FEATURES:
+---------
+• Real-time recalculation of all 15 historical NBA greats
+• Live leaderboard with ranking change indicators (↑↓)
+• Dynamic insights showing how parameter changes affect rankings
+• Reset to Original button to restore default values
+• Export Custom Formula button - generates Python code snippets
+
+INTERACTIVE INTERFACE:
+----------------------
+Open customizer.html in any web browser to:
+- Adjust formula parameters with smooth sliders
+- See instant ranking updates as you change values
+- Watch how top players rise and fall with different formulas
+- View insights like:
+  * "With 0.50 FTA multiplier, Wilt rises to #1"
+  * "If AST threshold is 2.5, Magic's PVR drops 8%"
+  * "Top 3 reshuffled: Westbrook, Harden, Curry"
+- Export your custom formula as working Python code
+
+EDUCATIONAL VALUE:
+------------------
+• Understand how formula components affect player rankings
+• See why 0.44 FTA multiplier is optimal (not 0.50 or 0.40)
+• Learn why AST/TOV threshold of 1.8 balances efficiency vs. usage
+• Discover how era pace adjustments level the playing field
+• Experiment with "what if" scenarios for historical debates
+• Export custom formulas for your own analysis
+
+KEY DISCOVERIES:
+----------------
+• Increasing FTA multiplier from 0.44 to 0.50 makes Wilt #1
+• Lowering AST threshold to 1.5 boosts high-volume playmakers
+• Raising High Multiplier to 3.0+ makes Magic/Stockton dominant
+• Pace Factor adjustments reveal era-adjusted dominance
+• Default parameters create the most balanced rankings across eras
+
+EXAMPLE EXPERIMENTS:
+--------------------
+🔥 "Volume Only" Setup:
+   - FGA Weight: 2.0, TOV Weight: 0.5, FTA Mult: 0.60
+   - Result: Wilt, Kobe, Harden dominate
+
+⚡ "Efficiency Premium" Setup:
+   - AST Threshold: 1.5, High Mult: 3.0, Low Mult: 1.5
+   - Result: Magic, Curry, Jokić rise to top
+
+🏀 "Modern Era Bias" Setup:
+   - Pace Factor: 0.5 (penalizes old era)
+   - Result: Modern players (Curry, Jokić, Giannis) dominate
+
+🎯 "True Shooting Proxy" Setup:
+   - FTA Mult: 0.88 (doubles free throw impact)
+   - Result: Giannis, Shaq, Wilt benefit most

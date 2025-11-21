@@ -1,0 +1,684 @@
+{
+  "generated_at": "2025-11-19T03:09:19.248200",
+  "total_inductees": 25,
+  "exposed_count": 9,
+  "validated_count": 16,
+  "exposed_wing": [
+    {
+      "name": "Wilt Chamberlain",
+      "season": "1961-62",
+      "year": 1962,
+      "context": "Legendary volume scoring with minimal playmaking",
+      "ppg": 50.4,
+      "apg": 2.4,
+      "tov": 5.0,
+      "mpg": 48.5,
+      "ast_tov_ratio": 0.48,
+      "pvr_actual": 0.63,
+      "pvr_no_multiplier": -2.91,
+      "pvr_max_multiplier": 2.83,
+      "multiplier_used": 1.8,
+      "rule_impact": 3.54,
+      "category": "exposed",
+      "era_pace": 115.0
+    },
+    {
+      "name": "Hakeem Olajuwon",
+      "season": "1992-93",
+      "year": 1993,
+      "context": "Defensive anchor with elite interior scoring",
+      "ppg": 26.1,
+      "apg": 3.5,
+      "tov": 3.0,
+      "mpg": 39.2,
+      "ast_tov_ratio": 1.17,
+      "pvr_actual": 4.35,
+      "pvr_no_multiplier": -4.66,
+      "pvr_max_multiplier": 9.99,
+      "multiplier_used": 1.8,
+      "rule_impact": 9.01,
+      "category": "exposed",
+      "era_pace": 95.0
+    },
+    {
+      "name": "Shaquille O'Neal",
+      "season": "1999-00",
+      "year": 2000,
+      "context": "Dominant interior force with decent efficiency",
+      "ppg": 29.7,
+      "apg": 3.8,
+      "tov": 2.8,
+      "mpg": 40.0,
+      "ast_tov_ratio": 1.36,
+      "pvr_actual": 16.5,
+      "pvr_no_multiplier": 6.81,
+      "pvr_max_multiplier": 22.56,
+      "multiplier_used": 1.8,
+      "rule_impact": 9.69,
+      "category": "exposed",
+      "era_pace": 95.0
+    },
+    {
+      "name": "Kobe Bryant",
+      "season": "2005-06",
+      "year": 2006,
+      "context": "Historic volume scoring, lower assist rate",
+      "ppg": 35.4,
+      "apg": 4.5,
+      "tov": 3.1,
+      "mpg": 41.0,
+      "ast_tov_ratio": 1.45,
+      "pvr_actual": 10.72,
+      "pvr_no_multiplier": 1.56,
+      "pvr_max_multiplier": 16.45,
+      "multiplier_used": 1.8,
+      "rule_impact": 9.16,
+      "category": "exposed",
+      "era_pace": 95.0
+    },
+    {
+      "name": "Tim Duncan",
+      "season": "2001-02",
+      "year": 2002,
+      "context": "Two-way excellence with fundamental soundness",
+      "ppg": 25.5,
+      "apg": 3.7,
+      "tov": 2.5,
+      "mpg": 40.6,
+      "ast_tov_ratio": 1.48,
+      "pvr_actual": 15.07,
+      "pvr_no_multiplier": 4.48,
+      "pvr_max_multiplier": 21.69,
+      "multiplier_used": 1.8,
+      "rule_impact": 10.59,
+      "category": "exposed",
+      "era_pace": 95.0
+    },
+    {
+      "name": "James Harden",
+      "season": "2018-19",
+      "year": 2019,
+      "context": "Extreme volume scoring with decent playmaking",
+      "ppg": 36.1,
+      "apg": 7.5,
+      "tov": 5.0,
+      "mpg": 36.8,
+      "ast_tov_ratio": 1.5,
+      "pvr_actual": 18.55,
+      "pvr_no_multiplier": 4.21,
+      "pvr_max_multiplier": 27.51,
+      "multiplier_used": 1.8,
+      "rule_impact": 14.34,
+      "category": "exposed",
+      "era_pace": 98.0
+    },
+    {
+      "name": "David Robinson",
+      "season": "1993-94",
+      "year": 1994,
+      "context": "Athletic big man with strong all-around stats",
+      "ppg": 29.8,
+      "apg": 4.8,
+      "tov": 3.2,
+      "mpg": 40.5,
+      "ast_tov_ratio": 1.5,
+      "pvr_actual": 17.55,
+      "pvr_no_multiplier": 5.81,
+      "pvr_max_multiplier": 24.89,
+      "multiplier_used": 1.8,
+      "rule_impact": 11.74,
+      "category": "exposed",
+      "era_pace": 95.0
+    },
+    {
+      "name": "Kevin Durant",
+      "season": "2013-14",
+      "year": 2014,
+      "context": "Elite scorer with secondary playmaking",
+      "ppg": 32.0,
+      "apg": 5.5,
+      "tov": 3.5,
+      "mpg": 38.5,
+      "ast_tov_ratio": 1.57,
+      "pvr_actual": 23.79,
+      "pvr_no_multiplier": 10.79,
+      "pvr_max_multiplier": 31.91,
+      "multiplier_used": 1.8,
+      "rule_impact": 13.0,
+      "category": "exposed",
+      "era_pace": 98.0
+    },
+    {
+      "name": "Dirk Nowitzki",
+      "season": "2006-07",
+      "year": 2007,
+      "context": "Elite scoring big with minimal turnovers",
+      "ppg": 24.6,
+      "apg": 3.4,
+      "tov": 1.9,
+      "mpg": 36.2,
+      "ast_tov_ratio": 1.79,
+      "pvr_actual": 18.39,
+      "pvr_no_multiplier": 7.91,
+      "pvr_max_multiplier": 24.94,
+      "multiplier_used": 1.8,
+      "rule_impact": 10.48,
+      "category": "exposed",
+      "era_pace": 95.0
+    }
+  ],
+  "validated_wing": [
+    {
+      "name": "John Stockton",
+      "season": "1989-90",
+      "year": 1990,
+      "context": "All-time assist leader with elite ball security",
+      "ppg": 17.2,
+      "apg": 14.5,
+      "tov": 2.8,
+      "mpg": 37.4,
+      "ast_tov_ratio": 5.18,
+      "pvr_actual": 65.89,
+      "pvr_no_multiplier": 4.03,
+      "pvr_max_multiplier": 65.89,
+      "multiplier_used": 2.3,
+      "rule_impact": 61.86,
+      "category": "validated",
+      "era_pace": 95.0
+    },
+    {
+      "name": "Steve Nash",
+      "season": "2006-07",
+      "year": 2007,
+      "context": "Seven Seconds or Less architect with pristine efficiency",
+      "ppg": 18.6,
+      "apg": 11.6,
+      "tov": 2.7,
+      "mpg": 35.3,
+      "ast_tov_ratio": 4.3,
+      "pvr_actual": 59.91,
+      "pvr_no_multiplier": 6.65,
+      "pvr_max_multiplier": 59.91,
+      "multiplier_used": 2.3,
+      "rule_impact": 53.26,
+      "category": "validated",
+      "era_pace": 95.0
+    },
+    {
+      "name": "Chris Paul",
+      "season": "2008-09",
+      "year": 2009,
+      "context": "Point God at his peak with elite decision-making",
+      "ppg": 22.8,
+      "apg": 11.0,
+      "tov": 2.7,
+      "mpg": 38.5,
+      "ast_tov_ratio": 4.07,
+      "pvr_actual": 53.18,
+      "pvr_no_multiplier": 7.64,
+      "pvr_max_multiplier": 53.18,
+      "multiplier_used": 2.3,
+      "rule_impact": 45.54,
+      "category": "validated",
+      "era_pace": 95.0
+    },
+    {
+      "name": "Magic Johnson",
+      "season": "1986-87",
+      "year": 1987,
+      "context": "Revolutionary playmaking with elite AST/TOV ratio",
+      "ppg": 23.9,
+      "apg": 12.2,
+      "tov": 3.8,
+      "mpg": 36.3,
+      "ast_tov_ratio": 3.21,
+      "pvr_actual": 44.03,
+      "pvr_no_multiplier": 0.07,
+      "pvr_max_multiplier": 44.03,
+      "multiplier_used": 2.3,
+      "rule_impact": 43.96,
+      "category": "validated",
+      "era_pace": 107.0
+    },
+    {
+      "name": "Nikola Joki\u0107",
+      "season": "2021-22",
+      "year": 2022,
+      "context": "Modern center playmaking excellence",
+      "ppg": 27.1,
+      "apg": 7.9,
+      "tov": 3.0,
+      "mpg": 33.5,
+      "ast_tov_ratio": 2.63,
+      "pvr_actual": 44.54,
+      "pvr_no_multiplier": 11.75,
+      "pvr_max_multiplier": 44.54,
+      "multiplier_used": 2.3,
+      "rule_impact": 32.79,
+      "category": "validated",
+      "era_pace": 99.5
+    },
+    {
+      "name": "Oscar Robertson",
+      "season": "1963-64",
+      "year": 1964,
+      "context": "Original triple-double machine in fast-paced era",
+      "ppg": 31.4,
+      "apg": 11.0,
+      "tov": 4.2,
+      "mpg": 45.3,
+      "ast_tov_ratio": 2.62,
+      "pvr_actual": 22.04,
+      "pvr_no_multiplier": -8.74,
+      "pvr_max_multiplier": 22.04,
+      "multiplier_used": 2.3,
+      "rule_impact": 30.78,
+      "category": "validated",
+      "era_pace": 115.0
+    },
+    {
+      "name": "LeBron James",
+      "season": "2012-13",
+      "year": 2013,
+      "context": "Elite efficiency with strong assist numbers",
+      "ppg": 26.8,
+      "apg": 7.3,
+      "tov": 3.0,
+      "mpg": 37.9,
+      "ast_tov_ratio": 2.43,
+      "pvr_actual": 39.21,
+      "pvr_no_multiplier": 8.9,
+      "pvr_max_multiplier": 39.21,
+      "multiplier_used": 2.3,
+      "rule_impact": 30.31,
+      "category": "validated",
+      "era_pace": 98.0
+    },
+    {
+      "name": "Luka Don\u010di\u0107",
+      "season": "2022-23",
+      "year": 2023,
+      "context": "Modern triple-threat with elite playmaking",
+      "ppg": 32.4,
+      "apg": 8.6,
+      "tov": 3.6,
+      "mpg": 36.2,
+      "ast_tov_ratio": 2.39,
+      "pvr_actual": 39.49,
+      "pvr_no_multiplier": 9.6,
+      "pvr_max_multiplier": 39.49,
+      "multiplier_used": 2.3,
+      "rule_impact": 29.89,
+      "category": "validated",
+      "era_pace": 99.5
+    },
+    {
+      "name": "Allen Iverson",
+      "season": "2005-06",
+      "year": 2006,
+      "context": "Volume scoring with solid assist numbers",
+      "ppg": 33.0,
+      "apg": 7.4,
+      "tov": 3.3,
+      "mpg": 43.1,
+      "ast_tov_ratio": 2.24,
+      "pvr_actual": 22.08,
+      "pvr_no_multiplier": -1.4,
+      "pvr_max_multiplier": 22.08,
+      "multiplier_used": 2.3,
+      "rule_impact": 23.48,
+      "category": "validated",
+      "era_pace": 95.0
+    },
+    {
+      "name": "Dwyane Wade",
+      "season": "2008-09",
+      "year": 2009,
+      "context": "Athletic peak with strong all-around game",
+      "ppg": 30.2,
+      "apg": 7.5,
+      "tov": 3.4,
+      "mpg": 38.6,
+      "ast_tov_ratio": 2.21,
+      "pvr_actual": 29.46,
+      "pvr_no_multiplier": 2.86,
+      "pvr_max_multiplier": 29.46,
+      "multiplier_used": 2.3,
+      "rule_impact": 26.6,
+      "category": "validated",
+      "era_pace": 95.0
+    },
+    {
+      "name": "Larry Bird",
+      "season": "1987-88",
+      "year": 1988,
+      "context": "Complete game with strong efficiency",
+      "ppg": 29.9,
+      "apg": 6.1,
+      "tov": 2.9,
+      "mpg": 37.9,
+      "ast_tov_ratio": 2.1,
+      "pvr_actual": 44.35,
+      "pvr_no_multiplier": 18.3,
+      "pvr_max_multiplier": 44.35,
+      "multiplier_used": 2.3,
+      "rule_impact": 26.05,
+      "category": "validated",
+      "era_pace": 107.0
+    },
+    {
+      "name": "Stephen Curry",
+      "season": "2015-16",
+      "year": 2016,
+      "context": "Revolutionary shooting with solid playmaking",
+      "ppg": 30.1,
+      "apg": 6.7,
+      "tov": 3.3,
+      "mpg": 34.2,
+      "ast_tov_ratio": 2.03,
+      "pvr_actual": 40.27,
+      "pvr_no_multiplier": 13.43,
+      "pvr_max_multiplier": 40.27,
+      "multiplier_used": 2.3,
+      "rule_impact": 26.84,
+      "category": "validated",
+      "era_pace": 98.0
+    },
+    {
+      "name": "Kawhi Leonard",
+      "season": "2016-17",
+      "year": 2017,
+      "context": "Efficient two-way star with elite ball security",
+      "ppg": 25.5,
+      "apg": 3.5,
+      "tov": 1.8,
+      "mpg": 33.4,
+      "ast_tov_ratio": 1.94,
+      "pvr_actual": 31.94,
+      "pvr_no_multiplier": 14.05,
+      "pvr_max_multiplier": 31.94,
+      "multiplier_used": 2.3,
+      "rule_impact": 17.89,
+      "category": "validated",
+      "era_pace": 98.0
+    },
+    {
+      "name": "Russell Westbrook",
+      "season": "2016-17",
+      "year": 2017,
+      "context": "Historic triple-double season with high volume",
+      "ppg": 31.6,
+      "apg": 10.4,
+      "tov": 5.4,
+      "mpg": 34.6,
+      "ast_tov_ratio": 1.93,
+      "pvr_actual": 25.11,
+      "pvr_no_multiplier": -5.35,
+      "pvr_max_multiplier": 25.11,
+      "multiplier_used": 2.3,
+      "rule_impact": 30.46,
+      "category": "validated",
+      "era_pace": 98.0
+    },
+    {
+      "name": "Michael Jordan",
+      "season": "1987-88",
+      "year": 1988,
+      "context": "Peak scoring dominance with moderate playmaking",
+      "ppg": 35.0,
+      "apg": 5.9,
+      "tov": 3.1,
+      "mpg": 40.4,
+      "ast_tov_ratio": 1.9,
+      "pvr_actual": 15.54,
+      "pvr_no_multiplier": -2.7,
+      "pvr_max_multiplier": 15.54,
+      "multiplier_used": 2.3,
+      "rule_impact": 18.24,
+      "category": "validated",
+      "era_pace": 107.0
+    },
+    {
+      "name": "Giannis Antetokounmpo",
+      "season": "2019-20",
+      "year": 2020,
+      "context": "Modern athletic dominance with developing playmaking",
+      "ppg": 29.5,
+      "apg": 5.6,
+      "tov": 3.1,
+      "mpg": 30.4,
+      "ast_tov_ratio": 1.81,
+      "pvr_actual": 28.35,
+      "pvr_no_multiplier": 6.3,
+      "pvr_max_multiplier": 28.35,
+      "multiplier_used": 2.3,
+      "rule_impact": 22.05,
+      "category": "validated",
+      "era_pace": 99.5
+    }
+  ],
+  "timeline": {
+    "1960s": {
+      "avg_ast_tov": 1.55,
+      "sample_size": 2,
+      "players": [
+        {
+          "name": "Oscar Robertson",
+          "ratio": 2.62,
+          "year": 1964
+        },
+        {
+          "name": "Wilt Chamberlain",
+          "ratio": 0.48,
+          "year": 1962
+        }
+      ]
+    },
+    "1980s": {
+      "avg_ast_tov": 2.4,
+      "sample_size": 3,
+      "players": [
+        {
+          "name": "Michael Jordan",
+          "ratio": 1.9,
+          "year": 1988
+        },
+        {
+          "name": "Magic Johnson",
+          "ratio": 3.21,
+          "year": 1987
+        },
+        {
+          "name": "Larry Bird",
+          "ratio": 2.1,
+          "year": 1988
+        }
+      ]
+    },
+    "1990s": {
+      "avg_ast_tov": 2.62,
+      "sample_size": 3,
+      "players": [
+        {
+          "name": "John Stockton",
+          "ratio": 5.18,
+          "year": 1990
+        },
+        {
+          "name": "Hakeem Olajuwon",
+          "ratio": 1.17,
+          "year": 1993
+        },
+        {
+          "name": "David Robinson",
+          "ratio": 1.5,
+          "year": 1994
+        }
+      ]
+    },
+    "2000s": {
+      "avg_ast_tov": 2.36,
+      "sample_size": 8,
+      "players": [
+        {
+          "name": "Kobe Bryant",
+          "ratio": 1.45,
+          "year": 2006
+        },
+        {
+          "name": "Steve Nash",
+          "ratio": 4.3,
+          "year": 2007
+        },
+        {
+          "name": "Chris Paul",
+          "ratio": 4.07,
+          "year": 2009
+        },
+        {
+          "name": "Allen Iverson",
+          "ratio": 2.24,
+          "year": 2006
+        },
+        {
+          "name": "Dwyane Wade",
+          "ratio": 2.21,
+          "year": 2009
+        },
+        {
+          "name": "Dirk Nowitzki",
+          "ratio": 1.79,
+          "year": 2007
+        },
+        {
+          "name": "Shaquille O'Neal",
+          "ratio": 1.36,
+          "year": 2000
+        },
+        {
+          "name": "Tim Duncan",
+          "ratio": 1.48,
+          "year": 2002
+        }
+      ]
+    },
+    "2010s": {
+      "avg_ast_tov": 1.9,
+      "sample_size": 6,
+      "players": [
+        {
+          "name": "LeBron James",
+          "ratio": 2.43,
+          "year": 2013
+        },
+        {
+          "name": "Stephen Curry",
+          "ratio": 2.03,
+          "year": 2016
+        },
+        {
+          "name": "Russell Westbrook",
+          "ratio": 1.93,
+          "year": 2017
+        },
+        {
+          "name": "James Harden",
+          "ratio": 1.5,
+          "year": 2019
+        },
+        {
+          "name": "Kevin Durant",
+          "ratio": 1.57,
+          "year": 2014
+        },
+        {
+          "name": "Kawhi Leonard",
+          "ratio": 1.94,
+          "year": 2017
+        }
+      ]
+    },
+    "2020s": {
+      "avg_ast_tov": 2.28,
+      "sample_size": 3,
+      "players": [
+        {
+          "name": "Nikola Joki\u0107",
+          "ratio": 2.63,
+          "year": 2022
+        },
+        {
+          "name": "Giannis Antetokounmpo",
+          "ratio": 1.81,
+          "year": 2020
+        },
+        {
+          "name": "Luka Don\u010di\u0107",
+          "ratio": 2.39,
+          "year": 2023
+        }
+      ]
+    }
+  },
+  "insights": {
+    "most_exposed": {
+      "name": "Wilt Chamberlain",
+      "season": "1961-62",
+      "year": 1962,
+      "context": "Legendary volume scoring with minimal playmaking",
+      "ppg": 50.4,
+      "apg": 2.4,
+      "tov": 5.0,
+      "mpg": 48.5,
+      "ast_tov_ratio": 0.48,
+      "pvr_actual": 0.63,
+      "pvr_no_multiplier": -2.91,
+      "pvr_max_multiplier": 2.83,
+      "multiplier_used": 1.8,
+      "rule_impact": 3.54,
+      "category": "exposed",
+      "era_pace": 115.0
+    },
+    "most_validated": {
+      "name": "John Stockton",
+      "season": "1989-90",
+      "year": 1990,
+      "context": "All-time assist leader with elite ball security",
+      "ppg": 17.2,
+      "apg": 14.5,
+      "tov": 2.8,
+      "mpg": 37.4,
+      "ast_tov_ratio": 5.18,
+      "pvr_actual": 65.89,
+      "pvr_no_multiplier": 4.03,
+      "pvr_max_multiplier": 65.89,
+      "multiplier_used": 2.3,
+      "rule_impact": 61.86,
+      "category": "validated",
+      "era_pace": 95.0
+    },
+    "biggest_impact": {
+      "name": "John Stockton",
+      "season": "1989-90",
+      "year": 1990,
+      "context": "All-time assist leader with elite ball security",
+      "ppg": 17.2,
+      "apg": 14.5,
+      "tov": 2.8,
+      "mpg": 37.4,
+      "ast_tov_ratio": 5.18,
+      "pvr_actual": 65.89,
+      "pvr_no_multiplier": 4.03,
+      "pvr_max_multiplier": 65.89,
+      "multiplier_used": 2.3,
+      "rule_impact": 61.86,
+      "category": "validated",
+      "era_pace": 95.0
+    },
+    "avg_exposed_impact": 10.17,
+    "avg_validated_impact": 32.5,
+    "rule_threshold": 1.8,
+    "low_multiplier": 1.8,
+    "high_multiplier": 2.3
+  }
+}

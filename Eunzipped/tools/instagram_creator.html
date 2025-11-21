@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Metrics Visualizer | TAYLOR VECTOR TERMINAL</title>
+    <link rel="stylesheet" href="/static/css/theme.css">
+</head>
+<body>
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+        <span class="theme-icon">◐</span>
+        <span id="theme-text">Dark</span>
+    </button>
+
+
+    <div class="container">
+        <a href="/" class="back-link">← Back to Dashboard</a>
+        
+        <header>
+            <h1> Instagram Metrics Visualizer</h1>
+            <p class="subtitle">Auto-generate Instagram-ready TUSG%/PVR charts and graphics</p>
+        </header>
+
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('stat-card')">Player Stat Card</button>
+            <button class="tab" onclick="switchTab('top-performer')">Top Performer</button>
+            <button class="tab" onclick="switchTab('comparison')">Player Comparison</button>
+            <button class="tab" onclick="switchTab('leaderboard')">Leaderboard</button>
+            <button class="tab" onclick="switchTab('gallery')">Gallery</button>
+        </div>
+
+        <div id="stat-card" class="tab-content active">
+            <div class="panel">
+                <h2 class="panel-title">Player Stat Card</h2>
+                
+                <div class="grid-2">
+                    <div>
+                        <div class="input-group">
+                            <label class="input-label">Select Player</label>
+                            <select id="stat-card-player">
+                                <option value="">Loading players...</option>
+                            </select>
+                        </div>
+
+                        <div class="input-group">
+                            <label class="input-label">Custom Text (Optional)</label>
+                            <input type="text" id="stat-card-text" placeholder="e.g., 'Historic Performance'">
+                        </div>
+
+                        <div class="input-group">
+                            <label class="input-label">Background Color</label>
+                            <input type="color" id="stat-card-color" value="#0a0a0a">
+                        </div>
+
+                        <button class="btn btn-primary" onclick="generateStatCard()">
+                             Generate Stat Card
+                        </button>
+                    </div>
+
+                    <div class="preview-container" id="stat-card-preview">
+                        <p>Preview will appear here</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="top-performer" class="tab-content">
+            <div class="panel">
+                <h2 class="panel-title">Daily Top Performer</h2>
+                
+                <div class="grid-2">
+                    <div>
+                        <div class="input-group">
+                            <label class="input-label">Select Player</label>
+                            <select id="top-performer-player">
+                                <option value="">Loading players...</option>
+                            </select>
+                        </div>
+
+                        <div class="input-group">
+                            <label class="input-label">Game Info (Optional)</label>
+                            <input type="text" id="top-performer-game" placeholder="e.g., 'Lakers 125 - Warriors 118'">
+                        </div>
+
+                        <button class="btn btn-primary" onclick="generateTopPerformer()">
+                             Generate Top Performer
+                        </button>
+                    </div>
+
+                    <div class="preview-container" id="top-performer-preview">
+                        <p>Preview will appear here</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="comparison" class="tab-content">
+            <div class="panel">
+                <h2 class="panel-title">Player Comparison</h2>
+                
+                <div class="grid-2">
+                    <div>
+                        <div class="input-group">
+                            <label class="input-label">Player 1</label>
+                            <select id="comparison-player1">
+                                <option value="">Loading players...</option>
+                            </select>
+                        </div>
+
+                        <div class="input-group">
+                            <label class="input-label">Player 2</label>
+                            <select id="comparison-player2">
+                                <option value="">Loading players...</option>
+                            </select>
+                        </div>
+
+                        <div class="input-group">
+                            <label class="input-label">Title (Optional)</label>
+                            <input type="text" id="comparison-title" value="HEAD TO HEAD">
+                        </div>
+
+                        <button class="btn btn-primary" onclick="generateComparison()">
+                             Generate Comparison
+                        </button>
+                    </div>
+
+                    <div class="preview-container" id="comparison-preview">
+                        <p>Preview will appear here</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="leaderboard" class="tab-content">
+            <div class="panel">
+                <h2 class="panel-title">All-Time Leaderboard</h2>
+                
+                <div class="grid-2">
+                    <div>
+                        <div class="input-group">
+                            <label class="input-label">Number of Players</label>
+                            <select id="leaderboard-count">
+                                <option value="5">Top 5</option>
+                                <option value="10" selected>Top 10</option>
+                                <option value="15">Top 15</option>
+                            </select>
+                        </div>
+
+                        <button class="btn btn-primary" onclick="generateLeaderboard()">
+                             Generate Leaderboard
+                        </button>
+                    </div>
+
+                    <div class="preview-container" id="leaderboard-preview">
+                        <p>Preview will appear here</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="gallery" class="tab-content">
+            <div class="panel">
+                <h2 class="panel-title">Recent Posts Gallery</h2>
+                
+                <div class="stats">
+                    <div class="stat-box">
+                        <div class="stat-label">Total Generated</div>
+                        <div class="stat-value" id="total-count">0</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Last Updated</div>
+                        <div class="stat-value" id="last-updated">Never</div>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary" onclick="loadGallery()">
+                     Refresh Gallery
+                </button>
+
+                <div class="gallery" id="gallery-grid">
+                    <div class="loading">Loading gallery...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let playersData = [];
+
+        async function loadPlayers() {
+            try {
+                const response = await fetch('/api/cross-era/players');
+                const data = await response.json();
+                playersData = data.players;
+
+                const selects = [
+                    'stat-card-player',
+                    'top-performer-player',
+                    'comparison-player1',
+                    'comparison-player2'
+                ];
+
+                selects.forEach(selectId => {
+                    const select = document.getElementById(selectId);
+                    select.innerHTML = '<option value="">Select a player...</option>';
+                    
+                    playersData.forEach((player, index) => {
+                        const option = document.createElement('option');
+                        option.value = index;
+                        option.textContent = `${player.player} (${player.season})`;
+                        select.appendChild(option);
+                    });
+                });
+            } catch (error) {
+                console.error('Error loading players:', error);
+            }
+        }
+
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            event.target.classList.add('active');
+            document.getElementById(tabName).classList.add('active');
+
+            if (tabName === 'gallery') {
+                loadGallery();
+            }
+        }
+
+        async function generateStatCard() {
+            const playerIndex = document.getElementById('stat-card-player').value;
+            const customText = document.getElementById('stat-card-text').value;
+            const customColor = document.getElementById('stat-card-color').value;
+
+            if (!playerIndex && playerIndex !== 0) {
+                alert('Please select a player');
+                return;
+            }
+
+            const player = playersData[playerIndex];
+            const preview = document.getElementById('stat-card-preview');
+            preview.innerHTML = '<div class="loading">Generating...</div>';
+
+            try {
+                const response = await fetch('/api/instagram/generate-stat-card', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        player: player,
+                        custom_text: customText,
+                        custom_color: customColor
+                    })
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    preview.innerHTML = `
+                        <div>
+                            <img src="/${data.filepath}?t=${Date.now()}" class="preview-image" alt="Generated stat card">
+                            <div>
+                                <a href="/${data.filepath}" download class="btn btn-primary"> Download PNG</a>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    preview.innerHTML = `<div class="error">Error: ${data.error}</div>`;
+                }
+            } catch (error) {
+                preview.innerHTML = `<div class="error">Error generating image: ${error.message}</div>`;
+            }
+        }
+
+        async function generateTopPerformer() {
+            const playerIndex = document.getElementById('top-performer-player').value;
+            const gameInfo = document.getElementById('top-performer-game').value;
+
+            if (!playerIndex && playerIndex !== 0) {
+                alert('Please select a player');
+                return;
+            }
+
+            const player = playersData[playerIndex];
+            const preview = document.getElementById('top-performer-preview');
+            preview.innerHTML = '<div class="loading">Generating...</div>';
+
+            try {
+                const response = await fetch('/api/instagram/generate-top-performer', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        player: player,
+                        game_info: gameInfo
+                    })
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    preview.innerHTML = `
+                        <div>
+                            <img src="/${data.filepath}?t=${Date.now()}" class="preview-image" alt="Generated top performer">
+                            <div>
+                                <a href="/${data.filepath}" download class="btn btn-primary"> Download PNG</a>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    preview.innerHTML = `<div class="error">Error: ${data.error}</div>`;
+                }
+            } catch (error) {
+                preview.innerHTML = `<div class="error">Error generating image: ${error.message}</div>`;
+            }
+        }
+
+        async function generateComparison() {
+            const player1Index = document.getElementById('comparison-player1').value;
+            const player2Index = document.getElementById('comparison-player2').value;
+            const title = document.getElementById('comparison-title').value;
+
+            if ((!player1Index && player1Index !== 0) || (!player2Index && player2Index !== 0)) {
+                alert('Please select both players');
+                return;
+            }
+
+            const player1 = playersData[player1Index];
+            const player2 = playersData[player2Index];
+            const preview = document.getElementById('comparison-preview');
+            preview.innerHTML = '<div class="loading">Generating...</div>';
+
+            try {
+                const response = await fetch('/api/instagram/generate-comparison', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        player1: player1,
+                        player2: player2,
+                        title: title
+                    })
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    preview.innerHTML = `
+                        <div>
+                            <img src="/${data.filepath}?t=${Date.now()}" class="preview-image" alt="Generated comparison">
+                            <div>
+                                <a href="/${data.filepath}" download class="btn btn-primary"> Download PNG</a>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    preview.innerHTML = `<div class="error">Error: ${data.error}</div>`;
+                }
+            } catch (error) {
+                preview.innerHTML = `<div class="error">Error generating image: ${error.message}</div>`;
+            }
+        }
+
+        async function generateLeaderboard() {
+            const count = document.getElementById('leaderboard-count').value;
+            const preview = document.getElementById('leaderboard-preview');
+            preview.innerHTML = '<div class="loading">Generating...</div>';
+
+            try {
+                const response = await fetch('/api/instagram/generate-leaderboard', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        top_n: parseInt(count)
+                    })
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    preview.innerHTML = `
+                        <div>
+                            <img src="/${data.filepath}?t=${Date.now()}" class="preview-image" alt="Generated leaderboard">
+                            <div>
+                                <a href="/${data.filepath}" download class="btn btn-primary"> Download PNG</a>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    preview.innerHTML = `<div class="error">Error: ${data.error}</div>`;
+                }
+            } catch (error) {
+                preview.innerHTML = `<div class="error">Error generating image: ${error.message}</div>`;
+            }
+        }
+
+        async function loadGallery() {
+            const gallery = document.getElementById('gallery-grid');
+            gallery.innerHTML = '<div class="loading">Loading gallery...</div>';
+
+            try {
+                const response = await fetch('/api/instagram/gallery');
+                const data = await response.json();
+
+                if (data.images && data.images.length > 0) {
+                    document.getElementById('total-count').textContent = data.total_count;
+                    document.getElementById('last-updated').textContent = new Date(data.last_updated * 1000).toLocaleString();
+
+                    gallery.innerHTML = '';
+                    data.images.forEach(image => {
+                        const item = document.createElement('div');
+                        item.className = 'gallery-item';
+                        item.innerHTML = `
+                            <img src="/${image.filepath}?t=${Date.now()}" alt="${image.filename}">
+                            <div class="gallery-item-info">
+                                ${image.filename}<br>
+                                ${new Date(image.timestamp * 1000).toLocaleString()}
+                            </div>
+                        `;
+                        item.onclick = () => window.open(`/${image.filepath}`, '_blank');
+                        gallery.appendChild(item);
+                    });
+                } else {
+                    gallery.innerHTML = '<div class="loading">No images generated yet. Create your first one!</div>';
+                    document.getElementById('total-count').textContent = '0';
+                    document.getElementById('last-updated').textContent = 'Never';
+                }
+            } catch (error) {
+                gallery.innerHTML = `<div class="error">Error loading gallery: ${error.message}</div>`;
+            }
+        }
+
+        loadPlayers();
+        loadGallery();
+    </script>
+    <script src="/static/js/theme.js"></script>
+</body>
+</html>

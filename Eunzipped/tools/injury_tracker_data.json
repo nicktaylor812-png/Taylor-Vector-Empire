@@ -1,0 +1,1497 @@
+{
+  "generated_at": "2025-11-19T00:59:11.660171",
+  "total_injuries_tracked": 22,
+  "current_injuries": 3,
+  "injuries": [
+    {
+      "player": "Kevin Durant",
+      "injury_type": "Achilles Tear",
+      "injury_date": "2019-06-10",
+      "injury_season": "2018-19",
+      "pre_injury": {
+        "season": "2018-19",
+        "tusg": 34.2,
+        "pvr": 26.8,
+        "ppg": 26.0,
+        "apg": 5.9,
+        "mpg": 34.6
+      },
+      "post_injury_1yr": {
+        "season": "2020-21",
+        "tusg": 31.5,
+        "pvr": 24.1,
+        "ppg": 26.9,
+        "apg": 5.6,
+        "mpg": 33.1,
+        "games": 35
+      },
+      "post_injury_2yr": {
+        "season": "2021-22",
+        "tusg": 32.8,
+        "pvr": 25.9,
+        "ppg": 29.9,
+        "apg": 6.4,
+        "mpg": 37.2,
+        "games": 55
+      },
+      "recovery_notes": "Elite comeback, maintained 85%+ of pre-injury PVR by year 2",
+      "projection": {
+        "recovery_time_months": 12,
+        "projected_1yr_tusg": 26.68,
+        "projected_1yr_pvr": 17.42,
+        "projected_2yr_tusg": 29.07,
+        "projected_2yr_pvr": 20.1,
+        "severity": "Very High"
+      },
+      "recovery_1yr": {
+        "tusg_retention": 92.1,
+        "pvr_retention": 89.9,
+        "tusg_delta": -2.7,
+        "pvr_delta": -2.7
+      },
+      "recovery_2yr": {
+        "tusg_retention": 95.9,
+        "pvr_retention": 96.6,
+        "tusg_delta": -1.4,
+        "pvr_delta": -0.9
+      }
+    },
+    {
+      "player": "Klay Thompson",
+      "injury_type": "ACL Tear",
+      "injury_date": "2019-06-13",
+      "injury_season": "2018-19",
+      "pre_injury": {
+        "season": "2018-19",
+        "tusg": 33.1,
+        "pvr": 18.4,
+        "ppg": 21.5,
+        "apg": 2.4,
+        "mpg": 34.0
+      },
+      "post_injury_1yr": null,
+      "post_injury_2yr": {
+        "season": "2021-22",
+        "tusg": 29.8,
+        "pvr": 14.2,
+        "ppg": 20.4,
+        "apg": 2.8,
+        "mpg": 29.4,
+        "games": 32
+      },
+      "recovery_notes": "Struggled initially (77% of pre-injury PVR), improving gradually",
+      "projection": {
+        "recovery_time_months": 12,
+        "projected_1yr_tusg": 27.14,
+        "projected_1yr_pvr": 13.8,
+        "projected_2yr_tusg": 30.12,
+        "projected_2yr_pvr": 16.19,
+        "severity": "High"
+      },
+      "recovery_1yr": null,
+      "recovery_2yr": {
+        "tusg_retention": 90.0,
+        "pvr_retention": 77.2,
+        "tusg_delta": -3.3,
+        "pvr_delta": -4.2
+      }
+    },
+    {
+      "player": "Derrick Rose",
+      "injury_type": "ACL Tear",
+      "injury_date": "2012-04-28",
+      "injury_season": "2011-12",
+      "pre_injury": {
+        "season": "2011-12",
+        "tusg": 38.5,
+        "pvr": 21.7,
+        "ppg": 21.8,
+        "apg": 7.9,
+        "mpg": 35.3
+      },
+      "post_injury_1yr": {
+        "season": "2013-14",
+        "tusg": 32.1,
+        "pvr": 14.8,
+        "ppg": 15.9,
+        "apg": 4.3,
+        "mpg": 31.8,
+        "games": 10
+      },
+      "post_injury_2yr": {
+        "season": "2014-15",
+        "tusg": 30.4,
+        "pvr": 13.2,
+        "ppg": 17.7,
+        "apg": 4.9,
+        "mpg": 31.2,
+        "games": 51
+      },
+      "recovery_notes": "Significant decline, never regained MVP form (60% of pre-injury PVR)",
+      "projection": {
+        "recovery_time_months": 12,
+        "projected_1yr_tusg": 31.57,
+        "projected_1yr_pvr": 16.27,
+        "projected_2yr_tusg": 35.04,
+        "projected_2yr_pvr": 19.1,
+        "severity": "High"
+      },
+      "recovery_1yr": {
+        "tusg_retention": 83.4,
+        "pvr_retention": 68.2,
+        "tusg_delta": -6.4,
+        "pvr_delta": -6.9
+      },
+      "recovery_2yr": {
+        "tusg_retention": 79.0,
+        "pvr_retention": 60.8,
+        "tusg_delta": -8.1,
+        "pvr_delta": -8.5
+      }
+    },
+    {
+      "player": "Paul George",
+      "injury_type": "Leg Fracture",
+      "injury_date": "2014-08-01",
+      "injury_season": "2013-14",
+      "pre_injury": {
+        "season": "2013-14",
+        "tusg": 35.8,
+        "pvr": 20.1,
+        "ppg": 21.7,
+        "apg": 3.5,
+        "mpg": 36.2
+      },
+      "post_injury_1yr": {
+        "season": "2015-16",
+        "tusg": 33.9,
+        "pvr": 19.4,
+        "ppg": 23.1,
+        "apg": 4.1,
+        "mpg": 34.3,
+        "games": 81
+      },
+      "post_injury_2yr": {
+        "season": "2016-17",
+        "tusg": 34.7,
+        "pvr": 20.8,
+        "ppg": 23.7,
+        "apg": 3.3,
+        "mpg": 33.9,
+        "games": 75
+      },
+      "recovery_notes": "Excellent recovery, returned to All-Star form (96%+ of pre-injury)",
+      "projection": {
+        "recovery_time_months": 10,
+        "projected_1yr_tusg": 32.22,
+        "projected_1yr_pvr": 17.69,
+        "projected_2yr_tusg": 34.73,
+        "projected_2yr_pvr": 19.3,
+        "severity": "High"
+      },
+      "recovery_1yr": {
+        "tusg_retention": 94.7,
+        "pvr_retention": 96.5,
+        "tusg_delta": -1.9,
+        "pvr_delta": -0.7
+      },
+      "recovery_2yr": {
+        "tusg_retention": 96.9,
+        "pvr_retention": 103.5,
+        "tusg_delta": -1.1,
+        "pvr_delta": 0.7
+      }
+    },
+    {
+      "player": "Kobe Bryant",
+      "injury_type": "Achilles Tear",
+      "injury_date": "2013-04-12",
+      "injury_season": "2012-13",
+      "pre_injury": {
+        "season": "2012-13",
+        "tusg": 41.2,
+        "pvr": 15.3,
+        "ppg": 27.3,
+        "apg": 6.0,
+        "mpg": 38.6
+      },
+      "post_injury_1yr": {
+        "season": "2013-14",
+        "tusg": 36.8,
+        "pvr": 8.4,
+        "ppg": 13.8,
+        "apg": 6.3,
+        "mpg": 29.5,
+        "games": 6
+      },
+      "post_injury_2yr": {
+        "season": "2014-15",
+        "tusg": 34.1,
+        "pvr": 9.8,
+        "ppg": 22.3,
+        "apg": 5.7,
+        "mpg": 34.5,
+        "games": 35
+      },
+      "recovery_notes": "Never fully recovered at age 35+, PVR dropped to 64% of pre-injury",
+      "projection": {
+        "recovery_time_months": 12,
+        "projected_1yr_tusg": 32.14,
+        "projected_1yr_pvr": 9.95,
+        "projected_2yr_tusg": 35.02,
+        "projected_2yr_pvr": 11.48,
+        "severity": "Very High"
+      },
+      "recovery_1yr": {
+        "tusg_retention": 89.3,
+        "pvr_retention": 54.9,
+        "tusg_delta": -4.4,
+        "pvr_delta": -6.9
+      },
+      "recovery_2yr": {
+        "tusg_retention": 82.8,
+        "pvr_retention": 64.1,
+        "tusg_delta": -7.1,
+        "pvr_delta": -5.5
+      }
+    },
+    {
+      "player": "John Wall",
+      "injury_type": "Achilles Tear",
+      "injury_date": "2019-01-29",
+      "injury_season": "2018-19",
+      "pre_injury": {
+        "season": "2016-17",
+        "tusg": 37.4,
+        "pvr": 22.8,
+        "ppg": 23.1,
+        "apg": 10.7,
+        "mpg": 36.4
+      },
+      "post_injury_1yr": null,
+      "post_injury_2yr": {
+        "season": "2020-21",
+        "tusg": 33.2,
+        "pvr": 16.1,
+        "ppg": 20.6,
+        "apg": 6.9,
+        "mpg": 32.2,
+        "games": 40
+      },
+      "recovery_notes": "Declined significantly, lost explosiveness (71% of pre-injury PVR)",
+      "projection": {
+        "recovery_time_months": 12,
+        "projected_1yr_tusg": 29.17,
+        "projected_1yr_pvr": 14.82,
+        "projected_2yr_tusg": 31.79,
+        "projected_2yr_pvr": 17.1,
+        "severity": "Very High"
+      },
+      "recovery_1yr": null,
+      "recovery_2yr": {
+        "tusg_retention": 88.8,
+        "pvr_retention": 70.6,
+        "tusg_delta": -4.2,
+        "pvr_delta": -6.7
+      }
+    },
+    {
+      "player": "DeMarcus Cousins",
+      "injury_type": "Achilles Tear",
+      "injury_date": "2018-01-26",
+      "injury_season": "2017-18",
+      "pre_injury": {
+        "season": "2017-18",
+        "tusg": 36.9,
+        "pvr": 18.5,
+        "ppg": 25.2,
+        "apg": 5.4,
+        "mpg": 36.2
+      },
+      "post_injury_1yr": {
+        "season": "2018-19",
+        "tusg": 30.4,
+        "pvr": 11.2,
+        "ppg": 16.3,
+        "apg": 3.6,
+        "mpg": 25.7,
+        "games": 30
+      },
+      "post_injury_2yr": {
+        "season": "2019-20",
+        "tusg": 27.8,
+        "pvr": 8.9,
+        "ppg": 8.9,
+        "apg": 1.4,
+        "mpg": 16.3,
+        "games": 25
+      },
+      "recovery_notes": "Career effectively ended, only 48% of pre-injury PVR by year 2",
+      "projection": {
+        "recovery_time_months": 12,
+        "projected_1yr_tusg": 28.78,
+        "projected_1yr_pvr": 12.03,
+        "projected_2yr_tusg": 31.36,
+        "projected_2yr_pvr": 13.88,
+        "severity": "Very High"
+      },
+      "recovery_1yr": {
+        "tusg_retention": 82.4,
+        "pvr_retention": 60.5,
+        "tusg_delta": -6.5,
+        "pvr_delta": -7.3
+      },
+      "recovery_2yr": {
+        "tusg_retention": 75.3,
+        "pvr_retention": 48.1,
+        "tusg_delta": -9.1,
+        "pvr_delta": -9.6
+      }
+    },
+    {
+      "player": "Gordon Hayward",
+      "injury_type": "Ankle Fracture",
+      "injury_date": "2017-10-17",
+      "injury_season": "2017-18",
+      "pre_injury": {
+        "season": "2016-17",
+        "tusg": 34.3,
+        "pvr": 22.4,
+        "ppg": 21.9,
+        "apg": 3.5,
+        "mpg": 34.5
+      },
+      "post_injury_1yr": {
+        "season": "2018-19",
+        "tusg": 29.1,
+        "pvr": 15.8,
+        "ppg": 11.5,
+        "apg": 3.4,
+        "mpg": 25.9,
+        "games": 72
+      },
+      "post_injury_2yr": {
+        "season": "2019-20",
+        "tusg": 31.4,
+        "pvr": 19.2,
+        "ppg": 17.5,
+        "apg": 4.1,
+        "mpg": 33.5,
+        "games": 52
+      },
+      "recovery_notes": "Good recovery trajectory, reached 86% of pre-injury PVR by year 2",
+      "projection": {
+        "recovery_time_months": 8,
+        "projected_1yr_tusg": 29.15,
+        "projected_1yr_pvr": 17.92,
+        "projected_2yr_tusg": 31.56,
+        "projected_2yr_pvr": 20.16,
+        "severity": "Moderate"
+      },
+      "recovery_1yr": {
+        "tusg_retention": 84.8,
+        "pvr_retention": 70.5,
+        "tusg_delta": -5.2,
+        "pvr_delta": -6.6
+      },
+      "recovery_2yr": {
+        "tusg_retention": 91.5,
+        "pvr_retention": 85.7,
+        "tusg_delta": -2.9,
+        "pvr_delta": -3.2
+      }
+    },
+    {
+      "player": "Zach LaVine",
+      "injury_type": "ACL Tear",
+      "injury_date": "2017-02-03",
+      "injury_season": "2016-17",
+      "pre_injury": {
+        "season": "2016-17",
+        "tusg": 35.2,
+        "pvr": 16.8,
+        "ppg": 18.9,
+        "apg": 3.4,
+        "mpg": 37.2
+      },
+      "post_injury_1yr": {
+        "season": "2017-18",
+        "tusg": 36.8,
+        "pvr": 18.2,
+        "ppg": 16.7,
+        "apg": 3.9,
+        "mpg": 31.8,
+        "games": 24
+      },
+      "post_injury_2yr": {
+        "season": "2018-19",
+        "tusg": 38.4,
+        "pvr": 19.6,
+        "ppg": 23.7,
+        "apg": 4.7,
+        "mpg": 34.5,
+        "games": 63
+      },
+      "recovery_notes": "Excellent recovery, exceeded pre-injury levels (117% of pre-injury PVR)",
+      "projection": {
+        "recovery_time_months": 12,
+        "projected_1yr_tusg": 28.86,
+        "projected_1yr_pvr": 12.6,
+        "projected_2yr_tusg": 32.03,
+        "projected_2yr_pvr": 14.78,
+        "severity": "High"
+      },
+      "recovery_1yr": {
+        "tusg_retention": 104.5,
+        "pvr_retention": 108.3,
+        "tusg_delta": 1.6,
+        "pvr_delta": 1.4
+      },
+      "recovery_2yr": {
+        "tusg_retention": 109.1,
+        "pvr_retention": 116.7,
+        "tusg_delta": 3.2,
+        "pvr_delta": 2.8
+      }
+    },
+    {
+      "player": "Kristaps Porzingis",
+      "injury_type": "ACL Tear",
+      "injury_date": "2018-02-06",
+      "injury_season": "2017-18",
+      "pre_injury": {
+        "season": "2017-18",
+        "tusg": 35.6,
+        "pvr": 17.9,
+        "ppg": 22.7,
+        "apg": 1.2,
+        "mpg": 32.2
+      },
+      "post_injury_1yr": null,
+      "post_injury_2yr": {
+        "season": "2019-20",
+        "tusg": 31.2,
+        "pvr": 14.8,
+        "ppg": 20.4,
+        "apg": 1.5,
+        "mpg": 31.8,
+        "games": 57
+      },
+      "recovery_notes": "Moderate recovery, mobility affected (83% of pre-injury PVR)",
+      "projection": {
+        "recovery_time_months": 12,
+        "projected_1yr_tusg": 29.19,
+        "projected_1yr_pvr": 13.42,
+        "projected_2yr_tusg": 32.4,
+        "projected_2yr_pvr": 15.75,
+        "severity": "High"
+      },
+      "recovery_1yr": null,
+      "recovery_2yr": {
+        "tusg_retention": 87.6,
+        "pvr_retention": 82.7,
+        "tusg_delta": -4.4,
+        "pvr_delta": -3.1
+      }
+    },
+    {
+      "player": "Jamal Murray",
+      "injury_type": "ACL Tear",
+      "injury_date": "2021-04-12",
+      "injury_season": "2020-21",
+      "pre_injury": {
+        "season": "2020-21",
+        "tusg": 37.8,
+        "pvr": 21.4,
+        "ppg": 21.2,
+        "apg": 4.8,
+        "mpg": 36.2
+      },
+      "post_injury_1yr": null,
+      "post_injury_2yr": {
+        "season": "2022-23",
+        "tusg": 35.6,
+        "pvr": 20.8,
+        "ppg": 20.0,
+        "apg": 4.0,
+        "mpg": 32.7,
+        "games": 65
+      },
+      "recovery_notes": "Strong recovery, near pre-injury form (97% of pre-injury PVR)",
+      "projection": {
+        "recovery_time_months": 12,
+        "projected_1yr_tusg": 31.0,
+        "projected_1yr_pvr": 16.05,
+        "projected_2yr_tusg": 34.4,
+        "projected_2yr_pvr": 18.83,
+        "severity": "High"
+      },
+      "recovery_1yr": null,
+      "recovery_2yr": {
+        "tusg_retention": 94.2,
+        "pvr_retention": 97.2,
+        "tusg_delta": -2.2,
+        "pvr_delta": -0.6
+      }
+    },
+    {
+      "player": "Victor Oladipo",
+      "injury_type": "Quad Rupture",
+      "injury_date": "2019-01-23",
+      "injury_season": "2018-19",
+      "pre_injury": {
+        "season": "2017-18",
+        "tusg": 37.2,
+        "pvr": 23.1,
+        "ppg": 23.1,
+        "apg": 4.3,
+        "mpg": 34.0
+      },
+      "post_injury_1yr": {
+        "season": "2019-20",
+        "tusg": 31.8,
+        "pvr": 14.7,
+        "ppg": 14.5,
+        "apg": 2.9,
+        "mpg": 28.8,
+        "games": 19
+      },
+      "post_injury_2yr": {
+        "season": "2020-21",
+        "tusg": 29.4,
+        "pvr": 12.8,
+        "ppg": 19.8,
+        "apg": 4.8,
+        "mpg": 31.4,
+        "games": 33
+      },
+      "recovery_notes": "Struggled to return to All-Star form (55% of pre-injury PVR)",
+      "projection": {
+        "recovery_time_months": 9,
+        "projected_1yr_tusg": 29.76,
+        "projected_1yr_pvr": 15.71,
+        "projected_2yr_tusg": 32.36,
+        "projected_2yr_pvr": 18.02,
+        "severity": "High"
+      },
+      "recovery_1yr": {
+        "tusg_retention": 85.5,
+        "pvr_retention": 63.6,
+        "tusg_delta": -5.4,
+        "pvr_delta": -8.4
+      },
+      "recovery_2yr": {
+        "tusg_retention": 79.0,
+        "pvr_retention": 55.4,
+        "tusg_delta": -7.8,
+        "pvr_delta": -10.3
+      }
+    },
+    {
+      "player": "Kawhi Leonard",
+      "injury_type": "Quad Tendinopathy",
+      "injury_date": "2017-12-18",
+      "injury_season": "2017-18",
+      "pre_injury": {
+        "season": "2016-17",
+        "tusg": 34.8,
+        "pvr": 24.6,
+        "ppg": 25.5,
+        "apg": 3.5,
+        "mpg": 33.4
+      },
+      "post_injury_1yr": {
+        "season": "2018-19",
+        "tusg": 33.9,
+        "pvr": 23.8,
+        "ppg": 26.6,
+        "apg": 3.3,
+        "mpg": 34.0,
+        "games": 60
+      },
+      "post_injury_2yr": {
+        "season": "2019-20",
+        "tusg": 34.5,
+        "pvr": 24.2,
+        "ppg": 27.1,
+        "apg": 4.9,
+        "mpg": 32.1,
+        "games": 57
+      },
+      "recovery_notes": "Elite recovery with load management, 98% of pre-injury PVR",
+      "projection": {
+        "recovery_time_months": 6,
+        "projected_1yr_tusg": 33.06,
+        "projected_1yr_pvr": 22.63,
+        "projected_2yr_tusg": 34.45,
+        "projected_2yr_pvr": 24.11,
+        "severity": "Moderate"
+      },
+      "recovery_1yr": {
+        "tusg_retention": 97.4,
+        "pvr_retention": 96.7,
+        "tusg_delta": -0.9,
+        "pvr_delta": -0.8
+      },
+      "recovery_2yr": {
+        "tusg_retention": 99.1,
+        "pvr_retention": 98.4,
+        "tusg_delta": -0.3,
+        "pvr_delta": -0.4
+      }
+    },
+    {
+      "player": "Blake Griffin",
+      "injury_type": "Multiple Knee Surgeries",
+      "injury_date": "2015-12-26",
+      "injury_season": "2015-16",
+      "pre_injury": {
+        "season": "2013-14",
+        "tusg": 36.4,
+        "pvr": 20.8,
+        "ppg": 24.1,
+        "apg": 3.9,
+        "mpg": 35.8
+      },
+      "post_injury_1yr": {
+        "season": "2016-17",
+        "tusg": 34.2,
+        "pvr": 18.9,
+        "ppg": 21.6,
+        "apg": 4.9,
+        "mpg": 33.5,
+        "games": 61
+      },
+      "post_injury_2yr": {
+        "season": "2017-18",
+        "tusg": 33.8,
+        "pvr": 19.4,
+        "ppg": 22.3,
+        "apg": 5.4,
+        "mpg": 34.0,
+        "games": 58
+      },
+      "recovery_notes": "Adapted game style, maintained 91-93% of pre-injury PVR",
+      "projection": {
+        "recovery_time_months": 10,
+        "projected_1yr_tusg": 32.03,
+        "projected_1yr_pvr": 17.68,
+        "projected_2yr_tusg": 33.85,
+        "projected_2yr_pvr": 18.93,
+        "severity": "High"
+      },
+      "recovery_1yr": {
+        "tusg_retention": 94.0,
+        "pvr_retention": 90.9,
+        "tusg_delta": -2.2,
+        "pvr_delta": -1.9
+      },
+      "recovery_2yr": {
+        "tusg_retention": 92.9,
+        "pvr_retention": 93.3,
+        "tusg_delta": -2.6,
+        "pvr_delta": -1.4
+      }
+    },
+    {
+      "player": "Isaiah Thomas",
+      "injury_type": "Hip Injury",
+      "injury_date": "2017-05-02",
+      "injury_season": "2016-17",
+      "pre_injury": {
+        "season": "2016-17",
+        "tusg": 42.1,
+        "pvr": 24.3,
+        "ppg": 28.9,
+        "apg": 5.9,
+        "mpg": 33.8
+      },
+      "post_injury_1yr": {
+        "season": "2017-18",
+        "tusg": 35.2,
+        "pvr": 12.6,
+        "ppg": 15.2,
+        "apg": 5.0,
+        "mpg": 27.9,
+        "games": 32
+      },
+      "post_injury_2yr": {
+        "season": "2018-19",
+        "tusg": 32.4,
+        "pvr": 10.8,
+        "ppg": 8.1,
+        "apg": 1.9,
+        "mpg": 15.2,
+        "games": 12
+      },
+      "recovery_notes": "Career derailed, never regained All-Star form (44% of pre-injury PVR)",
+      "projection": {
+        "recovery_time_months": 8,
+        "projected_1yr_tusg": 31.58,
+        "projected_1yr_pvr": 14.58,
+        "projected_2yr_tusg": 34.52,
+        "projected_2yr_pvr": 16.52,
+        "severity": "Very High"
+      },
+      "recovery_1yr": {
+        "tusg_retention": 83.6,
+        "pvr_retention": 51.9,
+        "tusg_delta": -6.9,
+        "pvr_delta": -11.7
+      },
+      "recovery_2yr": {
+        "tusg_retention": 77.0,
+        "pvr_retention": 44.4,
+        "tusg_delta": -9.7,
+        "pvr_delta": -13.5
+      }
+    },
+    {
+      "player": "Brandon Roy",
+      "injury_type": "Multiple Knee Surgeries",
+      "injury_date": "2010-05-08",
+      "injury_season": "2009-10",
+      "pre_injury": {
+        "season": "2008-09",
+        "tusg": 37.8,
+        "pvr": 22.6,
+        "ppg": 22.6,
+        "apg": 5.1,
+        "mpg": 37.2
+      },
+      "post_injury_1yr": {
+        "season": "2010-11",
+        "tusg": 33.5,
+        "pvr": 17.2,
+        "ppg": 12.2,
+        "apg": 2.6,
+        "mpg": 23.4,
+        "games": 47
+      },
+      "post_injury_2yr": null,
+      "recovery_notes": "Career ended prematurely, retired at 27 (76% of pre-injury PVR before retirement)",
+      "projection": {
+        "recovery_time_months": 10,
+        "projected_1yr_tusg": 33.26,
+        "projected_1yr_pvr": 19.21,
+        "projected_2yr_tusg": 35.15,
+        "projected_2yr_pvr": 20.57,
+        "severity": "High"
+      },
+      "recovery_1yr": {
+        "tusg_retention": 88.6,
+        "pvr_retention": 76.1,
+        "tusg_delta": -4.3,
+        "pvr_delta": -5.4
+      },
+      "recovery_2yr": null
+    },
+    {
+      "player": "Shaun Livingston",
+      "injury_type": "Knee Dislocation",
+      "injury_date": "2007-02-26",
+      "injury_season": "2006-07",
+      "pre_injury": {
+        "season": "2006-07",
+        "tusg": 34.6,
+        "pvr": 16.4,
+        "ppg": 9.3,
+        "apg": 5.3,
+        "mpg": 30.2
+      },
+      "post_injury_1yr": null,
+      "post_injury_2yr": {
+        "season": "2008-09",
+        "tusg": 28.9,
+        "pvr": 11.2,
+        "ppg": 4.4,
+        "apg": 3.1,
+        "mpg": 18.8,
+        "games": 4
+      },
+      "recovery_notes": "Miraculous comeback after career-threatening injury, became valuable role player (68% of pre-injury PVR)",
+      "projection": {
+        "recovery_time_months": 15,
+        "projected_1yr_tusg": 24.91,
+        "projected_1yr_pvr": 9.02,
+        "projected_2yr_tusg": 28.72,
+        "projected_2yr_pvr": 11.48,
+        "severity": "Very High"
+      },
+      "recovery_1yr": null,
+      "recovery_2yr": {
+        "tusg_retention": 83.5,
+        "pvr_retention": 68.3,
+        "tusg_delta": -5.7,
+        "pvr_delta": -5.2
+      }
+    },
+    {
+      "player": "Grant Hill",
+      "injury_type": "Ankle Fracture",
+      "injury_date": "2000-03-14",
+      "injury_season": "1999-00",
+      "pre_injury": {
+        "season": "1999-00",
+        "tusg": 36.2,
+        "pvr": 24.1,
+        "ppg": 25.8,
+        "apg": 5.2,
+        "mpg": 38.9
+      },
+      "post_injury_1yr": {
+        "season": "2000-01",
+        "tusg": 32.8,
+        "pvr": 16.8,
+        "ppg": 11.9,
+        "apg": 3.2,
+        "mpg": 26.7,
+        "games": 4
+      },
+      "post_injury_2yr": null,
+      "recovery_notes": "Multiple complications, missed several seasons, eventually reinvented himself (70% of pre-injury PVR)",
+      "projection": {
+        "recovery_time_months": 8,
+        "projected_1yr_tusg": 30.77,
+        "projected_1yr_pvr": 19.28,
+        "projected_2yr_tusg": 33.3,
+        "projected_2yr_pvr": 21.69,
+        "severity": "Moderate"
+      },
+      "recovery_1yr": {
+        "tusg_retention": 90.6,
+        "pvr_retention": 69.7,
+        "tusg_delta": -3.4,
+        "pvr_delta": -7.3
+      },
+      "recovery_2yr": null
+    },
+    {
+      "player": "Penny Hardaway",
+      "injury_type": "Multiple Knee Surgeries",
+      "injury_date": "1997-11-10",
+      "injury_season": "1997-98",
+      "pre_injury": {
+        "season": "1996-97",
+        "tusg": 37.5,
+        "pvr": 23.8,
+        "ppg": 20.5,
+        "apg": 5.3,
+        "mpg": 37.1
+      },
+      "post_injury_1yr": {
+        "season": "1998-99",
+        "tusg": 34.1,
+        "pvr": 18.9,
+        "ppg": 15.8,
+        "apg": 4.2,
+        "mpg": 31.5,
+        "games": 50
+      },
+      "post_injury_2yr": {
+        "season": "1999-00",
+        "tusg": 32.6,
+        "pvr": 17.4,
+        "ppg": 16.9,
+        "apg": 5.4,
+        "mpg": 33.6,
+        "games": 59
+      },
+      "recovery_notes": "Lost explosiveness, never returned to All-NBA level (73% of pre-injury PVR)",
+      "projection": {
+        "recovery_time_months": 10,
+        "projected_1yr_tusg": 33.0,
+        "projected_1yr_pvr": 20.23,
+        "projected_2yr_tusg": 34.88,
+        "projected_2yr_pvr": 21.66,
+        "severity": "High"
+      },
+      "recovery_1yr": {
+        "tusg_retention": 90.9,
+        "pvr_retention": 79.4,
+        "tusg_delta": -3.4,
+        "pvr_delta": -4.9
+      },
+      "recovery_2yr": {
+        "tusg_retention": 86.9,
+        "pvr_retention": 73.1,
+        "tusg_delta": -4.9,
+        "pvr_delta": -6.4
+      }
+    },
+    {
+      "player": "Joel Embiid",
+      "injury_type": "Multiple Foot Surgeries",
+      "injury_date": "2014-06-20",
+      "injury_season": "2014-15",
+      "pre_injury": {
+        "season": "College",
+        "tusg": 38.2,
+        "pvr": 25.1,
+        "ppg": 11.2,
+        "apg": 1.4,
+        "mpg": 23.1
+      },
+      "post_injury_1yr": null,
+      "post_injury_2yr": {
+        "season": "2016-17",
+        "tusg": 36.8,
+        "pvr": 23.4,
+        "ppg": 20.2,
+        "apg": 2.1,
+        "mpg": 25.4,
+        "games": 31
+      },
+      "recovery_notes": "Dominated after recovery, became MVP-caliber center (93% of pre-injury PVR projection)",
+      "projection": {
+        "recovery_time_months": 24,
+        "projected_1yr_tusg": 32.47,
+        "projected_1yr_pvr": 19.58,
+        "projected_2yr_tusg": 35.53,
+        "projected_2yr_pvr": 22.59,
+        "severity": "High"
+      },
+      "recovery_1yr": null,
+      "recovery_2yr": {
+        "tusg_retention": 96.3,
+        "pvr_retention": 93.2,
+        "tusg_delta": -1.4,
+        "pvr_delta": -1.7
+      }
+    },
+    {
+      "player": "Andrew Bynum",
+      "injury_type": "Multiple Knee Injuries",
+      "injury_date": "2012-07-24",
+      "injury_season": "2012-13",
+      "pre_injury": {
+        "season": "2011-12",
+        "tusg": 33.1,
+        "pvr": 18.7,
+        "ppg": 18.7,
+        "apg": 1.4,
+        "mpg": 35.2
+      },
+      "post_injury_1yr": null,
+      "post_injury_2yr": {
+        "season": "2013-14",
+        "tusg": 27.4,
+        "pvr": 9.2,
+        "ppg": 8.4,
+        "apg": 0.4,
+        "mpg": 20.4,
+        "games": 26
+      },
+      "recovery_notes": "Career effectively ended at 26, never recovered form (49% of pre-injury PVR)",
+      "projection": {
+        "recovery_time_months": 12,
+        "projected_1yr_tusg": 26.48,
+        "projected_1yr_pvr": 13.09,
+        "projected_2yr_tusg": 28.8,
+        "projected_2yr_pvr": 14.59,
+        "severity": "High"
+      },
+      "recovery_1yr": null,
+      "recovery_2yr": {
+        "tusg_retention": 82.8,
+        "pvr_retention": 49.2,
+        "tusg_delta": -5.7,
+        "pvr_delta": -9.5
+      }
+    },
+    {
+      "player": "Yao Ming",
+      "injury_type": "Multiple Foot/Ankle Injuries",
+      "injury_date": "2009-05-10",
+      "injury_season": "2008-09",
+      "pre_injury": {
+        "season": "2006-07",
+        "tusg": 34.5,
+        "pvr": 21.3,
+        "ppg": 25.0,
+        "apg": 2.0,
+        "mpg": 37.0
+      },
+      "post_injury_1yr": {
+        "season": "2009-10",
+        "tusg": 31.8,
+        "pvr": 18.6,
+        "ppg": 19.0,
+        "apg": 1.8,
+        "mpg": 26.9,
+        "games": 5
+      },
+      "post_injury_2yr": {
+        "season": "2010-11",
+        "tusg": 30.2,
+        "pvr": 16.1,
+        "ppg": 10.2,
+        "apg": 1.4,
+        "mpg": 21.4,
+        "games": 5
+      },
+      "recovery_notes": "Chronic foot issues forced early retirement at 30 (76% of pre-injury PVR)",
+      "projection": {
+        "recovery_time_months": 12,
+        "projected_1yr_tusg": 30.02,
+        "projected_1yr_pvr": 17.47,
+        "projected_2yr_tusg": 31.39,
+        "projected_2yr_pvr": 18.74,
+        "severity": "High"
+      },
+      "recovery_1yr": {
+        "tusg_retention": 92.2,
+        "pvr_retention": 87.3,
+        "tusg_delta": -2.7,
+        "pvr_delta": -2.7
+      },
+      "recovery_2yr": {
+        "tusg_retention": 87.5,
+        "pvr_retention": 75.6,
+        "tusg_delta": -4.3,
+        "pvr_delta": -5.2
+      }
+    }
+  ],
+  "current_injury_watch": [
+    {
+      "player": "Ja Morant",
+      "injury_type": "Shoulder Labral Tear",
+      "injury_date": "2024-11-06",
+      "expected_return": "2025-02-15",
+      "pre_injury_current": {
+        "season": "2023-24",
+        "tusg": 39.2,
+        "pvr": 23.8,
+        "ppg": 25.1,
+        "apg": 8.1,
+        "mpg": 35.4
+      },
+      "projected_impact": "Moderate",
+      "notes": "Expected 90-95% recovery, minimal long-term impact for guards",
+      "projection": {
+        "recovery_time_months": 4,
+        "projected_1yr_tusg": 37.24,
+        "projected_1yr_pvr": 22.13,
+        "projected_2yr_tusg": 38.42,
+        "projected_2yr_pvr": 23.09,
+        "severity": "Low-Moderate"
+      },
+      "days_until_return": 0
+    },
+    {
+      "player": "Kawhi Leonard",
+      "injury_type": "Knee Inflammation (Chronic)",
+      "injury_date": "2024-04-25",
+      "expected_return": "2025-01-10",
+      "pre_injury_current": {
+        "season": "2023-24",
+        "tusg": 33.8,
+        "pvr": 23.4,
+        "ppg": 23.7,
+        "apg": 3.6,
+        "mpg": 32.1
+      },
+      "projected_impact": "Moderate",
+      "notes": "Ongoing load management, projected 95%+ with rest",
+      "projection": {
+        "recovery_time_months": 3,
+        "projected_1yr_tusg": 32.45,
+        "projected_1yr_pvr": 22.23,
+        "projected_2yr_tusg": 33.12,
+        "projected_2yr_pvr": 22.7,
+        "severity": "Low-Moderate"
+      },
+      "days_until_return": 0
+    },
+    {
+      "player": "Joel Embiid",
+      "injury_type": "Knee Meniscus",
+      "injury_date": "2024-10-15",
+      "expected_return": "2025-01-05",
+      "pre_injury_current": {
+        "season": "2023-24",
+        "tusg": 36.1,
+        "pvr": 28.2,
+        "ppg": 34.7,
+        "apg": 5.6,
+        "mpg": 34.3
+      },
+      "projected_impact": "Low-Moderate",
+      "notes": "Minor meniscus repair, expected 95%+ recovery within 3 months",
+      "projection": {
+        "recovery_time_months": 3,
+        "projected_1yr_tusg": 35.02,
+        "projected_1yr_pvr": 27.07,
+        "projected_2yr_tusg": 35.74,
+        "projected_2yr_pvr": 27.64,
+        "severity": "Low"
+      },
+      "days_until_return": 0
+    }
+  ],
+  "injury_type_stats": {
+    "ACL Tear": {
+      "avg_recovery_time_months": 12,
+      "expected_pvr_retention_1yr": 0.75,
+      "expected_pvr_retention_2yr": 0.88,
+      "expected_tusg_retention_1yr": 0.82,
+      "expected_tusg_retention_2yr": 0.91,
+      "severity": "High"
+    },
+    "Achilles Tear": {
+      "avg_recovery_time_months": 12,
+      "expected_pvr_retention_1yr": 0.65,
+      "expected_pvr_retention_2yr": 0.75,
+      "expected_tusg_retention_1yr": 0.78,
+      "expected_tusg_retention_2yr": 0.85,
+      "severity": "Very High"
+    },
+    "Leg Fracture": {
+      "avg_recovery_time_months": 10,
+      "expected_pvr_retention_1yr": 0.88,
+      "expected_pvr_retention_2yr": 0.96,
+      "expected_tusg_retention_1yr": 0.9,
+      "expected_tusg_retention_2yr": 0.97,
+      "severity": "High"
+    },
+    "Ankle Fracture": {
+      "avg_recovery_time_months": 8,
+      "expected_pvr_retention_1yr": 0.8,
+      "expected_pvr_retention_2yr": 0.9,
+      "expected_tusg_retention_1yr": 0.85,
+      "expected_tusg_retention_2yr": 0.92,
+      "severity": "Moderate"
+    },
+    "Quad Rupture": {
+      "avg_recovery_time_months": 9,
+      "expected_pvr_retention_1yr": 0.68,
+      "expected_pvr_retention_2yr": 0.78,
+      "expected_tusg_retention_1yr": 0.8,
+      "expected_tusg_retention_2yr": 0.87,
+      "severity": "High"
+    },
+    "Quad Tendinopathy": {
+      "avg_recovery_time_months": 6,
+      "expected_pvr_retention_1yr": 0.92,
+      "expected_pvr_retention_2yr": 0.98,
+      "expected_tusg_retention_1yr": 0.95,
+      "expected_tusg_retention_2yr": 0.99,
+      "severity": "Moderate"
+    },
+    "Multiple Knee Surgeries": {
+      "avg_recovery_time_months": 10,
+      "expected_pvr_retention_1yr": 0.85,
+      "expected_pvr_retention_2yr": 0.91,
+      "expected_tusg_retention_1yr": 0.88,
+      "expected_tusg_retention_2yr": 0.93,
+      "severity": "High"
+    },
+    "Hip Injury": {
+      "avg_recovery_time_months": 8,
+      "expected_pvr_retention_1yr": 0.6,
+      "expected_pvr_retention_2yr": 0.68,
+      "expected_tusg_retention_1yr": 0.75,
+      "expected_tusg_retention_2yr": 0.82,
+      "severity": "Very High"
+    },
+    "Knee Dislocation": {
+      "avg_recovery_time_months": 15,
+      "expected_pvr_retention_1yr": 0.55,
+      "expected_pvr_retention_2yr": 0.7,
+      "expected_tusg_retention_1yr": 0.72,
+      "expected_tusg_retention_2yr": 0.83,
+      "severity": "Very High"
+    },
+    "Multiple Foot/Ankle Injuries": {
+      "avg_recovery_time_months": 12,
+      "expected_pvr_retention_1yr": 0.82,
+      "expected_pvr_retention_2yr": 0.88,
+      "expected_tusg_retention_1yr": 0.87,
+      "expected_tusg_retention_2yr": 0.91,
+      "severity": "High"
+    },
+    "Multiple Foot Surgeries": {
+      "avg_recovery_time_months": 24,
+      "expected_pvr_retention_1yr": 0.78,
+      "expected_pvr_retention_2yr": 0.9,
+      "expected_tusg_retention_1yr": 0.85,
+      "expected_tusg_retention_2yr": 0.93,
+      "severity": "High"
+    },
+    "Multiple Knee Injuries": {
+      "avg_recovery_time_months": 12,
+      "expected_pvr_retention_1yr": 0.7,
+      "expected_pvr_retention_2yr": 0.78,
+      "expected_tusg_retention_1yr": 0.8,
+      "expected_tusg_retention_2yr": 0.87,
+      "severity": "High"
+    },
+    "Shoulder Labral Tear": {
+      "avg_recovery_time_months": 4,
+      "expected_pvr_retention_1yr": 0.93,
+      "expected_pvr_retention_2yr": 0.97,
+      "expected_tusg_retention_1yr": 0.95,
+      "expected_tusg_retention_2yr": 0.98,
+      "severity": "Low-Moderate"
+    },
+    "Knee Inflammation (Chronic)": {
+      "avg_recovery_time_months": 3,
+      "expected_pvr_retention_1yr": 0.95,
+      "expected_pvr_retention_2yr": 0.97,
+      "expected_tusg_retention_1yr": 0.96,
+      "expected_tusg_retention_2yr": 0.98,
+      "severity": "Low-Moderate"
+    },
+    "Knee Meniscus": {
+      "avg_recovery_time_months": 3,
+      "expected_pvr_retention_1yr": 0.96,
+      "expected_pvr_retention_2yr": 0.98,
+      "expected_tusg_retention_1yr": 0.97,
+      "expected_tusg_retention_2yr": 0.99,
+      "severity": "Low"
+    }
+  },
+  "injury_trends": {
+    "Achilles Tear": {
+      "cases": 4,
+      "avg_tusg_drop_1yr": -4.53,
+      "avg_pvr_drop_1yr": -5.63,
+      "avg_tusg_drop_2yr": -5.45,
+      "avg_pvr_drop_2yr": -5.68
+    },
+    "ACL Tear": {
+      "cases": 5,
+      "avg_tusg_drop_1yr": -2.4,
+      "avg_pvr_drop_1yr": -2.75,
+      "avg_tusg_drop_2yr": -2.96,
+      "avg_pvr_drop_2yr": -2.72
+    },
+    "Leg Fracture": {
+      "cases": 1,
+      "avg_tusg_drop_1yr": -1.9,
+      "avg_pvr_drop_1yr": -0.7,
+      "avg_tusg_drop_2yr": -1.1,
+      "avg_pvr_drop_2yr": 0.7
+    },
+    "Ankle Fracture": {
+      "cases": 2,
+      "avg_tusg_drop_1yr": -4.3,
+      "avg_pvr_drop_1yr": -6.95,
+      "avg_tusg_drop_2yr": -2.9,
+      "avg_pvr_drop_2yr": -3.2
+    },
+    "Quad Rupture": {
+      "cases": 1,
+      "avg_tusg_drop_1yr": -5.4,
+      "avg_pvr_drop_1yr": -8.4,
+      "avg_tusg_drop_2yr": -7.8,
+      "avg_pvr_drop_2yr": -10.3
+    },
+    "Quad Tendinopathy": {
+      "cases": 1,
+      "avg_tusg_drop_1yr": -0.9,
+      "avg_pvr_drop_1yr": -0.8,
+      "avg_tusg_drop_2yr": -0.3,
+      "avg_pvr_drop_2yr": -0.4
+    },
+    "Multiple Knee Surgeries": {
+      "cases": 3,
+      "avg_tusg_drop_1yr": -3.3,
+      "avg_pvr_drop_1yr": -4.07,
+      "avg_tusg_drop_2yr": -3.75,
+      "avg_pvr_drop_2yr": -3.9
+    },
+    "Hip Injury": {
+      "cases": 1,
+      "avg_tusg_drop_1yr": -6.9,
+      "avg_pvr_drop_1yr": -11.7,
+      "avg_tusg_drop_2yr": -9.7,
+      "avg_pvr_drop_2yr": -13.5
+    },
+    "Knee Dislocation": {
+      "cases": 1,
+      "avg_tusg_drop_1yr": "N/A",
+      "avg_pvr_drop_1yr": "N/A",
+      "avg_tusg_drop_2yr": -5.7,
+      "avg_pvr_drop_2yr": -5.2
+    },
+    "Multiple Foot Surgeries": {
+      "cases": 1,
+      "avg_tusg_drop_1yr": "N/A",
+      "avg_pvr_drop_1yr": "N/A",
+      "avg_tusg_drop_2yr": -1.4,
+      "avg_pvr_drop_2yr": -1.7
+    },
+    "Multiple Knee Injuries": {
+      "cases": 1,
+      "avg_tusg_drop_1yr": "N/A",
+      "avg_pvr_drop_1yr": "N/A",
+      "avg_tusg_drop_2yr": -5.7,
+      "avg_pvr_drop_2yr": -9.5
+    },
+    "Multiple Foot/Ankle Injuries": {
+      "cases": 1,
+      "avg_tusg_drop_1yr": -2.7,
+      "avg_pvr_drop_1yr": -2.7,
+      "avg_tusg_drop_2yr": -4.3,
+      "avg_pvr_drop_2yr": -5.2
+    }
+  },
+  "insights": [
+    {
+      "player": "Zach LaVine",
+      "injury_type": "ACL Tear",
+      "insight": "Zach LaVine maintained 117% of pre-injury PVR 2 years post-ACL Tear",
+      "tusg_retention": 109.1,
+      "pvr_retention": 116.7
+    },
+    {
+      "player": "Paul George",
+      "injury_type": "Leg Fracture",
+      "insight": "Paul George maintained 104% of pre-injury PVR 2 years post-Leg Fracture",
+      "tusg_retention": 96.9,
+      "pvr_retention": 103.5
+    },
+    {
+      "player": "Kawhi Leonard",
+      "injury_type": "Quad Tendinopathy",
+      "insight": "Kawhi Leonard maintained 98% of pre-injury PVR 2 years post-Quad Tendinopathy",
+      "tusg_retention": 99.1,
+      "pvr_retention": 98.4
+    },
+    {
+      "player": "Jamal Murray",
+      "injury_type": "ACL Tear",
+      "insight": "Jamal Murray maintained 97% of pre-injury PVR 2 years post-ACL Tear",
+      "tusg_retention": 94.2,
+      "pvr_retention": 97.2
+    },
+    {
+      "player": "Kevin Durant",
+      "injury_type": "Achilles Tear",
+      "insight": "Kevin Durant maintained 97% of pre-injury PVR 2 years post-Achilles Tear",
+      "tusg_retention": 95.9,
+      "pvr_retention": 96.6
+    },
+    {
+      "player": "Blake Griffin",
+      "injury_type": "Multiple Knee Surgeries",
+      "insight": "Blake Griffin maintained 93% of pre-injury PVR 2 years post-Multiple Knee Surgeries",
+      "tusg_retention": 92.9,
+      "pvr_retention": 93.3
+    },
+    {
+      "player": "Joel Embiid",
+      "injury_type": "Multiple Foot Surgeries",
+      "insight": "Joel Embiid maintained 93% of pre-injury PVR 2 years post-Multiple Foot Surgeries",
+      "tusg_retention": 96.3,
+      "pvr_retention": 93.2
+    },
+    {
+      "player": "Gordon Hayward",
+      "injury_type": "Ankle Fracture",
+      "insight": "Gordon Hayward maintained 86% of pre-injury PVR 2 years post-Ankle Fracture",
+      "tusg_retention": 91.5,
+      "pvr_retention": 85.7
+    },
+    {
+      "player": "Kristaps Porzingis",
+      "injury_type": "ACL Tear",
+      "insight": "Kristaps Porzingis maintained 83% of pre-injury PVR 2 years post-ACL Tear",
+      "tusg_retention": 87.6,
+      "pvr_retention": 82.7
+    },
+    {
+      "player": "Klay Thompson",
+      "injury_type": "ACL Tear",
+      "insight": "Klay Thompson maintained 77% of pre-injury PVR 2 years post-ACL Tear",
+      "tusg_retention": 90.0,
+      "pvr_retention": 77.2
+    },
+    {
+      "player": "Brandon Roy",
+      "injury_type": "Multiple Knee Surgeries",
+      "insight": "Brandon Roy at 76% of pre-injury PVR 1 year post-Multiple Knee Surgeries",
+      "tusg_retention": 88.6,
+      "pvr_retention": 76.1
+    },
+    {
+      "player": "Yao Ming",
+      "injury_type": "Multiple Foot/Ankle Injuries",
+      "insight": "Yao Ming maintained 76% of pre-injury PVR 2 years post-Multiple Foot/Ankle Injuries",
+      "tusg_retention": 87.5,
+      "pvr_retention": 75.6
+    },
+    {
+      "player": "Penny Hardaway",
+      "injury_type": "Multiple Knee Surgeries",
+      "insight": "Penny Hardaway maintained 73% of pre-injury PVR 2 years post-Multiple Knee Surgeries",
+      "tusg_retention": 86.9,
+      "pvr_retention": 73.1
+    },
+    {
+      "player": "John Wall",
+      "injury_type": "Achilles Tear",
+      "insight": "John Wall maintained 71% of pre-injury PVR 2 years post-Achilles Tear",
+      "tusg_retention": 88.8,
+      "pvr_retention": 70.6
+    },
+    {
+      "player": "Grant Hill",
+      "injury_type": "Ankle Fracture",
+      "insight": "Grant Hill at 70% of pre-injury PVR 1 year post-Ankle Fracture",
+      "tusg_retention": 90.6,
+      "pvr_retention": 69.7
+    },
+    {
+      "player": "Shaun Livingston",
+      "injury_type": "Knee Dislocation",
+      "insight": "Shaun Livingston maintained 68% of pre-injury PVR 2 years post-Knee Dislocation",
+      "tusg_retention": 83.5,
+      "pvr_retention": 68.3
+    },
+    {
+      "player": "Kobe Bryant",
+      "injury_type": "Achilles Tear",
+      "insight": "Kobe Bryant maintained 64% of pre-injury PVR 2 years post-Achilles Tear",
+      "tusg_retention": 82.8,
+      "pvr_retention": 64.1
+    },
+    {
+      "player": "Derrick Rose",
+      "injury_type": "ACL Tear",
+      "insight": "Derrick Rose maintained 61% of pre-injury PVR 2 years post-ACL Tear",
+      "tusg_retention": 79.0,
+      "pvr_retention": 60.8
+    },
+    {
+      "player": "Victor Oladipo",
+      "injury_type": "Quad Rupture",
+      "insight": "Victor Oladipo maintained 55% of pre-injury PVR 2 years post-Quad Rupture",
+      "tusg_retention": 79.0,
+      "pvr_retention": 55.4
+    },
+    {
+      "player": "Andrew Bynum",
+      "injury_type": "Multiple Knee Injuries",
+      "insight": "Andrew Bynum maintained 49% of pre-injury PVR 2 years post-Multiple Knee Injuries",
+      "tusg_retention": 82.8,
+      "pvr_retention": 49.2
+    },
+    {
+      "player": "DeMarcus Cousins",
+      "injury_type": "Achilles Tear",
+      "insight": "DeMarcus Cousins maintained 48% of pre-injury PVR 2 years post-Achilles Tear",
+      "tusg_retention": 75.3,
+      "pvr_retention": 48.1
+    },
+    {
+      "player": "Isaiah Thomas",
+      "injury_type": "Hip Injury",
+      "insight": "Isaiah Thomas maintained 44% of pre-injury PVR 2 years post-Hip Injury",
+      "tusg_retention": 77.0,
+      "pvr_retention": 44.4
+    }
+  ]
+}

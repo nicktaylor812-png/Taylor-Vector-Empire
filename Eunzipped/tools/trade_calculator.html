@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trade Impact Calculator | TAYLOR VECTOR TERMINAL</title>
+    <link rel="stylesheet" href="/static/css/theme.css">
+</head>
+<body>
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+        <span class="theme-icon">◐</span>
+        <span id="theme-text">Dark</span>
+    </button>
+
+
+    <div class="container">
+        <header>
+            <h1> Trade Impact Calculator</h1>
+            <div class="subtitle">Analyze how trades affect team TUSG% and PVR metrics</div>
+            <div class="info-badge"> TUSG% = True Usage%</div>
+            <div class="info-badge"> PVR = Possession Value Rating</div>
+            <div class="info-badge"> Fit Score = Team Composition</div>
+            <div class="info-badge"> 2024-25 Season Data</div>
+        </header>
+
+        <div class="main-content">
+            <div class="trade-setup">
+                <!-- Team A Panel -->
+                <div class="team-panel">
+                    <div class="team-header">
+                        <select id="teamASelect" class="team-select">
+                            <option value="">Select Team A</option>
+                        </select>
+                    </div>
+                    
+                    <div class="players-section">
+                        <div class="section-title"> Team A Trades Away</div>
+                        <div id="teamAGives" class="player-list"></div>
+                        
+                        <div class="section-title"> Team A Receives</div>
+                        <div id="teamAReceives" class="player-list"></div>
+                    </div>
+                </div>
+
+                <!-- Trade Arrow -->
+                <div class="trade-arrow"></div>
+
+                <!-- Team B Panel -->
+                <div class="team-panel">
+                    <div class="team-header">
+                        <select id="teamBSelect" class="team-select">
+                            <option value="">Select Team B</option>
+                        </select>
+                    </div>
+                    
+                    <div class="players-section">
+                        <div class="section-title"> Team B Trades Away</div>
+                        <div id="teamBGives" class="player-list"></div>
+                        
+                        <div class="section-title"> Team B Receives</div>
+                        <div id="teamBReceives" class="player-list"></div>
+                    </div>
+                </div>
+            </div>
+
+            <button id="calculateBtn" class="calculate-btn" disabled>Calculate Trade Impact</button>
+
+            <!-- Results Panel -->
+            <div id="resultsPanel" class="results-panel">
+                <div class="results-header">
+                    <h2> Trade Impact Analysis</h2>
+                </div>
+
+                <div class="trade-summary" id="tradeSummary"></div>
+
+                <div class="results-grid">
+                    <div id="teamAResults" class="team-result"></div>
+                    <div id="teamBResults" class="team-result"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Educational Section -->
+        <div class="examples-section">
+            <h2> How Fit Score Works</h2>
+            <div>
+                <p>
+                    The <strong>Fit Score</strong> measures team composition quality by analyzing player efficiency profiles:
+                </p>
+                <div>
+                    <div>
+                        <div> High PVR + Low TUSG</div>
+                        <div>Efficient role player - Perfect complementary piece (Score: 80-100)</div>
+                    </div>
+                    <div>
+                        <div> High PVR + High TUSG</div>
+                        <div>Star player - Can carry offense (Score: 70-90)</div>
+                    </div>
+                    <div>
+                        <div> Low PVR + High TUSG</div>
+                        <div>Ball-dominant inefficient - Bad fit (Score: 20-50)</div>
+                    </div>
+                    <div>
+                        <div> Low PVR + Low TUSG</div>
+                        <div>Limited role player - Okay fit (Score: 50-70)</div>
+                    </div>
+                </div>
+                <p>
+                     <strong>Why this matters:</strong> Teams with complementary players (efficient role players + stars) perform better than teams with redundant usage patterns. 
+                    Trading for high-efficiency players improves team fit score and overall performance.
+                </p>
+            </div>
+        </div>
+
+        <!-- Historical Examples -->
+        <div class="examples-section">
+            <h2> Famous Historical Trade Examples</h2>
+            <div class="example-grid" id="exampleGrid"></div>
+        </div>
+    </div>
+
+    <script>
+        // Team data
+        const TEAMS = {
+            'ATL': 'Atlanta Hawks', 'BOS': 'Boston Celtics', 'BKN': 'Brooklyn Nets',
+            'CHA': 'Charlotte Hornets', 'CHI': 'Chicago Bulls', 'CLE': 'Cleveland Cavaliers',
+            'DAL': 'Dallas Mavericks', 'DEN': 'Denver Nuggets', 'DET': 'Detroit Pistons',
+            'GSW': 'Golden State Warriors', 'HOU': 'Houston Rockets', 'IND': 'Indiana Pacers',
+            'LAC': 'LA Clippers', 'LAL': 'Los Angeles Lakers', 'MEM': 'Memphis Grizzlies',
+            'MIA': 'Miami Heat', 'MIL': 'Milwaukee Bucks', 'MIN': 'Minnesota Timberwolves',
+            'NOP': 'New Orleans Pelicans', 'NYK': 'New York Knicks', 'OKC': 'Oklahoma City Thunder',
+            'ORL': 'Orlando Magic', 'PHI': 'Philadelphia 76ers', 'PHX': 'Phoenix Suns',
+            'POR': 'Portland Trail Blazers', 'SAC': 'Sacramento Kings', 'SAS': 'San Antonio Spurs',
+            'TOR': 'Toronto Raptors', 'UTA': 'Utah Jazz', 'WAS': 'Washington Wizards'
+        };
+
+        const TEAM_PACE = {
+            'ATL': 101.8, 'BOS': 99.3, 'BKN': 100.5, 'CHA': 99.8, 'CHI': 98.5, 'CLE': 97.2,
+            'DAL': 99.1, 'DEN': 98.8, 'DET': 100.2, 'GSW': 100.9, 'HOU': 101.2, 'IND': 100.6,
+            'LAC': 98.7, 'LAL': 99.4, 'MEM': 97.5, 'MIA': 98.3, 'MIL': 99.7, 'MIN': 99.5,
+            'NOP': 100.3, 'NYK': 96.8, 'OKC': 98.9, 'ORL': 99.2, 'PHI': 98.1, 'PHX': 100.4,
+            'POR': 99.6, 'SAC': 101.5, 'SAS': 99.0, 'TOR': 98.6, 'UTA': 98.4, 'WAS': 100.1
+        };
+
+        // Historical trade examples
+        const HISTORICAL_TRADES = [
+            {
+                name: 'Lakers-Pelicans AD Trade (2019)',
+                description: 'Lakers acquire AD, Pelicans get young core + picks',
+                teamA: 'LAL',
+                teamAGives: ['Lonzo Ball', 'Brandon Ingram', 'Josh Hart'],
+                teamB: 'NOP',
+                teamBGives: ['Anthony Davis'],
+                year: 2019,
+                result: 'Lakers won 2020 Championship'
+            },
+            {
+                name: 'Mavericks-Nets Kyrie Trade (2023)',
+                description: 'Mavs acquire Kyrie to pair with Luka',
+                teamA: 'DAL',
+                teamAGives: ['Spencer Dinwiddie', 'Dorian Finney-Smith'],
+                teamB: 'BKN',
+                teamBGives: ['Kyrie Irving'],
+                year: 2023,
+                result: 'Mavs reached 2024 Finals'
+            },
+            {
+                name: 'Clippers-76ers Harden Trade (2023)',
+                description: 'Clippers acquire Harden for depth pieces',
+                teamA: 'LAC',
+                teamAGives: ['Marcus Morris', 'Robert Covington'],
+                teamB: 'PHI',
+                teamBGives: ['James Harden'],
+                year: 2023,
+                result: 'Clippers formed Big 4'
+            },
+            {
+                name: 'Nets-Rockets Harden Trade (2021)',
+                description: 'Nets acquire Harden for young assets',
+                teamA: 'BKN',
+                teamAGives: ['Caris LeVert', 'Jarrett Allen'],
+                teamB: 'HOU',
+                teamBGives: ['James Harden'],
+                year: 2021,
+                result: 'Nets superteam formed'
+            },
+            {
+                name: 'Raptors-Spurs Kawhi Trade (2018)',
+                description: 'Raptors all-in for championship',
+                teamA: 'TOR',
+                teamAGives: ['DeMar DeRozan', 'Jakob Poeltl'],
+                teamB: 'SAS',
+                teamBGives: ['Kawhi Leonard', 'Danny Green'],
+                year: 2018,
+                result: 'Raptors won 2019 Championship'
+            },
+            {
+                name: 'Suns-Nets KD Trade (2023)',
+                description: 'Suns acquire KD for championship push',
+                teamA: 'PHX',
+                teamAGives: ['Mikal Bridges', 'Cam Johnson'],
+                teamB: 'BKN',
+                teamBGives: ['Kevin Durant'],
+                year: 2023,
+                result: 'Suns superteam formed'
+            }
+        ];
+
+        // Global state
+        let rosters = {};
+        let teamAGivesPlayers = [];
+        let teamBGivesPlayers = [];
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', async () => {
+            populateTeamSelects();
+            loadHistoricalExamples();
+            await loadRosters();
+            
+            document.getElementById('teamASelect').addEventListener('change', onTeamAChange);
+            document.getElementById('teamBSelect').addEventListener('change', onTeamBChange);
+            document.getElementById('calculateBtn').addEventListener('click', calculateTrade);
+        });
+
+        function populateTeamSelects() {
+            const teamASelect = document.getElementById('teamASelect');
+            const teamBSelect = document.getElementById('teamBSelect');
+            
+            Object.entries(TEAMS).forEach(([abbr, name]) => {
+                const optionA = document.createElement('option');
+                optionA.value = abbr;
+                optionA.textContent = name;
+                teamASelect.appendChild(optionA);
+                
+                const optionB = document.createElement('option');
+                optionB.value = abbr;
+                optionB.textContent = name;
+                teamBSelect.appendChild(optionB);
+            });
+        }
+
+        async function loadRosters() {
+            const loadingDiv = document.createElement('div');
+            loadingDiv.className = 'loading';
+            loadingDiv.textContent = 'Loading 2024-25 season rosters';
+            document.querySelector('.main-content').prepend(loadingDiv);
+
+            try {
+                const response = await fetch('https://api.server.nbaapi.com/api/playertotals?season=2025&pageSize=500&page=1');
+                const data = await response.json();
+                const players = data.data || [];
+
+                // Group players by team
+                Object.keys(TEAMS).forEach(teamAbbr => {
+                    rosters[teamAbbr] = players
+                        .filter(p => p.team === teamAbbr && p.games > 0 && p.minutesPg >= 5)
+                        .map(p => ({
+                            name: p.playerName,
+                            min: p.minutesPg || 0,
+                            pts: (p.points || 0) / (p.games || 1),
+                            ast: (p.assists || 0) / (p.games || 1),
+                            tov: (p.turnovers || 0) / (p.games || 1),
+                            fga: (p.fieldAttempts || 0) / (p.games || 1),
+                            fta: (p.ftAttempts || 0) / (p.games || 1)
+                        }))
+                        .sort((a, b) => b.min - a.min);
+                });
+
+                loadingDiv.remove();
+            } catch (error) {
+                console.error('Error loading rosters:', error);
+                loadingDiv.textContent = 'Error loading rosters. Using demo data.';
+                loadingDiv.className = 'error-message';
+            }
+        }
+
+        function onTeamAChange() {
+            const teamAbbr = document.getElementById('teamASelect').value;
+            teamAGivesPlayers = [];
+            loadTeamPlayers('teamAGives', teamAbbr, 'A');
+            updateReceivesDisplay();
+            updateCalculateButton();
+        }
+
+        function onTeamBChange() {
+            const teamAbbr = document.getElementById('teamBSelect').value;
+            teamBGivesPlayers = [];
+            loadTeamPlayers('teamBGives', teamAbbr, 'B');
+            updateReceivesDisplay();
+            updateCalculateButton();
+        }
+
+        function loadTeamPlayers(containerId, teamAbbr, side) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+
+            if (!teamAbbr || !rosters[teamAbbr]) return;
+
+            const players = rosters[teamAbbr];
+            players.forEach(player => {
+                const playerDiv = document.createElement('div');
+                playerDiv.className = 'player-item';
+                playerDiv.innerHTML = `
+                    <span>${player.name}</span>
+                    <span class="player-stats">${player.pts.toFixed(1)} PPG, ${player.min.toFixed(1)} MIN</span>
+                `;
+                playerDiv.onclick = () => togglePlayer(player, side, playerDiv);
+                container.appendChild(playerDiv);
+            });
+        }
+
+        function togglePlayer(player, side, element) {
+            const list = side === 'A' ? teamAGivesPlayers : teamBGivesPlayers;
+            const index = list.findIndex(p => p.name === player.name);
+
+            if (index >= 0) {
+                list.splice(index, 1);
+                element.classList.remove('selected');
+            } else {
+                list.push(player);
+                element.classList.add('selected');
+            }
+
+            updateReceivesDisplay();
+            updateCalculateButton();
+        }
+
+        function updateReceivesDisplay() {
+            // Team A receives what Team B gives
+            const teamAReceivesDiv = document.getElementById('teamAReceives');
+            teamAReceivesDiv.innerHTML = teamBGivesPlayers.map(p => `
+                <div class="player-item">
+                    <span>${p.name}</span>
+                    <span class="player-stats">${p.pts.toFixed(1)} PPG, ${p.min.toFixed(1)} MIN</span>
+                </div>
+            `).join('') || '<div>No players selected</div>';
+
+            // Team B receives what Team A gives
+            const teamBReceivesDiv = document.getElementById('teamBReceives');
+            teamBReceivesDiv.innerHTML = teamAGivesPlayers.map(p => `
+                <div class="player-item">
+                    <span>${p.name}</span>
+                    <span class="player-stats">${p.pts.toFixed(1)} PPG, ${p.min.toFixed(1)} MIN</span>
+                </div>
+            `).join('') || '<div>No players selected</div>';
+        }
+
+        function updateCalculateButton() {
+            const btn = document.getElementById('calculateBtn');
+            const teamA = document.getElementById('teamASelect').value;
+            const teamB = document.getElementById('teamBSelect').value;
+            
+            const canCalculate = teamA && teamB && teamA !== teamB && 
+                                 teamAGivesPlayers.length > 0 && teamBGivesPlayers.length > 0;
+            
+            btn.disabled = !canCalculate;
+        }
+
+        function calculatePlayerTUSG(player, teamAbbr) {
+            const mp = player.min;
+            const fga = player.fga;
+            const tov = player.tov;
+            const fta = player.fta;
+            const teamPace = TEAM_PACE[teamAbbr] || 99.5;
+
+            if (mp === 0 || teamPace === 0) return 0;
+
+            const numerator = fga + tov + (fta * 0.44);
+            const denominator = (mp / 48) * teamPace;
+
+            return denominator === 0 ? 0 : (numerator / denominator) * 100;
+        }
+
+        function calculatePlayerPVR(player) {
+            const pts = player.pts;
+            const ast = player.ast;
+            const fga = player.fga;
+            const tov = player.tov;
+            const fta = player.fta;
+
+            const astTovRatio = tov === 0 ? (ast > 0 ? ast : 0) : ast / tov;
+            const multiplier = astTovRatio > 1.8 ? 2.3 : 1.8;
+
+            const numerator = pts + (ast * multiplier);
+            const denominator = fga + tov + (0.44 * fta) + ast;
+
+            return denominator === 0 ? 0 : ((numerator / denominator) - 1.00) * 100;
+        }
+
+        function calculatePlayerFitScore(playerTUSG, playerPVR) {
+            const pvrScore = Math.min(Math.max(playerPVR * 5 + 50, 0), 100);
+            
+            let tusgBonus = 0;
+            if (playerPVR > 10) {
+                if (playerTUSG < 18) tusgBonus = 20;
+                else if (playerTUSG < 22) tusgBonus = 10;
+                else tusgBonus = -5;
+            } else if (playerPVR > 5) {
+                if (playerTUSG < 20) tusgBonus = 5;
+                else tusgBonus = -10;
+            } else {
+                if (playerTUSG > 22) tusgBonus = -20;
+                else if (playerTUSG > 18) tusgBonus = -10;
+                else tusgBonus = 0;
+            }
+            
+            const fitScore = pvrScore + tusgBonus;
+            return Math.max(Math.min(fitScore, 100), 0);
+        }
+
+        function calculateTeamMetrics(roster, teamAbbr) {
+            const qualified = roster.filter(p => p.min >= 10);
+            if (qualified.length === 0) return { tusg: 0, pvr: 0, fitScore: 0 };
+
+            const totalMinutes = qualified.reduce((sum, p) => sum + p.min, 0);
+            if (totalMinutes === 0) return { tusg: 0, pvr: 0, fitScore: 0 };
+
+            let weightedTUSG = 0;
+            let weightedPVR = 0;
+            let weightedFit = 0;
+
+            qualified.forEach(player => {
+                const weight = player.min / totalMinutes;
+                const playerTUSG = calculatePlayerTUSG(player, teamAbbr);
+                const playerPVR = calculatePlayerPVR(player);
+                const playerFit = calculatePlayerFitScore(playerTUSG, playerPVR);
+                
+                weightedTUSG += playerTUSG * weight;
+                weightedPVR += playerPVR * weight;
+                weightedFit += playerFit * weight;
+            });
+
+            return {
+                tusg: weightedTUSG,
+                pvr: weightedPVR,
+                fitScore: weightedFit
+            };
+        }
+
+        function calculateTrade() {
+            const teamAbbr = document.getElementById('teamASelect').value;
+            const teamBabbr = document.getElementById('teamBSelect').value;
+
+            // Get rosters
+            let teamARoster = [...rosters[teamAbbr]];
+            let teamBRoster = [...rosters[teamBabbr]];
+
+            // Calculate before
+            const teamABefore = calculateTeamMetrics(teamARoster, teamAbbr);
+            const teamBBefore = calculateTeamMetrics(teamBRoster, teamBabbr);
+
+            // Execute trade
+            teamAGivesPlayers.forEach(player => {
+                const idx = teamARoster.findIndex(p => p.name === player.name);
+                if (idx >= 0) teamARoster.splice(idx, 1);
+            });
+
+            teamBGivesPlayers.forEach(player => {
+                const idx = teamBRoster.findIndex(p => p.name === player.name);
+                if (idx >= 0) teamBRoster.splice(idx, 1);
+            });
+
+            teamBGivesPlayers.forEach(player => teamARoster.push({...player}));
+            teamAGivesPlayers.forEach(player => teamBRoster.push({...player}));
+
+            // Calculate after
+            const teamAAfter = calculateTeamMetrics(teamARoster, teamAbbr);
+            const teamBAfter = calculateTeamMetrics(teamBRoster, teamBabbr);
+
+            // Calculate impacts
+            const teamAImpact = {
+                tusgChange: teamAAfter.tusg - teamABefore.tusg,
+                pvrChange: teamAAfter.pvr - teamABefore.pvr,
+                fitChange: teamAAfter.fitScore - teamABefore.fitScore
+            };
+
+            const teamBImpact = {
+                tusgChange: teamBAfter.tusg - teamBBefore.tusg,
+                pvrChange: teamBAfter.pvr - teamBBefore.pvr,
+                fitChange: teamBAfter.fitScore - teamBBefore.fitScore
+            };
+
+            // Determine winner
+            let winner = 'TIE';
+            if (teamAImpact.pvrChange > teamBImpact.pvrChange) {
+                winner = teamAbbr;
+            } else if (teamBImpact.pvrChange > teamAImpact.pvrChange) {
+                winner = teamBabbr;
+            } else if (teamAImpact.tusgChange > teamBImpact.tusgChange) {
+                winner = teamAbbr;
+            } else if (teamBImpact.tusgChange > teamAImpact.tusgChange) {
+                winner = teamBabbr;
+            }
+
+            displayResults({
+                teamA: {
+                    name: TEAMS[teamAbbr],
+                    abbr: teamAbbr,
+                    gave: teamAGivesPlayers.map(p => p.name),
+                    received: teamBGivesPlayers.map(p => p.name),
+                    before: teamABefore,
+                    after: teamAAfter,
+                    impact: teamAImpact
+                },
+                teamB: {
+                    name: TEAMS[teamBabbr],
+                    abbr: teamBabbr,
+                    gave: teamBGivesPlayers.map(p => p.name),
+                    received: teamAGivesPlayers.map(p => p.name),
+                    before: teamBBefore,
+                    after: teamBAfter,
+                    impact: teamBImpact
+                },
+                winner: winner
+            });
+        }
+
+        function displayResults(result) {
+            const summaryDiv = document.getElementById('tradeSummary');
+            summaryDiv.innerHTML = `
+                <p><strong>${result.teamA.name}</strong> trades: ${result.teamA.gave.join(', ')}</p>
+                <p><strong>${result.teamB.name}</strong> trades: ${result.teamB.gave.join(', ')}</p>
+            `;
+
+            displayTeamResult('teamAResults', result.teamA, result.winner === result.teamA.abbr);
+            displayTeamResult('teamBResults', result.teamB, result.winner === result.teamB.abbr);
+
+            document.getElementById('resultsPanel').classList.add('show');
+            document.getElementById('resultsPanel').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function displayTeamResult(containerId, team, isWinner) {
+            const container = document.getElementById(containerId);
+            container.className = 'team-result' + (isWinner ? ' winner' : '');
+
+            const tusgArrow = team.impact.tusgChange > 0 ? '↑' : (team.impact.tusgChange < 0 ? '↓' : '→');
+            const pvrArrow = team.impact.pvrChange > 0 ? '↑' : (team.impact.pvrChange < 0 ? '↓' : '→');
+            const tusgClass = team.impact.tusgChange > 0 ? 'up' : (team.impact.tusgChange < 0 ? 'down' : '');
+            const pvrClass = team.impact.pvrChange > 0 ? 'up' : (team.impact.pvrChange < 0 ? 'down' : '');
+
+            const tusgImpactClass = team.impact.tusgChange > 0 ? 'positive' : (team.impact.tusgChange < 0 ? 'negative' : 'neutral');
+            const pvrImpactClass = team.impact.pvrChange > 0 ? 'positive' : (team.impact.pvrChange < 0 ? 'negative' : 'neutral');
+            
+            const fitArrow = team.impact.fitChange > 0 ? '↑' : (team.impact.fitChange < 0 ? '↓' : '→');
+            const fitClass = team.impact.fitChange > 0 ? 'up' : (team.impact.fitChange < 0 ? 'down' : '');
+            const fitImpactClass = team.impact.fitChange > 0 ? 'positive' : (team.impact.fitChange < 0 ? 'negative' : 'neutral');
+
+            container.innerHTML = `
+                <h3>
+                    ${team.name}
+                    ${isWinner ? '<span class="winner-badge"> WINNER</span>' : ''}
+                </h3>
+
+                <div class="metric-row">
+                    <div class="metric-label">TUSG% (True Usage)</div>
+                    <div class="metric-change">
+                        <span class="metric-value before">${team.before.tusg.toFixed(2)}%</span>
+                        <span class="arrow ${tusgClass}">${tusgArrow}</span>
+                        <span class="metric-value after">${team.after.tusg.toFixed(2)}%</span>
+                    </div>
+                    <div>
+                        <span class="impact-badge ${tusgImpactClass}">${team.impact.tusgChange >= 0 ? '+' : ''}${team.impact.tusgChange.toFixed(2)}%</span>
+                    </div>
+                </div>
+
+                <div class="metric-row">
+                    <div class="metric-label">PVR (Possession Value Rating)</div>
+                    <div class="metric-change">
+                        <span class="metric-value before">${team.before.pvr.toFixed(2)}</span>
+                        <span class="arrow ${pvrClass}">${pvrArrow}</span>
+                        <span class="metric-value after">${team.after.pvr.toFixed(2)}</span>
+                    </div>
+                    <div>
+                        <span class="impact-badge ${pvrImpactClass}">${team.impact.pvrChange >= 0 ? '+' : ''}${team.impact.pvrChange.toFixed(2)}</span>
+                    </div>
+                </div>
+
+                <div class="metric-row">
+                    <div class="metric-label"> Fit Score (Team Composition)</div>
+                    <div class="metric-change">
+                        <span class="metric-value before">${team.before.fitScore.toFixed(1)}</span>
+                        <span class="arrow ${fitClass}">${fitArrow}</span>
+                        <span class="metric-value after">${team.after.fitScore.toFixed(1)}</span>
+                    </div>
+                    <div>
+                        <span class="impact-badge ${fitImpactClass}">${team.impact.fitChange >= 0 ? '+' : ''}${team.impact.fitChange.toFixed(1)}</span>
+                    </div>
+                    <div>
+                        ${getFitScoreExplanation(team.after.fitScore)}
+                    </div>
+                </div>
+            `;
+        }
+
+        function loadHistoricalExamples() {
+            const grid = document.getElementById('exampleGrid');
+            
+            HISTORICAL_TRADES.forEach(trade => {
+                const card = document.createElement('div');
+                card.className = 'example-card';
+                card.innerHTML = `
+                    <h3>${trade.name}</h3>
+                    <p>${trade.description}</p>
+                    <p><strong>${TEAMS[trade.teamA]}</strong> gave: ${trade.teamAGives.join(', ')}</p>
+                    <p><strong>${TEAMS[trade.teamB]}</strong> gave: ${trade.teamBGives.join(', ')}</p>
+                    <p class="year"> ${trade.year} | ${trade.result}</p>
+                `;
+                card.onclick = () => loadHistoricalTrade(trade);
+                grid.appendChild(card);
+            });
+        }
+
+        function loadHistoricalTrade(trade) {
+            alert(`Historical trade examples use past rosters that may not be available in current 2024-25 data.\n\nTry simulating your own trades with current players!`);
+        }
+
+        function getFitScoreExplanation(fitScore) {
+            if (fitScore >= 75) {
+                return ' Excellent roster composition - High efficiency players';
+            } else if (fitScore >= 65) {
+                return ' Good balance - Productive and efficient';
+            } else if (fitScore >= 55) {
+                return ' Average fit - Room for improvement';
+            } else if (fitScore >= 45) {
+                return ' Below average - Consider efficiency upgrades';
+            } else {
+                return ' Poor fit - Low efficiency, high usage issues';
+            }
+        }
+    </script>
+    <script src="/static/js/theme.js"></script>
+</body>
+</html>

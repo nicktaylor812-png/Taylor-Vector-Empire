@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NBA Contract Value Calculator | TAYLOR VECTOR TERMINAL</title>
+    <link rel="stylesheet" href="/static/css/theme.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+        <span class="theme-icon">◐</span>
+        <span id="theme-text">Dark</span>
+    </button>
+
+
+    <div class="container">
+        <header>
+            <h1> NBA Contract Value Calculator</h1>
+            <p class="subtitle">Identify overpaid/underpaid players using PVR performance metrics</p>
+            <p class="formula">Formula: Value Score = PVR / (Salary in millions) | Higher score = Better value</p>
+        </header>
+
+        <div class="controls-section">
+            <div class="controls-grid">
+                <div class="control-group">
+                    <label for="positionFilter">Position Filter</label>
+                    <select id="positionFilter" onchange="applyFilters()">
+                        <option value="">All Positions</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label for="teamFilter">Team Filter</label>
+                    <select id="teamFilter" onchange="applyFilters()">
+                        <option value="">All Teams</option>
+                    </select>
+                </div>
+                <div class="search-bar">
+                    <div class="control-group">
+                        <label for="searchInput">Search Player</label>
+                        <input type="text" id="searchInput" placeholder="Enter player name...">
+                    </div>
+                    <button class="btn" onclick="searchPlayer()">Search</button>
+                    <button class="btn btn-secondary" onclick="clearFilters()">Clear</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="insights-section">
+            <h2 class="insights-title"> Key Insights</h2>
+            <div id="insights-container"></div>
+            <div class="stats-summary">
+                <div class="stat-card">
+                    <div class="stat-label">Players Analyzed</div>
+                    <div class="stat-value" id="total-players">-</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Average Salary</div>
+                    <div class="stat-value" id="avg-salary">-</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Average PVR</div>
+                    <div class="stat-value" id="avg-pvr">-</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Avg Value Score</div>
+                    <div class="stat-value" id="avg-value-score">-</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="chart-section">
+            <h2 class="insights-title"> PVR vs Salary Scatter Plot</h2>
+            <p>Each point represents a player. The trend line shows the expected relationship between PVR and salary.</p>
+            <div class="chart-container">
+                <canvas id="scatterChart"></canvas>
+            </div>
+        </div>
+
+        <div class="tables-grid">
+            <div class="table-section">
+                <h2 class="table-title best-value-title"> Best Value Contracts</h2>
+                <p>Highest Value Scores - Elite performance at low cost</p>
+                <div class="table-container">
+                    <table id="best-value-table">
+                        <thead>
+                            <tr>
+                                <th class="rank-col">#</th>
+                                <th>Player</th>
+                                <th>Salary</th>
+                                <th>PVR</th>
+                                <th>Value Score</th>
+                            </tr>
+                        </thead>
+                        <tbody id="best-value-body"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="table-section">
+                <h2 class="table-title worst-contracts-title"> Worst Contracts</h2>
+                <p>Lowest Value Scores - Low performance at high cost</p>
+                <div class="table-container">
+                    <table id="worst-contracts-table">
+                        <thead>
+                            <tr>
+                                <th class="rank-col">#</th>
+                                <th>Player</th>
+                                <th>Salary</th>
+                                <th>PVR</th>
+                                <th>Value Score</th>
+                            </tr>
+                        </thead>
+                        <tbody id="worst-contracts-body"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="table-section">
+                <h2 class="table-title fair-contracts-title"> Fair Contracts</h2>
+                <p>Value Scores near league average - Properly valued</p>
+                <div class="table-container">
+                    <table id="fair-contracts-table">
+                        <thead>
+                            <tr>
+                                <th class="rank-col">#</th>
+                                <th>Player</th>
+                                <th>Salary</th>
+                                <th>PVR</th>
+                                <th>Value Score</th>
+                            </tr>
+                        </thead>
+                        <tbody id="fair-contracts-body"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            TAYLOR VECTOR TERMINAL  2024-25 | Contract analysis based on PVR metrics
+        </div>
+    </div>
+
+    <div id="playerModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="modal-player-name">Player Details</h2>
+            <div class="modal-details" id="modal-details"></div>
+        </div>
+    </div>
+
+    <script>
+        let allData = null;
+        let scatterChart = null;
+
+        function formatCurrency(amount) {
+            if (amount >= 1000000) {
+                return `$${(amount / 1000000).toFixed(2)}M`;
+            } else if (amount >= 1000) {
+                return `$${(amount / 1000).toFixed(1)}K`;
+            }
+            return `$${amount.toFixed(0)}`;
+        }
+
+        function loadData() {
+            fetch('contract_calculator_results.json')
+                .then(response => response.json())
+                .then(data => {
+                    allData = data;
+                    populateFilters();
+                    displayInsights(data);
+                    displayStats(data.metadata);
+                    displayTable('best-value', data.best_value);
+                    displayTable('worst-contracts', data.worst_contracts);
+                    displayTable('fair-contracts', data.fair_contracts);
+                    createScatterPlot(data.all_players);
+                })
+                .catch(error => {
+                    console.error('Error loading data:', error);
+                    alert('Error loading contract data. Please ensure contract_calculator_results.json exists.');
+                });
+        }
+
+        function populateFilters() {
+            const positionFilter = document.getElementById('positionFilter');
+            const teamFilter = document.getElementById('teamFilter');
+
+            allData.metadata.positions.forEach(pos => {
+                const option = document.createElement('option');
+                option.value = pos;
+                option.textContent = pos;
+                positionFilter.appendChild(option);
+            });
+
+            allData.metadata.teams.forEach(team => {
+                const option = document.createElement('option');
+                option.value = team;
+                option.textContent = team;
+                teamFilter.appendChild(option);
+            });
+        }
+
+        function displayInsights(data) {
+            const container = document.getElementById('insights-container');
+            container.innerHTML = '';
+            
+            data.insights.forEach(insight => {
+                const div = document.createElement('div');
+                div.className = 'insight-item';
+                div.textContent = insight;
+                container.appendChild(div);
+            });
+        }
+
+        function displayStats(metadata) {
+            document.getElementById('total-players').textContent = metadata.total_players;
+            document.getElementById('avg-salary').textContent = formatCurrency(metadata.avg_salary);
+            document.getElementById('avg-pvr').textContent = metadata.avg_pvr.toFixed(1);
+            document.getElementById('avg-value-score').textContent = metadata.avg_value_score.toFixed(2);
+        }
+
+        function displayTable(type, players) {
+            const bodyId = type + '-body';
+            const tbody = document.getElementById(bodyId);
+            tbody.innerHTML = '';
+
+            if (!players || players.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5">No players found</td></tr>';
+                return;
+            }
+
+            players.forEach((player, index) => {
+                const row = document.createElement('tr');
+                row.style.cursor = 'pointer';
+                row.onclick = () => showPlayerModal(player);
+                
+                let valueScoreClass = 'value-score';
+                if (player.value_score > allData.metadata.avg_value_score * 1.2) {
+                    valueScoreClass += ' high';
+                } else if (player.value_score < allData.metadata.avg_value_score * 0.8) {
+                    valueScoreClass += ' low';
+                }
+                
+                row.innerHTML = `
+                    <td class="rank-col">${index + 1}</td>
+                    <td class="player-name">
+                        ${player.name}
+                        <span class="position-badge">${player.position}</span>
+                        <span class="team-badge">${player.team}</span>
+                    </td>
+                    <td class="currency">${formatCurrency(player.salary)}</td>
+                    <td>${player.pvr.toFixed(1)}</td>
+                    <td class="${valueScoreClass}">${player.value_score.toFixed(2)}</td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function createScatterPlot(players) {
+            const ctx = document.getElementById('scatterChart').getContext('2d');
+            
+            const data = players.map(p => ({
+                x: p.salary / 1000000,
+                y: p.pvr,
+                player: p
+            }));
+
+            // Calculate trend line
+            const n = data.length;
+            const sumX = data.reduce((sum, d) => sum + d.x, 0);
+            const sumY = data.reduce((sum, d) => sum + d.y, 0);
+            const sumXY = data.reduce((sum, d) => sum + d.x * d.y, 0);
+            const sumXX = data.reduce((sum, d) => sum + d.x * d.x, 0);
+            
+            const slope = (n * sumXY - sumX * sumY) / (n * sumXX - sumX * sumX);
+            const intercept = (sumY - slope * sumX) / n;
+            
+            const minX = Math.min(...data.map(d => d.x));
+            const maxX = Math.max(...data.map(d => d.x));
+            
+            const trendLineData = [
+                { x: minX, y: slope * minX + intercept },
+                { x: maxX, y: slope * maxX + intercept }
+            ];
+
+            if (scatterChart) {
+                scatterChart.destroy();
+            }
+
+            scatterChart = new Chart(ctx, {
+                type: 'scatter',
+                data: {
+                    datasets: [{
+                        label: 'Players',
+                        data: data,
+                        backgroundColor: 'rgba(126, 34, 206, 0.6)',
+                        borderColor: 'rgba(126, 34, 206, 1)',
+                        borderWidth: 2,
+                        pointRadius: 6,
+                        pointHoverRadius: 8
+                    }, {
+                        label: 'Trend Line',
+                        data: trendLineData,
+                        type: 'line',
+                        borderColor: 'rgba(220, 38, 38, 0.8)',
+                        borderWidth: 3,
+                        borderDash: [5, 5],
+                        fill: false,
+                        pointRadius: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    if (context.dataset.label === 'Players') {
+                                        const player = context.raw.player;
+                                        return [
+                                            `${player.name} (${player.position})`,
+                                            `Salary: ${formatCurrency(player.salary)}`,
+                                            `PVR: ${player.pvr.toFixed(1)}`,
+                                            `Value Score: ${player.value_score.toFixed(2)}`
+                                        ];
+                                    }
+                                    return 'Expected PVR based on salary';
+                                }
+                            }
+                        },
+                        legend: {
+                            display: true,
+                            position: 'top'
+                        }
+                    },
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Salary (millions $)',
+                                font: {
+                                    size: 14,
+                                    weight: 'bold'
+                                }
+                            },
+                            ticks: {
+                                callback: function(value) {
+                                    return '$' + value.toFixed(0) + 'M';
+                                }
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'PVR',
+                                font: {
+                                    size: 14,
+                                    weight: 'bold'
+                                }
+                            }
+                        }
+                    },
+                    onClick: (event, elements) => {
+                        if (elements.length > 0 && elements[0].datasetIndex === 0) {
+                            const player = data[elements[0].index].player;
+                            showPlayerModal(player);
+                        }
+                    }
+                }
+            });
+        }
+
+        function showPlayerModal(player) {
+            const modal = document.getElementById('playerModal');
+            const modalName = document.getElementById('modal-player-name');
+            const modalDetails = document.getElementById('modal-details');
+
+            modalName.textContent = `${player.name} (${player.position}) - ${player.team}`;
+
+            const fairSalary = (player.pvr / allData.metadata.avg_value_score) * 1000000;
+            const salaryDiff = player.salary - fairSalary;
+            const salaryDiffPct = (salaryDiff / fairSalary * 100);
+
+            let contractStatus = 'Fair Contract';
+            if (player.value_score > allData.metadata.avg_value_score * 1.2) {
+                contractStatus = ' Excellent Value';
+            } else if (player.value_score < allData.metadata.avg_value_score * 0.8) {
+                contractStatus = ' Overpaid';
+            }
+
+            modalDetails.innerHTML = `
+                <div class="detail-row">
+                    <span class="detail-label">Current Salary:</span>
+                    <span class="detail-value">${formatCurrency(player.salary)}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">PVR:</span>
+                    <span class="detail-value">${player.pvr.toFixed(2)}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Value Score:</span>
+                    <span class="detail-value">${player.value_score.toFixed(2)}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Fair Salary (Calculated):</span>
+                    <span class="detail-value">${formatCurrency(fairSalary)}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Salary Difference:</span>
+                    <span class="detail-value">
+                        ${salaryDiff > 0 ? '+' : ''}${formatCurrency(salaryDiff)} (${salaryDiffPct > 0 ? '+' : ''}${salaryDiffPct.toFixed(1)}%)
+                    </span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Contract Status:</span>
+                    <span class="detail-value">${contractStatus}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Stats:</span>
+                    <span class="detail-value">${player.ppg.toFixed(1)} PPG, ${player.apg.toFixed(1)} APG, ${player.mpg.toFixed(1)} MPG</span>
+                </div>
+            `;
+
+            modal.style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('playerModal').style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('playerModal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        function applyFilters() {
+            const position = document.getElementById('positionFilter').value;
+            const team = document.getElementById('teamFilter').value;
+
+            let filtered = allData.all_players;
+
+            if (position) {
+                filtered = filtered.filter(p => p.position === position);
+            }
+
+            if (team) {
+                filtered = filtered.filter(p => p.team === team);
+            }
+
+            // Update all tables with filtered data
+            displayTable('best-value', filtered.slice(0, 10));
+            displayTable('worst-contracts', filtered.slice(-10).reverse());
+            
+            const avgValue = filtered.reduce((sum, p) => sum + p.value_score, 0) / filtered.length;
+            const fairFiltered = filtered.filter(p => 
+                Math.abs(p.value_score - avgValue) / avgValue <= 0.15
+            ).slice(0, 10);
+            displayTable('fair-contracts', fairFiltered);
+
+            createScatterPlot(filtered);
+        }
+
+        function searchPlayer() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
+            
+            if (!searchTerm) {
+                alert('Please enter a player name');
+                return;
+            }
+
+            const found = allData.all_players.find(p => 
+                p.name.toLowerCase().includes(searchTerm)
+            );
+
+            if (!found) {
+                alert(`No player found matching "${searchTerm}"`);
+                return;
+            }
+
+            showPlayerModal(found);
+
+            // Highlight in tables
+            document.querySelectorAll('.highlight').forEach(el => el.classList.remove('highlight'));
+            document.querySelectorAll('tbody tr').forEach(row => {
+                if (row.textContent.toLowerCase().includes(found.name.toLowerCase())) {
+                    row.classList.add('highlight');
+                    row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            });
+        }
+
+        function clearFilters() {
+            document.getElementById('positionFilter').value = '';
+            document.getElementById('teamFilter').value = '';
+            document.getElementById('searchInput').value = '';
+            document.querySelectorAll('.highlight').forEach(el => el.classList.remove('highlight'));
+            
+            displayTable('best-value', allData.best_value);
+            displayTable('worst-contracts', allData.worst_contracts);
+            displayTable('fair-contracts', allData.fair_contracts);
+            createScatterPlot(allData.all_players);
+        }
+
+        // Enter key to search
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('searchInput').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    searchPlayer();
+                }
+            });
+        });
+
+        loadData();
+    </script>
+    <script src="/static/js/theme.js"></script>
+</body>
+</html>

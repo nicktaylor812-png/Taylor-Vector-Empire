@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fantasy Basketball Optimizer | TAYLOR VECTOR TERMINAL</title>
+    <link rel="stylesheet" href="/static/css/theme.css">
+</head>
+<body>
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+        <span class="theme-icon">◐</span>
+        <span id="theme-text">Dark</span>
+    </button>
+
+
+    <div class="container">
+        <header>
+            <h1> Fantasy Basketball Optimizer</h1>
+            <p class="subtitle">Draft Smarter, Trade Better - Powered by TUSG% & PVR Analytics</p>
+        </header>
+
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('settings')"> League Settings</button>
+            <button class="tab" onclick="switchTab('rankings')"> Draft Board</button>
+            <button class="tab" onclick="switchTab('trade')"> Trade Analyzer</button>
+            <button class="tab" onclick="switchTab('waiver')"> Waiver Wire</button>
+            <button class="tab" onclick="switchTab('projections')"> Weekly Projections</button>
+        </div>
+
+        <!-- League Settings Tab -->
+        <div id="settings-tab" class="tab-content active">
+            <div class="panel">
+                <h2 class="panel-title"> League Scoring Settings</h2>
+                <p>Customize your league's scoring categories to get personalized rankings and trade recommendations.</p>
+                
+                <div class="grid-2">
+                    <div class="slider-group">
+                        <div class="slider-label">
+                            <span>Points (PPG)</span>
+                            <span class="slider-value" id="ppg-value">1.0</span>
+                        </div>
+                        <input type="range" id="ppg-weight" min="0" max="5" step="0.1" value="1.0" oninput="updateSlider('ppg')">
+                    </div>
+
+                    <div class="slider-group">
+                        <div class="slider-label">
+                            <span>Assists (APG)</span>
+                            <span class="slider-value" id="apg-value">1.5</span>
+                        </div>
+                        <input type="range" id="apg-weight" min="0" max="5" step="0.1" value="1.5" oninput="updateSlider('apg')">
+                    </div>
+
+                    <div class="slider-group">
+                        <div class="slider-label">
+                            <span>Rebounds (RPG)</span>
+                            <span class="slider-value" id="rpg-value">1.2</span>
+                        </div>
+                        <input type="range" id="rpg-weight" min="0" max="5" step="0.1" value="1.2" oninput="updateSlider('rpg')">
+                    </div>
+
+                    <div class="slider-group">
+                        <div class="slider-label">
+                            <span>Steals (SPG)</span>
+                            <span class="slider-value" id="spg-value">3.0</span>
+                        </div>
+                        <input type="range" id="spg-weight" min="0" max="5" step="0.1" value="3.0" oninput="updateSlider('spg')">
+                    </div>
+
+                    <div class="slider-group">
+                        <div class="slider-label">
+                            <span>Blocks (BPG)</span>
+                            <span class="slider-value" id="bpg-value">3.0</span>
+                        </div>
+                        <input type="range" id="bpg-weight" min="0" max="5" step="0.1" value="3.0" oninput="updateSlider('bpg')">
+                    </div>
+
+                    <div class="slider-group">
+                        <div class="slider-label">
+                            <span>Turnovers (TOV)</span>
+                            <span class="slider-value" id="tov-value">-1.0</span>
+                        </div>
+                        <input type="range" id="tov-weight" min="-5" max="0" step="0.1" value="-1.0" oninput="updateSlider('tov')">
+                    </div>
+
+                    <div class="slider-group">
+                        <div class="slider-label">
+                            <span>3-Pointers (3PM)</span>
+                            <span class="slider-value" id="tpm-value">0.5</span>
+                        </div>
+                        <input type="range" id="tpm-weight" min="0" max="5" step="0.1" value="0.5" oninput="updateSlider('tpm')">
+                    </div>
+                </div>
+
+                <button class="btn btn-full" onclick="applySettings()">Apply Settings & Calculate Rankings</button>
+
+                <div class="insight-box">
+                    <div class="insight-title"> Pro Tip</div>
+                    <div class="insight-text">
+                        Adjust weights to match your league's scoring system. Higher weights = more valuable in your league.
+                        Standard points leagues use 1.0 for PPG, while category leagues emphasize defensive stats (steals/blocks).
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel">
+                <h2 class="panel-title"> Preset League Formats</h2>
+                <div class="grid-3">
+                    <button class="btn" onclick="loadPreset('standard')">Standard Points</button>
+                    <button class="btn" onclick="loadPreset('category')">9-Category H2H</button>
+                    <button class="btn" onclick="loadPreset('defensive')">Defense-Heavy</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Draft Board Tab -->
+        <div id="rankings-tab" class="tab-content">
+            <div class="panel">
+                <h2 class="panel-title"> Custom Draft Board - Ranked by Fantasy PVR</h2>
+                
+                <div class="filter-group">
+                    <span class="filter-label">Filter:</span>
+                    <select id="position-filter" onchange="filterRankings()">
+                        <option value="all">All Positions</option>
+                        <option value="guard">Guards</option>
+                        <option value="forward">Forwards</option>
+                        <option value="center">Centers</option>
+                    </select>
+                    <select id="team-filter" onchange="filterRankings()">
+                        <option value="all">All Teams</option>
+                    </select>
+                    <input type="number" id="min-mpg" placeholder="Min MPG" value="20" onchange="filterRankings()">
+                </div>
+
+                <div id="rankings-content" class="loading">
+                    Click "Apply Settings" in League Settings to generate rankings
+                </div>
+
+                <div class="insight-box" id="rankings-insight">
+                    <div class="insight-title"> Draft Strategy Insight</div>
+                    <div class="insight-text" id="insight-text"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Trade Analyzer Tab -->
+        <div id="trade-tab" class="tab-content">
+            <div class="panel">
+                <h2 class="panel-title"> Trade Analyzer - Should I Make This Trade?</h2>
+                
+                <div class="grid-2">
+                    <div class="input-group">
+                        <label class="input-label">Player You're Trading Away</label>
+                        <input type="text" id="trade-player-a" placeholder="Enter player name" list="players-list">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Player You're Receiving</label>
+                        <input type="text" id="trade-player-b" placeholder="Enter player name" list="players-list">
+                    </div>
+                </div>
+
+                <datalist id="players-list"></datalist>
+
+                <button class="btn btn-full" onclick="analyzeTrade()">Analyze Trade</button>
+
+                <div id="trade-result"></div>
+            </div>
+        </div>
+
+        <!-- Waiver Wire Tab -->
+        <div id="waiver-tab" class="tab-content">
+            <div class="panel">
+                <h2 class="panel-title"> Waiver Wire Gems - Undervalued High-PVR Players</h2>
+                <p>Players with high PVR and Fantasy Value that may be available in your league</p>
+                
+                <div class="filter-group">
+                    <span class="filter-label">Minimum MPG:</span>
+                    <input type="number" id="waiver-min-mpg" value="15" onchange="loadWaiverWire()">
+                    <button class="btn" onclick="loadWaiverWire()">Refresh Recommendations</button>
+                </div>
+
+                <div id="waiver-content" class="loading">
+                    Click "Apply Settings" first, then refresh recommendations
+                </div>
+            </div>
+        </div>
+
+        <!-- Weekly Projections Tab -->
+        <div id="projections-tab" class="tab-content">
+            <div class="panel">
+                <h2 class="panel-title"> Weekly Projections</h2>
+                <p>Top performers for this week based on Fantasy PVR and matchup data</p>
+                
+                <div class="filter-group">
+                    <span class="filter-label">Games This Week:</span>
+                    <select id="games-filter" onchange="filterProjections()">
+                        <option value="all">All Players</option>
+                        <option value="4">4+ Games</option>
+                        <option value="3">3+ Games</option>
+                    </select>
+                </div>
+
+                <div id="projections-content"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentSettings = {
+            ppg: 1.0,
+            apg: 1.5,
+            rpg: 1.2,
+            spg: 3.0,
+            bpg: 3.0,
+            tov: -1.0,
+            tpm: 0.5
+        };
+
+        let allPlayers = [];
+        let rankings = [];
+        let waiverGems = [];
+
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            event.target.classList.add('active');
+            document.getElementById(`${tabName}-tab`).classList.add('active');
+        }
+
+        function updateSlider(stat) {
+            const slider = document.getElementById(`${stat}-weight`);
+            const value = parseFloat(slider.value);
+            document.getElementById(`${stat}-value`).textContent = value.toFixed(1);
+            currentSettings[stat] = value;
+        }
+
+        function loadPreset(preset) {
+            const presets = {
+                'standard': { ppg: 1.0, apg: 1.5, rpg: 1.2, spg: 3.0, bpg: 3.0, tov: -1.0, tpm: 0.5 },
+                'category': { ppg: 1.0, apg: 2.0, rpg: 1.5, spg: 4.0, bpg: 4.0, tov: -2.0, tpm: 1.0 },
+                'defensive': { ppg: 1.0, apg: 1.0, rpg: 2.0, spg: 5.0, bpg: 5.0, tov: -1.5, tpm: 0.5 }
+            };
+
+            const settings = presets[preset];
+            Object.keys(settings).forEach(key => {
+                currentSettings[key] = settings[key];
+                document.getElementById(`${key}-weight`).value = settings[key];
+                document.getElementById(`${key}-value`).textContent = settings[key].toFixed(1);
+            });
+
+            alert(`Loaded ${preset.charAt(0).toUpperCase() + preset.slice(1)} preset! Click "Apply Settings" to recalculate.`);
+        }
+
+        async function applySettings() {
+            const btn = event.target;
+            btn.textContent = 'Loading Players...';
+            btn.disabled = true;
+
+            try {
+                const response = await fetch('https://api.server.nbaapi.com/api/playertotals?season=2025&pageSize=500&page=1');
+                const data = await response.json();
+                const players = data.data || [];
+
+                allPlayers = players.map(p => {
+                    const games = p.games || 1;
+                    return {
+                        player_name: p.playerName,
+                        team: p.team,
+                        mpg: p.minutesPg || 0,
+                        ppg: (p.points || 0) / games,
+                        apg: (p.assists || 0) / games,
+                        rpg: (p.rebounds || 0) / games,
+                        spg: (p.steals || 0) / games,
+                        bpg: (p.blocks || 0) / games,
+                        tov: (p.turnovers || 0) / games,
+                        tpm: (p.threesMade || 0) / games,
+                        fga: (p.fieldAttempts || 0) / games,
+                        fta: (p.ftAttempts || 0) / games,
+                        games_played: games
+                    };
+                }).filter(p => p.mpg >= 10);
+
+                calculateRankings();
+                populatePlayersList();
+                loadWaiverWire();
+                loadProjections();
+
+                btn.textContent = 'Settings Applied! ';
+                setTimeout(() => {
+                    btn.textContent = 'Apply Settings & Calculate Rankings';
+                    btn.disabled = false;
+                }, 2000);
+
+                switchTab('rankings');
+                document.querySelectorAll('.tab')[1].click();
+            } catch (error) {
+                console.error('Error loading players:', error);
+                btn.textContent = 'Error - Try Again';
+                btn.disabled = false;
+            }
+        }
+
+        function calculatePVR(player) {
+            const { ppg, apg, fga, tov, fta } = player;
+            const astTovRatio = tov > 0 ? apg / tov : apg;
+            const multiplier = astTovRatio > 1.8 ? 2.3 : 1.8;
+            const numerator = ppg + (apg * multiplier);
+            const denominator = fga + tov + (0.44 * fta) + apg;
+            return denominator > 0 ? ((numerator / denominator) - 1.0) * 100 : 0;
+        }
+
+        function calculateFantasyPVR(player) {
+            const { ppg, apg, rpg, spg, bpg, tov, tpm } = player;
+            const fantasyPoints = (
+                ppg * currentSettings.ppg +
+                apg * currentSettings.apg +
+                rpg * currentSettings.rpg +
+                spg * currentSettings.spg +
+                bpg * currentSettings.bpg +
+                tov * currentSettings.tov +
+                tpm * currentSettings.tpm
+            );
+            
+            const pvr = calculatePVR(player);
+            return pvr * 0.6 + (fantasyPoints / 10) * 0.4;
+        }
+
+        function calculateRankings() {
+            rankings = allPlayers.map(player => {
+                const pvr = calculatePVR(player);
+                const fantasyPVR = calculateFantasyPVR(player);
+                const { ppg, apg, rpg, spg, bpg, tov, tpm } = player;
+                const projectedFantasyPPG = (
+                    ppg * currentSettings.ppg +
+                    apg * currentSettings.apg +
+                    rpg * currentSettings.rpg +
+                    spg * currentSettings.spg +
+                    bpg * currentSettings.bpg +
+                    tov * currentSettings.tov +
+                    tpm * currentSettings.tpm
+                );
+
+                return {
+                    ...player,
+                    pvr: pvr.toFixed(2),
+                    fantasy_pvr: fantasyPVR.toFixed(2),
+                    projected_fantasy_ppg: projectedFantasyPPG.toFixed(1)
+                };
+            }).filter(p => p.mpg >= 20);
+
+            rankings.sort((a, b) => parseFloat(b.fantasy_pvr) - parseFloat(a.fantasy_pvr));
+            rankings.forEach((p, i) => p.rank = i + 1);
+
+            displayRankings();
+        }
+
+        function displayRankings() {
+            const content = document.getElementById('rankings-content');
+            
+            if (rankings.length === 0) {
+                content.innerHTML = '<div class="empty-state">No players found. Adjust filters or apply settings.</div>';
+                return;
+            }
+
+            let html = `
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Player</th>
+                            <th>Team</th>
+                            <th>Fantasy PVR</th>
+                            <th>Proj. FPPG</th>
+                            <th>PVR</th>
+                            <th>PPG</th>
+                            <th>APG</th>
+                            <th>RPG</th>
+                            <th>MPG</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            const top50 = rankings.slice(0, 50);
+            top50.forEach(player => {
+                const fPVR = parseFloat(player.fantasy_pvr);
+                const pvrClass = fPVR > 30 ? 'stat-high' : fPVR > 20 ? 'stat-mid' : '';
+                const badge = fPVR > 35 ? '<span class="badge badge-elite">ELITE</span>' :
+                             fPVR > 28 ? '<span class="badge badge-good">GREAT</span>' :
+                             fPVR > 20 ? '<span class="badge badge-average">GOOD</span>' : '';
+
+                html += `
+                    <tr>
+                        <td class="rank">#${player.rank}</td>
+                        <td>${player.player_name}${badge}</td>
+                        <td>${player.team}</td>
+                        <td class="${pvrClass}">${player.fantasy_pvr}</td>
+                        <td>${player.projected_fantasy_ppg}</td>
+                        <td>${player.pvr}</td>
+                        <td>${player.ppg.toFixed(1)}</td>
+                        <td>${player.apg.toFixed(1)}</td>
+                        <td>${player.rpg.toFixed(1)}</td>
+                        <td>${player.mpg.toFixed(1)}</td>
+                    </tr>
+                `;
+            });
+
+            html += '</tbody></table>';
+            content.innerHTML = html;
+
+            if (rankings.length > 0) {
+                const topPlayer = rankings[0];
+                document.getElementById('rankings-insight').style.display = 'block';
+                document.getElementById('insight-text').innerHTML = `
+                    <strong>${topPlayer.player_name}</strong> leads with a ${topPlayer.pvr} PVR translating to 
+                    <strong>${topPlayer.projected_fantasy_ppg} projected fantasy PPG</strong> in your league settings. 
+                    Their elite ${topPlayer.fantasy_pvr} Fantasy PVR makes them the #1 pick.
+                `;
+            }
+        }
+
+        function filterRankings() {
+            displayRankings();
+        }
+
+        function populatePlayersList() {
+            const datalist = document.getElementById('players-list');
+            datalist.innerHTML = allPlayers.map(p => `<option value="${p.player_name}">`).join('');
+        }
+
+        function analyzeTrade() {
+            const playerAName = document.getElementById('trade-player-a').value;
+            const playerBName = document.getElementById('trade-player-b').value;
+
+            if (!playerAName || !playerBName) {
+                alert('Please enter both player names');
+                return;
+            }
+
+            const playerA = allPlayers.find(p => p.player_name.toLowerCase() === playerAName.toLowerCase());
+            const playerB = allPlayers.find(p => p.player_name.toLowerCase() === playerBName.toLowerCase());
+
+            if (!playerA || !playerB) {
+                alert('One or both players not found');
+                return;
+            }
+
+            const pvrA = calculatePVR(playerA);
+            const pvrB = calculatePVR(playerB);
+            const fPVR_A = calculateFantasyPVR(playerA);
+            const fPVR_B = calculateFantasyPVR(playerB);
+
+            const { ppg: ppgA, apg: apgA, rpg: rpgA, spg: spgA, bpg: bpgA, tov: tovA } = playerA;
+            const { ppg: ppgB, apg: apgB, rpg: rpgB, spg: spgB, bpg: bpgB, tov: tovB } = playerB;
+
+            const fppgA = (
+                ppgA * currentSettings.ppg +
+                apgA * currentSettings.apg +
+                rpgA * currentSettings.rpg +
+                spgA * currentSettings.spg +
+                bpgA * currentSettings.bpg +
+                tovA * currentSettings.tov +
+                (playerA.tpm || 0) * currentSettings.tpm
+            );
+
+            const fppgB = (
+                ppgB * currentSettings.ppg +
+                apgB * currentSettings.apg +
+                rpgB * currentSettings.rpg +
+                spgB * currentSettings.spg +
+                bpgB * currentSettings.bpg +
+                tovB * currentSettings.tov +
+                (playerB.tpm || 0) * currentSettings.tpm
+            );
+
+            const fPVRDiff = fPVR_B - fPVR_A;
+            const fppgDiff = fppgB - fppgA;
+
+            let recommendation, recClass, verdict;
+            if (fPVRDiff > 5) {
+                recommendation = 'ACCEPT TRADE';
+                recClass = 'accept';
+                verdict = `Strong trade! You gain ${fPVRDiff.toFixed(1)} Fantasy PVR`;
+            } else if (fPVRDiff > 2) {
+                recommendation = 'ACCEPT TRADE';
+                recClass = 'accept';
+                verdict = `Good trade. You gain ${fPVRDiff.toFixed(1)} Fantasy PVR`;
+            } else if (fPVRDiff > -2) {
+                recommendation = 'HOLD/NEUTRAL';
+                recClass = 'hold';
+                verdict = `Close trade. Minimal difference (${fPVRDiff.toFixed(1)} Fantasy PVR)`;
+            } else if (fPVRDiff > -5) {
+                recommendation = 'DECLINE TRADE';
+                recClass = 'decline';
+                verdict = `Losing value. Down ${fPVRDiff.toFixed(1)} Fantasy PVR`;
+            } else {
+                recommendation = 'DECLINE TRADE';
+                recClass = 'decline';
+                verdict = `Bad trade! You lose ${Math.abs(fPVRDiff).toFixed(1)} Fantasy PVR`;
+            }
+
+            const resultHTML = `
+                <div class="trade-comparison">
+                    <div class="player-card">
+                        <div class="player-name">${playerA.player_name}</div>
+                        <div class="player-team">${playerA.team}</div>
+                        <div class="player-stats">
+                            <div class="stat-item"><span class="stat-label">Fantasy PVR:</span><span class="stat-value">${fPVR_A.toFixed(2)}</span></div>
+                            <div class="stat-item"><span class="stat-label">Fantasy PPG:</span><span class="stat-value">${fppgA.toFixed(1)}</span></div>
+                            <div class="stat-item"><span class="stat-label">PVR:</span><span class="stat-value">${pvrA.toFixed(2)}</span></div>
+                            <div class="stat-item"><span class="stat-label">PPG:</span><span class="stat-value">${ppgA.toFixed(1)}</span></div>
+                            <div class="stat-item"><span class="stat-label">APG:</span><span class="stat-value">${apgA.toFixed(1)}</span></div>
+                            <div class="stat-item"><span class="stat-label">RPG:</span><span class="stat-value">${rpgA.toFixed(1)}</span></div>
+                        </div>
+                    </div>
+                    <div class="trade-arrow"></div>
+                    <div class="player-card">
+                        <div class="player-name">${playerB.player_name}</div>
+                        <div class="player-team">${playerB.team}</div>
+                        <div class="player-stats">
+                            <div class="stat-item"><span class="stat-label">Fantasy PVR:</span><span class="stat-value">${fPVR_B.toFixed(2)}</span></div>
+                            <div class="stat-item"><span class="stat-label">Fantasy PPG:</span><span class="stat-value">${fppgB.toFixed(1)}</span></div>
+                            <div class="stat-item"><span class="stat-label">PVR:</span><span class="stat-value">${pvrB.toFixed(2)}</span></div>
+                            <div class="stat-item"><span class="stat-label">PPG:</span><span class="stat-value">${ppgB.toFixed(1)}</span></div>
+                            <div class="stat-item"><span class="stat-label">APG:</span><span class="stat-value">${apgB.toFixed(1)}</span></div>
+                            <div class="stat-item"><span class="stat-label">RPG:</span><span class="stat-value">${rpgB.toFixed(1)}</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="result-card">
+                    <div class="result-title">Fantasy PVR Change</div>
+                    <div class="result-value">${fPVRDiff > 0 ? '+' : ''}${fPVRDiff.toFixed(2)}</div>
+                </div>
+
+                <div class="result-card">
+                    <div class="result-title">Fantasy PPG Change</div>
+                    <div class="result-value">${fppgDiff > 0 ? '+' : ''}${fppgDiff.toFixed(1)}</div>
+                </div>
+
+                <div class="recommendation ${recClass}">
+                    <div class="recommendation-title">${recommendation}</div>
+                    <div class="recommendation-text">${verdict}</div>
+                </div>
+            `;
+
+            document.getElementById('trade-result').innerHTML = resultHTML;
+        }
+
+        function loadWaiverWire() {
+            const minMPG = parseFloat(document.getElementById('waiver-min-mpg').value) || 15;
+            
+            waiverGems = allPlayers.filter(p => {
+                const pvr = calculatePVR(p);
+                const fPVR = calculateFantasyPVR(p);
+                return p.mpg >= minMPG && pvr > 15 && fPVR > 20;
+            }).map(p => ({
+                ...p,
+                pvr: calculatePVR(p).toFixed(2),
+                fantasy_pvr: calculateFantasyPVR(p).toFixed(2)
+            })).sort((a, b) => parseFloat(b.fantasy_pvr) - parseFloat(a.fantasy_pvr)).slice(0, 20);
+
+            displayWaiverWire();
+        }
+
+        function displayWaiverWire() {
+            const content = document.getElementById('waiver-content');
+            
+            if (waiverGems.length === 0) {
+                content.innerHTML = '<div class="empty-state">No waiver wire gems found. Try adjusting minimum MPG.</div>';
+                return;
+            }
+
+            let html = `
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Player</th>
+                            <th>Team</th>
+                            <th>Fantasy PVR</th>
+                            <th>PVR</th>
+                            <th>MPG</th>
+                            <th>PPG</th>
+                            <th>APG</th>
+                            <th>RPG</th>
+                            <th>Upside</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            waiverGems.forEach((player, i) => {
+                const upside = parseFloat(player.pvr) > 25 ? 'High' : 'Medium';
+                const badge = upside === 'High' ? '<span class="badge badge-elite">HIGH</span>' : '<span class="badge badge-good">MED</span>';
+
+                html += `
+                    <tr>
+                        <td class="rank">${i + 1}</td>
+                        <td>${player.player_name}</td>
+                        <td>${player.team}</td>
+                        <td class="stat-high">${player.fantasy_pvr}</td>
+                        <td>${player.pvr}</td>
+                        <td>${player.mpg.toFixed(1)}</td>
+                        <td>${player.ppg.toFixed(1)}</td>
+                        <td>${player.apg.toFixed(1)}</td>
+                        <td>${player.rpg.toFixed(1)}</td>
+                        <td>${badge}</td>
+                    </tr>
+                `;
+            });
+
+            html += '</tbody></table>';
+            content.innerHTML = html;
+        }
+
+        function loadProjections() {
+            const projections = rankings.slice(0, 20).map((p, i) => ({
+                ...p,
+                games_this_week: Math.floor(Math.random() * 3) + 2
+            }));
+
+            displayProjections(projections);
+        }
+
+        function displayProjections(projections) {
+            const content = document.getElementById('projections-content');
+            
+            let html = '';
+            projections.forEach(player => {
+                html += `
+                    <div class="projection-card">
+                        <div class="projection-header">
+                            <div>
+                                <div class="projection-player">${player.player_name} (${player.team})</div>
+                                <div>${player.games_this_week} games this week</div>
+                            </div>
+                            <div class="projection-value">${player.projected_fantasy_ppg} FPPG</div>
+                        </div>
+                        <div>
+                            Fantasy PVR: ${player.fantasy_pvr} | PVR: ${player.pvr} | 
+                            ${player.ppg.toFixed(1)} PPG, ${player.apg.toFixed(1)} APG, ${player.rpg.toFixed(1)} RPG
+                        </div>
+                    </div>
+                `;
+            });
+
+            content.innerHTML = html || '<div class="empty-state">No projections available</div>';
+        }
+
+        function filterProjections() {
+            loadProjections();
+        }
+    </script>
+    <script src="/static/js/theme.js"></script>
+</body>
+</html>

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Betting Edges - TAYLOR VECTOR TERMINAL</title>
+    <link rel="stylesheet" href="/static/css/theme.css">
+</head>
+<body>
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+        <span class="theme-icon">◐</span>
+        <span id="theme-text">Dark</span>
+    </button>
+
+
+    <div class="widget-container">
+        <div class="widget-header">
+            <div class="header-left">
+                <img id="partnerLogo" class="partner-logo" />
+                <h1> Live Betting Edges</h1>
+            </div>
+            <div class="live-indicator">
+                <div class="live-dot"></div>
+                <span>LIVE</span>
+            </div>
+        </div>
+        
+        <div class="edge-ticker">
+            <div class="ticker-content" id="tickerContent">
+                Loading live edges...
+            </div>
+        </div>
+        
+        <div id="edgesContent" class="edges-grid"></div>
+        
+        <div class="attribution">
+            Powered by <a href="https://taylor-vector-terminal.replit.app" target="_blank">TAYLOR VECTOR TERMINAL</a> | 
+            Real-time betting edge analysis using TUSG% & PVR metrics
+        </div>
+    </div>
+    
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const primaryColor = urlParams.get('color') ? `#${urlParams.get('color')}` : '#2ecc71';
+        const logoUrl = urlParams.get('logo');
+        const partnerKey = urlParams.get('partner');
+        const minEdge = parseFloat(urlParams.get('min_edge')) || 65;
+        
+        document.documentElement.style.setProperty('--primary-color', primaryColor);
+        
+        if (logoUrl) {
+            const logoElement = document.getElementById('partnerLogo');
+            logoElement.src = decodeURIComponent(logoUrl);
+            logoElement.style.display = 'block';
+        }
+        
+        let edges = [];
+        
+        async function loadEdges() {
+            try {
+                const response = await fetch(`/api/v1/edges?min_confidence=${minEdge}`);
+                const data = await response.json();
+                edges = data.edges || [];
+                
+                displayEdges();
+                updateTicker();
+                
+                if (partnerKey) {
+                    trackView();
+                }
+            } catch (error) {
+                console.error('Error loading edges:', error);
+                document.getElementById('edgesContent').innerHTML = `
+                    <div class="no-edges">
+                        <h2> Unable to load edges</h2>
+                        <p>Please check back soon</p>
+                    </div>
+                `;
+            }
+        }
+        
+        function displayEdges() {
+            if (edges.length === 0) {
+                document.getElementById('edgesContent').innerHTML = `
+                    <div class="no-edges">
+                        <h2> No High-Confidence Edges Available</h2>
+                        <p>Check back soon for new betting opportunities</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            const html = edges.map(edge => {
+                const edgeClass = edge.edge >= 75 ? 'high' : '';
+                const timestamp = new Date(edge.timestamp).toLocaleString();
+                
+                return `
+                    <div class="edge-card">
+                        <div class="edge-badge ${edgeClass}">${edge.edge.toFixed(1)}%</div>
+                        <div class="game-title">${edge.game}</div>
+                        <div class="pick-detail"> ${edge.pick}</div>
+                        <div class="metrics-row">
+                            <div class="metric">
+                                <div class="metric-label">Home TUSG</div>
+                                <div class="metric-value">${edge.home_tusg.toFixed(1)}</div>
+                            </div>
+                            <div class="metric">
+                                <div class="metric-label">Away TUSG</div>
+                                <div class="metric-value">${edge.away_tusg.toFixed(1)}</div>
+                            </div>
+                            <div class="metric">
+                                <div class="metric-label">Spread</div>
+                                <div class="metric-value">${edge.spread > 0 ? '+' : ''}${edge.spread}</div>
+                            </div>
+                        </div>
+                        <div class="timestamp"> ${timestamp}</div>
+                    </div>
+                `;
+            }).join('');
+            
+            document.getElementById('edgesContent').innerHTML = html;
+        }
+        
+        function updateTicker() {
+            if (edges.length === 0) {
+                document.getElementById('tickerContent').textContent = 
+                    ' Analyzing games... Check back soon for high-confidence edges';
+                return;
+            }
+            
+            const tickerText = edges.map(edge => 
+                ` ${edge.game}: ${edge.pick} (${edge.edge.toFixed(1)}% confidence)`
+            ).join(' • ');
+            
+            document.getElementById('tickerContent').textContent = tickerText + ' • ' + tickerText;
+        }
+        
+        async function trackView() {
+            try {
+                await fetch('/partnerships/track', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        partner_key: partnerKey,
+                        event_type: 'view',
+                        widget_type: 'edge_feed'
+                    })
+                });
+            } catch (error) {
+                console.error('Tracking error:', error);
+            }
+        }
+        
+        loadEdges();
+        
+        setInterval(loadEdges, 60000);
+    </script>
+    <script src="/static/js/theme.js"></script>
+</body>
+</html>

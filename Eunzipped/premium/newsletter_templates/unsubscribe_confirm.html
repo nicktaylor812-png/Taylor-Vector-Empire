@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unsubscribe Confirmation</title>
+    <link rel="stylesheet" href="/static/css/theme.css">
+</head>
+<body>
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+        <span class="theme-icon">◐</span>
+        <span id="theme-text">Dark</span>
+    </button>
+
+
+    <div class="email-container">
+        <div class="header">
+            <h1>Unsubscribe Confirmation</h1>
+        </div>
+
+        <div class="content">
+            <div class="icon"></div>
+            
+            <p class="message">
+                <strong>You've been unsubscribed</strong>
+            </p>
+
+            <p>Hi {{ subscriber_name }},</p>
+
+            <p>
+                We've successfully removed <strong>{{ subscriber_email }}</strong> from our mailing list. You won't receive any more emails from TAYLOR VECTOR TERMINAL.
+            </p>
+
+            <div class="info-box">
+                <h3>What This Means:</h3>
+                <p> No more weekly highlight emails</p>
+                <p> No more daily edge reports (if you were premium)</p>
+                <p> No more player deep dives</p>
+                <p> You're completely off our list</p>
+            </div>
+
+            <div class="feedback-section">
+                <h3> We'd Love Your Feedback</h3>
+                <p>We're sorry to see you go! If you have a moment, we'd really appreciate knowing why you unsubscribed:</p>
+                <ul>
+                    <li>Too many emails?</li>
+                    <li>Content wasn't relevant?</li>
+                    <li>Not interested in NBA analytics anymore?</li>
+                    <li>Other reason?</li>
+                </ul>
+                <p>
+                    Reply to this email with your feedback - it helps us improve for everyone else!
+                </p>
+            </div>
+
+            <div class="resubscribe-box">
+                <h3>Changed Your Mind?</h3>
+                <p>
+                    If you unsubscribed by mistake or want to rejoin later, you can always subscribe again:
+                </p>
+                <a href="{{ manage_url }}" class="cta-button">Resubscribe →</a>
+            </div>
+
+            <p>
+                Thanks for being part of the TAYLOR VECTOR community. We hope to see you again! 
+            </p>
+        </div>
+
+        <div class="footer">
+            <p><strong>TAYLOR VECTOR TERMINAL</strong></p>
+            <p>Advanced NBA Analytics</p>
+            
+            <div>
+                <p>
+                    Even though you're unsubscribed, you can still check out our analytics at<br>
+                    <a href="{{ manage_url }}">taylor-vector.com</a>
+                </p>
+                <p>
+                     {{ year }} TAYLOR VECTOR TERMINAL. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </div>
+    <script src="/static/js/theme.js"></script>
+</body>
+</html>

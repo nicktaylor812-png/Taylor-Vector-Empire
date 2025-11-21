@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Positionless GOAT Rankings | TAYLOR VECTOR TERMINAL</title>
+    <link rel="stylesheet" href="/static/css/theme.css">
+</head>
+<body>
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+        <span class="theme-icon">◐</span>
+        <span id="theme-text">Dark</span>
+    </button>
+
+
+    <div class="container">
+        <header>
+            <h1> Positionless GOAT Rankings</h1>
+            <p class="subtitle">The Ultimate NBA Rankings Using TUSG%, PVR, and Longevity</p>
+        </header>
+
+        <div class="explanation-box">
+            <h2> Why Position Doesn't Matter</h2>
+            <p>
+                Traditional NBA rankings are biased by position. A point guard's 25 PPG is valued differently than a center's 25 PPG. 
+                But <strong>True Usage Share (TUSG%)</strong> and <strong>Possession Value Rating (PVR)</strong> eliminate this bias.
+            </p>
+            <p>
+                <strong>TUSG%</strong> measures how much of the team's offense a player uses, regardless of position. 
+                <strong>PVR</strong> measures efficiency per possession. These metrics are era-adjusted and pace-neutral, 
+                allowing direct comparison between Magic Johnson and Stephen Curry, or Wilt Chamberlain and Giannis Antetokounmpo.
+            </p>
+            <p>
+                <strong>Longevity</strong> is measured by <strong>Seasons Played</strong> in the NBA. 
+                This captures sustained excellence and career durability, regardless of team success.
+            </p>
+            <p>
+                <strong>Customize the weights below to define YOUR GOAT criteria. Pure peak? Pure longevity? Or balanced greatness?</strong>
+            </p>
+        </div>
+
+        <div class="main-content">
+            <div class="controls-panel">
+                <h2 class="controls-title"> Adjust Weights</h2>
+                
+                <div class="slider-group">
+                    <div class="slider-label">
+                        <span> Usage (TUSG%)</span>
+                        <span class="slider-value" id="tusg-value">40%</span>
+                    </div>
+                    <input type="range" id="tusg-slider" min="0" max="100" value="40" step="1">
+                </div>
+
+                <div class="slider-group">
+                    <div class="slider-label">
+                        <span> Efficiency (PVR)</span>
+                        <span class="slider-value" id="pvr-value">40%</span>
+                    </div>
+                    <input type="range" id="pvr-slider" min="0" max="100" value="40" step="1">
+                </div>
+
+                <div class="slider-group">
+                    <div class="slider-label">
+                        <span> Longevity</span>
+                        <span class="slider-value" id="longevity-value">20%</span>
+                    </div>
+                    <input type="range" id="longevity-slider" min="0" max="100" value="20" step="1">
+                </div>
+
+                <div class="weight-warning" id="weight-warning">
+                     Weights must total 100%
+                </div>
+
+                <div class="preset-buttons">
+                    <button class="preset-btn" onclick="setPreset(40, 40, 20)"> Balanced</button>
+                    <button class="preset-btn" onclick="setPreset(100, 0, 0)"> Pure Usage</button>
+                    <button class="preset-btn" onclick="setPreset(0, 100, 0)"> Pure Efficiency</button>
+                    <button class="preset-btn" onclick="setPreset(0, 0, 100)"> Pure Longevity</button>
+                    <button class="preset-btn" onclick="setPreset(50, 50, 0)"> Peak Only</button>
+                    <button class="preset-btn" onclick="setPreset(33, 33, 34)"> Equal Split</button>
+                </div>
+
+                <div class="filter-section">
+                    <div class="filter-label"> Filter by Position</div>
+                    <div class="filter-buttons">
+                        <button class="filter-btn active" onclick="filterPosition('all')">All</button>
+                        <button class="filter-btn" onclick="filterPosition('guard')">Guards</button>
+                        <button class="filter-btn" onclick="filterPosition('forward')">Forwards</button>
+                        <button class="filter-btn" onclick="filterPosition('center')">Centers</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="rankings-panel">
+                <div class="rankings-header">
+                    <h2 class="rankings-title"> Top 50 All-Time</h2>
+                    <div class="sort-controls">
+                        <select id="display-limit" onchange="updateDisplay()">
+                            <option value="10">Top 10</option>
+                            <option value="20" selected>Top 20</option>
+                            <option value="25">Top 25</option>
+                            <option value="50">Top 50</option>
+                        </select>
+                    </div>
+                </div>
+
+                <table class="rankings-table">
+                    <thead>
+                        <tr>
+                            <th onclick="sortBy('rank')">Rank</th>
+                            <th onclick="sortBy('player')">Player</th>
+                            <th onclick="sortBy('tusg')">TUSG%</th>
+                            <th onclick="sortBy('pvr')">PVR</th>
+                            <th onclick="sortBy('longevity')">Longevity</th>
+                            <th onclick="sortBy('goatScore')">GOAT Score</th>
+                        </tr>
+                    </thead>
+                    <tbody id="rankings-tbody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="comparison-section">
+            <h2 class="comparison-title"> GOAT Comparison</h2>
+            <div class="comparison-grid">
+                <div class="goat-box your-goat">
+                    <div class="goat-label">Your GOAT</div>
+                    <div class="goat-name" id="your-goat-name">-</div>
+                    <div class="goat-details" id="your-goat-details">-</div>
+                </div>
+                <div class="goat-box traditional-goat">
+                    <div class="goat-label">ESPN GOAT (Traditional)</div>
+                    <div class="goat-name" id="traditional-goat-name">LeBron James</div>
+                    <div class="goat-details" id="traditional-goat-details">4 Championships | 20 All-Stars</div>
+                </div>
+                <div class="goat-box peak-goat">
+                    <div class="goat-label">Peak GOAT (50/50/0)</div>
+                    <div class="goat-name" id="peak-goat-name">-</div>
+                    <div class="goat-details" id="peak-goat-details">-</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="comparison-section">
+            <h2 class="comparison-title"> Key Insights</h2>
+            <div>
+                <ul id="insights-list">
+                    <li><strong>With 60% PVR weight:</strong> Jokić jumps to #3 overall, showcasing elite efficiency</li>
+                    <li><strong>Pure Usage (100% TUSG):</strong> Russell Westbrook dominates as the most ball-dominant player</li>
+                    <li><strong>Pure Efficiency (100% PVR):</strong> Jokić, Bird, and Magic lead with exceptional value per possession</li>
+                    <li><strong>Balanced Formula (40/40/20):</strong> Blends peak performance with career longevity</li>
+                    <li><strong>Longevity matters:</strong> LeBron's 21 seasons significantly boost his GOAT score</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const PLAYER_DATA = [
+            {player: "Michael Jordan", position: "Guard", season: "1987-88", tusg: 40.13, pvr: 15.54, ppg: 35.0, apg: 5.9, rpg: 5.5, seasons: 15, allStar: 14, championships: 6, mvp: 5},
+            {player: "LeBron James", position: "Forward", season: "2012-13", tusg: 31.03, pvr: 39.21, ppg: 26.8, apg: 7.3, rpg: 8.0, seasons: 21, allStar: 20, championships: 4, mvp: 4},
+            {player: "Kareem Abdul-Jabbar", position: "Center", season: "1971-72", tusg: 33.29, pvr: 15.19, ppg: 34.8, apg: 4.6, rpg: 16.6, seasons: 20, allStar: 19, championships: 6, mvp: 6},
+            {player: "Magic Johnson", position: "Guard", season: "1986-87", tusg: 29.51, pvr: 44.03, ppg: 23.9, apg: 12.2, rpg: 6.3, seasons: 13, allStar: 12, championships: 5, mvp: 3},
+            {player: "Larry Bird", position: "Forward", season: "1987-88", tusg: 28.8, pvr: 44.35, ppg: 29.9, apg: 6.1, rpg: 9.3, seasons: 13, allStar: 12, championships: 3, mvp: 3},
+            {player: "Wilt Chamberlain", position: "Center", season: "1961-62", tusg: 44.73, pvr: 0.63, ppg: 50.4, apg: 2.4, rpg: 25.7, seasons: 14, allStar: 13, championships: 2, mvp: 4},
+            {player: "Bill Russell", position: "Center", season: "1961-62", tusg: 25.5, pvr: 8.2, ppg: 18.9, apg: 4.5, rpg: 23.6, seasons: 13, allStar: 12, championships: 11, mvp: 5},
+            {player: "Tim Duncan", position: "Forward", season: "2001-02", tusg: 30.18, pvr: 15.07, ppg: 25.5, apg: 3.7, rpg: 12.7, seasons: 19, allStar: 15, championships: 5, mvp: 2},
+            {player: "Kobe Bryant", position: "Guard", season: "2005-06", tusg: 42.87, pvr: 10.72, ppg: 35.4, apg: 4.5, rpg: 5.3, seasons: 20, allStar: 18, championships: 5, mvp: 1},
+            {player: "Shaquille O'Neal", position: "Center", season: "1999-00", tusg: 34.82, pvr: 16.5, ppg: 29.7, apg: 3.8, rpg: 13.6, seasons: 19, allStar: 15, championships: 4, mvp: 1},
+            {player: "Hakeem Olajuwon", position: "Center", season: "1992-93", tusg: 35.2, pvr: 18.3, ppg: 26.1, apg: 3.5, rpg: 13.0, seasons: 18, allStar: 12, championships: 2, mvp: 1},
+            {player: "Stephen Curry", position: "Guard", season: "2015-16", tusg: 36.87, pvr: 40.27, ppg: 30.1, apg: 6.7, rpg: 5.4, seasons: 15, allStar: 10, championships: 4, mvp: 2},
+            {player: "Kevin Durant", position: "Forward", season: "2013-14", tusg: 36.06, pvr: 23.79, ppg: 32.0, apg: 5.5, rpg: 7.4, seasons: 17, allStar: 14, championships: 2, mvp: 1},
+            {player: "Giannis Antetokounmpo", position: "Forward", season: "2019-20", tusg: 43.51, pvr: 28.35, ppg: 29.5, apg: 5.6, rpg: 13.6, seasons: 11, allStar: 8, championships: 1, mvp: 2},
+            {player: "Nikola Jokić", position: "Center", season: "2021-22", tusg: 33.73, pvr: 44.54, ppg: 27.1, apg: 7.9, rpg: 13.8, seasons: 9, allStar: 6, championships: 1, mvp: 3},
+            {player: "Moses Malone", position: "Center", season: "1981-82", tusg: 32.8, pvr: 12.4, ppg: 31.1, apg: 1.8, rpg: 14.7, seasons: 19, allStar: 13, championships: 1, mvp: 3},
+            {player: "Julius Erving", position: "Forward", season: "1980-81", tusg: 33.5, pvr: 19.2, ppg: 24.6, apg: 4.4, rpg: 8.0, seasons: 16, allStar: 11, championships: 1, mvp: 1},
+            {player: "Dirk Nowitzki", position: "Forward", season: "2005-06", tusg: 34.2, pvr: 21.5, ppg: 26.6, apg: 2.8, rpg: 9.0, seasons: 21, allStar: 14, championships: 1, mvp: 1},
+            {player: "Charles Barkley", position: "Forward", season: "1987-88", tusg: 32.1, pvr: 24.8, ppg: 28.3, apg: 3.9, rpg: 11.9, seasons: 16, allStar: 11, championships: 0, mvp: 1},
+            {player: "Karl Malone", position: "Forward", season: "1989-90", tusg: 31.5, pvr: 17.6, ppg: 31.0, apg: 2.3, rpg: 11.1, seasons: 19, allStar: 14, championships: 0, mvp: 2},
+            {player: "David Robinson", position: "Center", season: "1993-94", tusg: 33.8, pvr: 20.1, ppg: 29.8, apg: 4.8, rpg: 10.7, seasons: 14, allStar: 10, championships: 2, mvp: 1},
+            {player: "Oscar Robertson", position: "Guard", season: "1963-64", tusg: 38.2, pvr: 28.5, ppg: 31.4, apg: 9.9, rpg: 9.9, seasons: 14, allStar: 12, championships: 1, mvp: 1},
+            {player: "Jerry West", position: "Guard", season: "1965-66", tusg: 39.5, pvr: 16.8, ppg: 31.3, apg: 6.1, rpg: 7.1, seasons: 14, allStar: 14, championships: 1, mvp: 0},
+            {player: "Elgin Baylor", position: "Forward", season: "1960-61", tusg: 40.8, pvr: 14.2, ppg: 34.8, apg: 5.1, rpg: 19.8, seasons: 14, allStar: 11, championships: 0, mvp: 0},
+            {player: "John Stockton", position: "Guard", season: "1989-90", tusg: 24.5, pvr: 38.2, ppg: 17.2, apg: 14.5, rpg: 2.6, seasons: 19, allStar: 10, championships: 0, mvp: 0},
+            {player: "Dwyane Wade", position: "Guard", season: "2008-09", tusg: 37.8, pvr: 22.4, ppg: 30.2, apg: 7.5, rpg: 5.0, seasons: 16, allStar: 13, championships: 3, mvp: 0},
+            {player: "Kawhi Leonard", position: "Forward", season: "2016-17", tusg: 32.9, pvr: 25.6, ppg: 25.5, apg: 3.5, rpg: 5.8, seasons: 13, allStar: 6, championships: 2, mvp: 0},
+            {player: "Kevin Garnett", position: "Forward", season: "2003-04", tusg: 30.4, pvr: 20.8, ppg: 24.2, apg: 5.0, rpg: 13.9, seasons: 21, allStar: 15, championships: 1, mvp: 1},
+            {player: "Scottie Pippen", position: "Forward", season: "1993-94", tusg: 28.3, pvr: 21.5, ppg: 22.0, apg: 5.6, rpg: 8.7, seasons: 17, allStar: 7, championships: 6, mvp: 0},
+            {player: "Allen Iverson", position: "Guard", season: "2000-01", tusg: 41.2, pvr: 12.8, ppg: 31.1, apg: 4.6, rpg: 3.8, seasons: 14, allStar: 11, championships: 0, mvp: 1},
+            {player: "Russell Westbrook", position: "Guard", season: "2016-17", tusg: 48.1, pvr: 25.11, ppg: 31.6, apg: 10.4, rpg: 10.7, seasons: 16, allStar: 9, championships: 0, mvp: 1},
+            {player: "James Harden", position: "Guard", season: "2018-19", tusg: 45.71, pvr: 18.55, ppg: 36.1, apg: 7.5, rpg: 6.6, seasons: 15, allStar: 10, championships: 0, mvp: 1},
+            {player: "Chris Paul", position: "Guard", season: "2008-09", tusg: 28.9, pvr: 35.8, ppg: 22.8, apg: 11.0, rpg: 5.5, seasons: 19, allStar: 12, championships: 0, mvp: 0},
+            {player: "Steve Nash", position: "Guard", season: "2006-07", tusg: 25.8, pvr: 41.2, ppg: 18.6, apg: 11.6, rpg: 3.5, seasons: 18, allStar: 8, championships: 0, mvp: 2},
+            {player: "Jason Kidd", position: "Guard", season: "2001-02", tusg: 26.2, pvr: 28.5, ppg: 14.7, apg: 9.9, rpg: 7.3, seasons: 19, allStar: 10, championships: 1, mvp: 0},
+            {player: "Isiah Thomas", position: "Guard", season: "1984-85", tusg: 34.6, pvr: 22.1, ppg: 21.2, apg: 13.9, rpg: 3.2, seasons: 13, allStar: 12, championships: 2, mvp: 0},
+            {player: "Clyde Drexler", position: "Guard", season: "1987-88", tusg: 31.8, pvr: 20.3, ppg: 27.0, apg: 5.8, rpg: 6.0, seasons: 15, allStar: 10, championships: 1, mvp: 0},
+            {player: "Patrick Ewing", position: "Center", season: "1989-90", tusg: 33.2, pvr: 17.9, ppg: 28.6, apg: 2.2, rpg: 10.9, seasons: 17, allStar: 11, championships: 0, mvp: 0},
+            {player: "John Havlicek", position: "Forward", season: "1970-71", tusg: 32.5, pvr: 19.4, ppg: 28.9, apg: 7.5, rpg: 9.0, seasons: 16, allStar: 13, championships: 8, mvp: 0},
+            {player: "Bob Pettit", position: "Forward", season: "1958-59", tusg: 35.8, pvr: 16.2, ppg: 29.2, apg: 3.1, rpg: 16.4, seasons: 11, allStar: 11, championships: 1, mvp: 2},
+            {player: "Rick Barry", position: "Forward", season: "1966-67", tusg: 38.4, pvr: 18.9, ppg: 35.6, apg: 3.6, rpg: 9.2, seasons: 14, allStar: 8, championships: 1, mvp: 0},
+            {player: "George Gervin", position: "Guard", season: "1979-80", tusg: 37.2, pvr: 14.6, ppg: 33.1, apg: 4.0, rpg: 5.0, seasons: 14, allStar: 9, championships: 0, mvp: 0},
+            {player: "Dominique Wilkins", position: "Forward", season: "1985-86", tusg: 36.5, pvr: 15.8, ppg: 30.3, apg: 2.6, rpg: 7.0, seasons: 15, allStar: 9, championships: 0, mvp: 0},
+            {player: "Paul Pierce", position: "Forward", season: "2005-06", tusg: 33.1, pvr: 18.2, ppg: 26.8, apg: 4.7, rpg: 6.7, seasons: 19, allStar: 10, championships: 1, mvp: 0},
+            {player: "Ray Allen", position: "Guard", season: "2006-07", tusg: 30.2, pvr: 23.5, ppg: 26.4, apg: 4.5, rpg: 4.1, seasons: 18, allStar: 10, championships: 2, mvp: 0},
+            {player: "Reggie Miller", position: "Guard", season: "1996-97", tusg: 29.8, pvr: 24.1, ppg: 21.6, apg: 3.0, rpg: 3.1, seasons: 18, allStar: 5, championships: 0, mvp: 0},
+            {player: "Gary Payton", position: "Guard", season: "1999-00", tusg: 32.4, pvr: 21.7, ppg: 24.2, apg: 8.9, rpg: 6.5, seasons: 17, allStar: 9, championships: 1, mvp: 0},
+            {player: "Damian Lillard", position: "Guard", season: "2022-23", tusg: 40.2, pvr: 26.3, ppg: 32.2, apg: 7.3, rpg: 4.8, seasons: 12, allStar: 8, championships: 0, mvp: 0},
+            {player: "Anthony Davis", position: "Forward", season: "2017-18", tusg: 34.5, pvr: 27.8, ppg: 28.1, apg: 2.3, rpg: 11.1, seasons: 12, allStar: 9, championships: 1, mvp: 0},
+            {player: "Luka Dončić", position: "Guard", season: "2022-23", tusg: 42.3, pvr: 28.9, ppg: 32.4, apg: 8.6, rpg: 8.0, seasons: 6, allStar: 5, championships: 0, mvp: 0}
+        ];
+
+        PLAYER_DATA.forEach(p => {
+            p.longevity = p.seasons;
+        });
+
+        function normalize(values) {
+            const min = Math.min(...values);
+            const max = Math.max(...values);
+            if (max === min) return values.map(() => 50);
+            return values.map(v => ((v - min) / (max - min)) * 100);
+        }
+
+        const tusgNormalized = normalize(PLAYER_DATA.map(p => p.tusg));
+        const pvrNormalized = normalize(PLAYER_DATA.map(p => p.pvr));
+        const longevityNormalized = normalize(PLAYER_DATA.map(p => p.longevity));
+
+        PLAYER_DATA.forEach((player, i) => {
+            player.tusgNorm = tusgNormalized[i];
+            player.pvrNorm = pvrNormalized[i];
+            player.longevityNorm = longevityNormalized[i];
+        });
+
+        let currentFilter = 'all';
+        let currentSort = { column: 'rank', direction: 'asc' };
+        let traditionalGoat = null;
+        let peakGoat = null;
+
+        function calculateRankings(tusgWeight, pvrWeight, longevityWeight) {
+            const rankings = PLAYER_DATA.map(player => ({
+                ...player,
+                goatScore: (
+                    player.tusgNorm * tusgWeight +
+                    player.pvrNorm * pvrWeight +
+                    player.longevityNorm * longevityWeight
+                ) / 100
+            }));
+
+            rankings.sort((a, b) => b.goatScore - a.goatScore);
+            rankings.forEach((player, i) => {
+                player.rank = i + 1;
+            });
+            return rankings;
+        }
+
+        function filterPosition(position) {
+            currentFilter = position;
+            
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            updateDisplay();
+        }
+
+        function sortBy(column) {
+            if (currentSort.column === column) {
+                currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
+            } else {
+                currentSort.column = column;
+                currentSort.direction = column === 'rank' ? 'asc' : 'desc';
+            }
+            updateDisplay();
+        }
+
+        function updateDisplay() {
+            const tusgWeight = parseInt(document.getElementById('tusg-slider').value);
+            const pvrWeight = parseInt(document.getElementById('pvr-slider').value);
+            const longevityWeight = parseInt(document.getElementById('longevity-slider').value);
+
+            document.getElementById('tusg-value').textContent = tusgWeight + '%';
+            document.getElementById('pvr-value').textContent = pvrWeight + '%';
+            document.getElementById('longevity-value').textContent = longevityWeight + '%';
+
+            const total = tusgWeight + pvrWeight + longevityWeight;
+            const warning = document.getElementById('weight-warning');
+            
+            if (total !== 100) {
+                warning.classList.add('show');
+                warning.textContent = ` Weights total ${total}% (must be 100%)`;
+                return;
+            } else {
+                warning.classList.remove('show');
+            }
+
+            let rankings = calculateRankings(tusgWeight, pvrWeight, longevityWeight);
+
+            if (currentFilter !== 'all') {
+                rankings = rankings.filter(p => 
+                    p.position.toLowerCase().includes(currentFilter)
+                );
+            }
+
+            if (currentSort.column !== 'rank') {
+                rankings.sort((a, b) => {
+                    const aVal = a[currentSort.column];
+                    const bVal = b[currentSort.column];
+                    const comparison = typeof aVal === 'string' 
+                        ? aVal.localeCompare(bVal)
+                        : aVal - bVal;
+                    return currentSort.direction === 'asc' ? comparison : -comparison;
+                });
+            } else if (currentSort.direction === 'desc') {
+                rankings.reverse();
+            }
+
+            document.querySelectorAll('.rankings-table th').forEach(th => {
+                th.classList.remove('sorted-asc', 'sorted-desc');
+            });
+            const sortedHeader = Array.from(document.querySelectorAll('.rankings-table th'))
+                .find(th => th.textContent.toLowerCase().includes(currentSort.column.toLowerCase().substring(0, 4)));
+            if (sortedHeader) {
+                sortedHeader.classList.add(currentSort.direction === 'asc' ? 'sorted-asc' : 'sorted-desc');
+            }
+
+            const limit = parseInt(document.getElementById('display-limit').value);
+            const displayRankings = rankings.slice(0, limit);
+
+            const tbody = document.getElementById('rankings-tbody');
+            tbody.innerHTML = '';
+
+            displayRankings.forEach((player, index) => {
+                const row = document.createElement('tr');
+                const isTop3 = player.rank <= 3;
+                const isRank1 = player.rank === 1;
+                
+                if (isTop3) row.classList.add('top-3');
+                if (isRank1) row.classList.add('rank-1');
+                
+                row.onclick = () => toggleStats(player.player);
+
+                const positionClass = player.position.toLowerCase().includes('guard') ? 'guard' :
+                                     player.position.toLowerCase().includes('forward') ? 'forward' : 'center';
+
+                row.innerHTML = `
+                    <td class="rank-cell">${player.rank}</td>
+                    <td class="player-cell">
+                        ${player.player}
+                        <span class="position-badge badge-${positionClass}">${player.position}</span>
+                    </td>
+                    <td>${player.tusg.toFixed(1)}%</td>
+                    <td>${player.pvr.toFixed(1)}</td>
+                    <td>${player.longevity}</td>
+                    <td><strong>${player.goatScore.toFixed(1)}</strong></td>
+                `;
+                tbody.appendChild(row);
+
+                const statsRow = document.createElement('tr');
+                statsRow.classList.add('stats-row');
+                statsRow.id = `stats-${player.player.replace(/\s+/g, '-')}`;
+                statsRow.innerHTML = `
+                    <td colspan="6">
+                        <div class="stats-content">
+                            <h3>${player.player} - Career Stats (Peak Season: ${player.season})</h3>
+                            <div class="stats-grid">
+                                <div class="stat-item">
+                                    <div class="stat-label">Points Per Game</div>
+                                    <div class="stat-value">${player.ppg.toFixed(1)}</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-label">Assists Per Game</div>
+                                    <div class="stat-value">${player.apg.toFixed(1)}</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-label">Rebounds Per Game</div>
+                                    <div class="stat-value">${player.rpg.toFixed(1)}</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-label">All-Star Selections</div>
+                                    <div class="stat-value">${player.allStar}</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-label">Championships</div>
+                                    <div class="stat-value">${player.championships}</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-label">MVP Awards</div>
+                                    <div class="stat-value">${player.mvp}</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-label">TUSG% (Normalized)</div>
+                                    <div class="stat-value">${player.tusgNorm.toFixed(1)}</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-label">PVR (Normalized)</div>
+                                    <div class="stat-value">${player.pvrNorm.toFixed(1)}</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-label">Seasons Played</div>
+                                    <div class="stat-value">${player.seasons} seasons</div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(statsRow);
+            });
+
+            const fullRankings = calculateRankings(tusgWeight, pvrWeight, longevityWeight);
+            document.getElementById('your-goat-name').textContent = fullRankings[0].player;
+            document.getElementById('your-goat-details').textContent = 
+                `Score: ${fullRankings[0].goatScore.toFixed(1)} | ${fullRankings[0].season}`;
+
+            if (!traditionalGoat) {
+                traditionalGoat = calculateRankings(40, 40, 20)[0];
+            }
+            document.getElementById('traditional-goat-name').textContent = traditionalGoat.player;
+            document.getElementById('traditional-goat-details').textContent = 
+                `Score: ${traditionalGoat.goatScore.toFixed(1)} | ${traditionalGoat.season}`;
+
+            if (!peakGoat) {
+                peakGoat = calculateRankings(50, 50, 0)[0];
+            }
+            document.getElementById('peak-goat-name').textContent = peakGoat.player;
+            document.getElementById('peak-goat-details').textContent = 
+                `Score: ${peakGoat.goatScore.toFixed(1)} | ${peakGoat.season}`;
+        }
+
+        function toggleStats(playerName) {
+            const statsRow = document.getElementById(`stats-${playerName.replace(/\s+/g, '-')}`);
+            if (statsRow) {
+                statsRow.classList.toggle('expanded');
+            }
+        }
+
+        function setPreset(tusg, pvr, longevity) {
+            document.getElementById('tusg-slider').value = tusg;
+            document.getElementById('pvr-slider').value = pvr;
+            document.getElementById('longevity-slider').value = longevity;
+            updateDisplay();
+        }
+
+        document.getElementById('tusg-slider').addEventListener('input', updateDisplay);
+        document.getElementById('pvr-slider').addEventListener('input', updateDisplay);
+        document.getElementById('longevity-slider').addEventListener('input', updateDisplay);
+
+        updateDisplay();
+    </script>
+    <script src="/static/js/theme.js"></script>
+</body>
+</html>

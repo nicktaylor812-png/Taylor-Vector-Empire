@@ -1,0 +1,51 @@
+{
+  "title": "This metric finds All-Stars BEFORE they blow up",
+  "topic": "Finding Hidden Gems with Analytics",
+  "generated_at": "2025-11-19T02:42:01.088194",
+  "total_duration": "60 seconds",
+  "sections": {
+    "hook": {
+      "timestamp": "0:00-0:15",
+      "duration": "15 seconds",
+      "text": "What if you could spot the next All-Star before anyone else?\n\n[On-screen: \"FIND STARS EARLY \ud83d\udc8e\"]\n\nThis is how I do it with PVR..."
+    },
+    "explanation": {
+      "timestamp": "0:15-0:40",
+      "duration": "25 seconds",
+      "text": "Look for: High PVR (30+) + Low TUSG% (<25%) = Hidden gem\n\nWhy? They're EFFICIENT but underused.\n\n[Show quadrant: High PVR, Low Usage = Breakout Candidate]\n\nThese players produce at elite levels WITHOUT the ball. Give them more usage? They explode.\n\nExamples: Joki\u0107 before his MVP, Jimmy Butler pre-Chicago, Kawhi pre-Spurs Finals."
+    },
+    "example": {
+      "timestamp": "0:40-0:50",
+      "duration": "10 seconds",
+      "text": "Current example: Player with 32 PVR, 22 TUSG on limited minutes.\n\n[Show: League average = 15 PVR, 20 TUSG]\n\nThey're doing MORE with LESS. That's your next breakout star."
+    },
+    "cta": {
+      "timestamp": "0:50-0:60",
+      "duration": "10 seconds",
+      "text": "Want this season's hidden gems list? Link in bio. Follow to spot stars before the hype.\n\n[End screen: \"ANALYTICS SEE THE FUTURE \ud83d\udd2e\"]"
+    }
+  },
+  "recommended_sounds": [
+    "Discovery/revelation audio",
+    "Inspirational sports music",
+    "Underdog story sound"
+  ],
+  "trending_sounds": [
+    "original sound (use trending audio from FYP)",
+    "Storytelling beat - medium tempo",
+    "Upbeat sports commentary music",
+    "Dramatic reveal audio",
+    "Suspenseful music for analytics",
+    "Epic sports highlight music",
+    "Energetic explainer content beat",
+    "Educational TikTok trending audio"
+  ],
+  "hashtags": "#NBA #Fantasy #NBAFantasy #HiddenGems #Analytics #Sleepers #BreakoutPlayers #Basketball #DraftKings #FanDuel",
+  "tips": [
+    "Use text overlays for key stats and formulas",
+    "Show graphics/charts during explanation section",
+    "Keep energy high - fast cuts, dynamic visuals",
+    "Use captions for accessibility",
+    "Test different hooks for best performance"
+  ]
+}

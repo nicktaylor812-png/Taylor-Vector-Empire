@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Draft Prospect PVR Predictor | TAYLOR VECTOR TERMINAL</title>
+    <link rel="stylesheet" href="/static/css/theme.css">
+</head>
+<body>
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+        <span class="theme-icon">◐</span>
+        <span id="theme-text">Dark</span>
+    </button>
+
+
+    <div class="container">
+        <header>
+            <h1> Draft Prospect PVR Predictor</h1>
+            <p class="subtitle">Predict NBA success using TUSG% and PVR metrics</p>
+        </header>
+
+        <div class="info-box">
+            <strong> DISCLAIMER:</strong> Projections based on historical patterns and statistical analysis, not guaranteed predictions. This is an educational tool showing how TUSG%/PVR metrics translate from college to professional basketball.
+        </div>
+
+        <div class="main-content">
+            <div class="input-panel">
+                <h2 class="panel-title"> Enter College Stats</h2>
+                
+                <div class="info-box">
+                     Enter per-game averages from prospect's final college season
+                </div>
+
+                <div class="input-group">
+                    <label class="input-label">Minutes Per Game (MPG)</label>
+                    <input type="number" id="mpg" step="0.1" min="0" max="48" value="30.0" placeholder="e.g., 30.0">
+                </div>
+
+                <div class="input-group">
+                    <label class="input-label">Points Per Game (PPG)</label>
+                    <input type="number" id="ppg" step="0.1" min="0" value="20.0" placeholder="e.g., 20.0">
+                </div>
+
+                <div class="input-group">
+                    <label class="input-label">Assists Per Game (APG)</label>
+                    <input type="number" id="apg" step="0.1" min="0" value="5.0" placeholder="e.g., 5.0">
+                </div>
+
+                <div class="input-group">
+                    <label class="input-label">Turnovers Per Game (TOV)</label>
+                    <input type="number" id="tov" step="0.1" min="0" value="2.5" placeholder="e.g., 2.5">
+                </div>
+
+                <div class="input-group">
+                    <label class="input-label">Field Goal Attempts (FGA)</label>
+                    <input type="number" id="fga" step="0.1" min="0" value="15.0" placeholder="e.g., 15.0">
+                </div>
+
+                <div class="input-group">
+                    <label class="input-label">Free Throw Attempts (FTA)</label>
+                    <input type="number" id="fta" step="0.1" min="0" value="5.0" placeholder="e.g., 5.0">
+                </div>
+
+                <div class="slider-group">
+                    <div class="slider-label">
+                        <span> Draft Position</span>
+                        <span class="slider-value" id="draft-position-value">#1</span>
+                    </div>
+                    <input type="range" id="draft-position" min="1" max="60" value="1" step="1">
+                </div>
+
+                <button class="calculate-btn" onclick="calculatePrediction()">
+                     Calculate Prediction
+                </button>
+            </div>
+
+            <div class="results-panel">
+                <h2 class="panel-title"> Prediction Results</h2>
+                
+                <div id="results-container">
+                    <div class="no-results">
+                         Enter stats and click Calculate to see predictions
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="examples-section">
+            <h2 class="examples-title"> 2025 NBA Draft Class Projections</h2>
+            <div class="example-grid" id="prospects-2025-grid"></div>
+        </div>
+
+        <div class="examples-section">
+            <h2 class="examples-title"> Historical Examples (Validation Data)</h2>
+            <div class="example-grid" id="examples-grid"></div>
+        </div>
+    </div>
+
+    <script>
+        const COLLEGE_PACE = 70.0;
+        const NBA_PACE = 99.5;
+
+        const HISTORICAL_EXAMPLES = [
+            {
+                name: 'Trae Young',
+                year: 2018,
+                pick: 5,
+                college: 'Oklahoma',
+                stats: {mpg: 35.4, ppg: 27.4, apg: 8.7, tov: 5.2, fga: 21.7, fta: 8.7},
+                actual: {tusg: 42.8, pvr: 28.5, assessment: 'STEAL - Elite playmaker, exceeded expectations'}
+            },
+            {
+                name: 'Luka Doncic',
+                year: 2018,
+                pick: 3,
+                college: 'Real Madrid',
+                stats: {mpg: 25.4, ppg: 16.0, apg: 4.8, tov: 2.6, fga: 10.5, fta: 5.8},
+                actual: {tusg: 38.2, pvr: 35.4, assessment: 'SUPERSTAR - Franchise player, MVP-level'}
+            },
+            {
+                name: 'Zion Williamson',
+                year: 2019,
+                pick: 1,
+                college: 'Duke',
+                stats: {mpg: 30.0, ppg: 22.6, apg: 2.1, tov: 2.1, fga: 13.3, fta: 7.5},
+                actual: {tusg: 35.6, pvr: 32.8, assessment: 'SOLID - Elite scorer, injury concerns'}
+            },
+            {
+                name: 'Ja Morant',
+                year: 2019,
+                pick: 2,
+                college: 'Murray State',
+                stats: {mpg: 33.8, ppg: 24.5, apg: 10.0, tov: 3.5, fga: 16.4, fta: 8.0},
+                actual: {tusg: 40.5, pvr: 30.2, assessment: 'STEAL - Dynamic playmaker, All-NBA'}
+            },
+            {
+                name: 'Anthony Edwards',
+                year: 2020,
+                pick: 1,
+                college: 'Georgia',
+                stats: {mpg: 33.0, ppg: 19.1, apg: 2.8, tov: 2.6, fga: 15.5, fta: 5.2},
+                actual: {tusg: 37.2, pvr: 22.8, assessment: 'SOLID - Two-way star, met expectations'}
+            },
+            {
+                name: 'LaMelo Ball',
+                year: 2020,
+                pick: 3,
+                college: 'Australia NBL',
+                stats: {mpg: 31.2, ppg: 17.0, apg: 7.5, tov: 3.8, fga: 13.0, fta: 4.2},
+                actual: {tusg: 38.8, pvr: 28.9, assessment: 'STEAL - Elite passer, All-Star level'}
+            },
+            {
+                name: 'Cade Cunningham',
+                year: 2021,
+                pick: 1,
+                college: 'Oklahoma State',
+                stats: {mpg: 35.4, ppg: 20.1, apg: 6.2, tov: 3.5, fga: 15.6, fta: 5.8},
+                actual: {tusg: 36.4, pvr: 24.6, assessment: 'SOLID - Complete player, developing'}
+            },
+            {
+                name: 'Paolo Banchero',
+                year: 2022,
+                pick: 1,
+                college: 'Duke',
+                stats: {mpg: 33.3, ppg: 17.2, apg: 3.2, tov: 2.5, fga: 12.8, fta: 5.8},
+                actual: {tusg: 34.8, pvr: 20.5, assessment: 'SOLID - ROY winner, versatile'}
+            },
+            {
+                name: 'Victor Wembanyama',
+                year: 2023,
+                pick: 1,
+                college: 'France',
+                stats: {mpg: 27.5, ppg: 21.6, apg: 2.4, tov: 2.8, fga: 14.2, fta: 6.5},
+                actual: {tusg: 36.2, pvr: 28.4, assessment: 'SUPERSTAR - Generational talent'}
+            },
+            {
+                name: 'Markelle Fultz',
+                year: 2017,
+                pick: 1,
+                college: 'Washington',
+                stats: {mpg: 35.7, ppg: 23.2, apg: 5.7, tov: 3.6, fga: 17.3, fta: 6.2},
+                actual: {tusg: 28.4, pvr: 12.6, assessment: 'BUST - Injury derailed career'}
+            }
+        ];
+
+        function calculateCollegeTUSG(stats) {
+            const mp = stats.mpg;
+            const fga = stats.fga;
+            const tov = stats.tov;
+            const fta = stats.fta;
+            
+            if (mp === 0) return 0;
+            
+            const numerator = fga + tov + (fta * 0.44);
+            const denominator = (mp / 48) * COLLEGE_PACE;
+            
+            if (denominator === 0) return 0;
+            
+            return (numerator / denominator) * 100;
+        }
+
+        function calculateCollegePVR(stats) {
+            const pts = stats.ppg;
+            const ast = stats.apg;
+            const fga = stats.fga;
+            const tov = stats.tov;
+            const fta = stats.fta;
+            
+            const astTovRatio = tov === 0 ? (ast > 0 ? ast : 0) : ast / tov;
+            const multiplier = astTovRatio > 1.8 ? 2.3 : 1.8;
+            
+            const numerator = pts + (ast * multiplier);
+            const denominator = fga + tov + (0.44 * fta) + ast;
+            
+            if (denominator === 0) return 0;
+            
+            return ((numerator / denominator) - 1.00) * 100;
+        }
+
+        function applyProAdjustments(stats) {
+            return {
+                mpg: stats.mpg,
+                ppg: stats.ppg * 0.85 * 1.08,
+                apg: stats.apg,
+                tov: stats.tov * 0.85,
+                fga: stats.fga * 0.85,
+                fta: stats.fta * 0.85
+            };
+        }
+
+        function calculateProjectedNBATUSG(adjustedStats) {
+            const mp = adjustedStats.mpg;
+            const fga = adjustedStats.fga;
+            const tov = adjustedStats.tov;
+            const fta = adjustedStats.fta;
+            
+            if (mp === 0) return 0;
+            
+            const numerator = fga + tov + (fta * 0.44);
+            const denominator = (mp / 48) * NBA_PACE;
+            
+            if (denominator === 0) return 0;
+            
+            return (numerator / denominator) * 100;
+        }
+
+        function calculateBustSteal(draftPosition, projectedTUSG, projectedPVR) {
+            let expectedTUSG, expectedPVR;
+            
+            if (draftPosition <= 5) {
+                expectedTUSG = 35.0;
+                expectedPVR = 20.0;
+            } else if (draftPosition <= 15) {
+                expectedTUSG = 30.0;
+                expectedPVR = 15.0;
+            } else if (draftPosition <= 30) {
+                expectedTUSG = 25.0;
+                expectedPVR = 10.0;
+            } else {
+                expectedTUSG = 20.0;
+                expectedPVR = 5.0;
+            }
+            
+            const tusgDiff = projectedTUSG - expectedTUSG;
+            const pvrDiff = projectedPVR - expectedPVR;
+            
+            let bustRisk = 50.0;
+            if (tusgDiff < -5 || pvrDiff < -5) {
+                bustRisk = 70.0;
+            } else if (tusgDiff < 0 || pvrDiff < 0) {
+                bustRisk = 60.0;
+            } else if (tusgDiff > 5 && pvrDiff > 5) {
+                bustRisk = 20.0;
+            } else if (tusgDiff > 0 && pvrDiff > 0) {
+                bustRisk = 35.0;
+            }
+            
+            let stealPotential = 50.0;
+            if (tusgDiff > 10 && pvrDiff > 10) {
+                stealPotential = 85.0;
+            } else if (tusgDiff > 5 && pvrDiff > 5) {
+                stealPotential = 70.0;
+            } else if (tusgDiff > 0 && pvrDiff > 0) {
+                stealPotential = 60.0;
+            } else if (tusgDiff < -5 || pvrDiff < -5) {
+                stealPotential = 20.0;
+            }
+            
+            return {
+                bustRisk: bustRisk.toFixed(1),
+                stealPotential: stealPotential.toFixed(1)
+            };
+        }
+
+        function calculatePrediction() {
+            const stats = {
+                mpg: parseFloat(document.getElementById('mpg').value) || 0,
+                ppg: parseFloat(document.getElementById('ppg').value) || 0,
+                apg: parseFloat(document.getElementById('apg').value) || 0,
+                tov: parseFloat(document.getElementById('tov').value) || 0,
+                fga: parseFloat(document.getElementById('fga').value) || 0,
+                fta: parseFloat(document.getElementById('fta').value) || 0
+            };
+            
+            const draftPosition = parseInt(document.getElementById('draft-position').value);
+            
+            const collegeTUSG = calculateCollegeTUSG(stats);
+            const collegePVR = calculateCollegePVR(stats);
+            
+            const adjustedStats = applyProAdjustments(stats);
+            const projectedTUSG = calculateProjectedNBATUSG(adjustedStats);
+            const projectedPVR = calculateCollegePVR(adjustedStats);
+            
+            const astTovRatio = stats.tov > 0 ? stats.apg / stats.tov : (stats.apg > 0 ? stats.apg : 0);
+            
+            let { bustRisk, stealPotential } = calculateBustSteal(draftPosition, projectedTUSG, projectedPVR);
+            
+            const riskFactors = [];
+            if (astTovRatio < 1.0) {
+                bustRisk = Math.min(bustRisk + 15, 95);
+                riskFactors.push(' Poor AST/TOV ratio (<1.0)');
+            }
+            if (collegePVR > 40) {
+                stealPotential = Math.min(stealPotential + 20, 95);
+                riskFactors.push(' Elite college PVR (>40)');
+            }
+            
+            let riskFactorsHTML = '';
+            if (riskFactors.length > 0) {
+                riskFactorsHTML = `
+                    <div class="result-card">
+                        <div class="result-title">Risk Factors</div>
+                        <div>
+                            ${riskFactors.map(rf => `<div>${rf}</div>`).join('')}
+                            <div>AST/TOV Ratio: ${astTovRatio.toFixed(2)}</div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            const resultsHTML = `
+                <div class="result-card">
+                    <div class="result-title">College TUSG%</div>
+                    <div class="result-value">${collegeTUSG.toFixed(1)}%</div>
+                    <div class="result-subtitle">True Usage Percentage</div>
+                </div>
+                
+                <div class="result-card">
+                    <div class="result-title">Projected NBA TUSG%</div>
+                    <div class="result-value">${projectedTUSG.toFixed(1)}%</div>
+                    <div class="result-subtitle">After 15% usage drop adjustment</div>
+                </div>
+                
+                <div class="result-card">
+                    <div class="result-title">College PVR</div>
+                    <div class="result-value">${collegePVR.toFixed(1)}</div>
+                    <div class="result-subtitle">Possession Value Rating</div>
+                </div>
+                
+                <div class="result-card">
+                    <div class="result-title">Projected NBA PVR</div>
+                    <div class="result-value">${projectedPVR.toFixed(1)}</div>
+                    <div class="result-subtitle">After +8% efficiency adjustment</div>
+                </div>
+                
+                <div class="result-card bust-risk">
+                    <div class="result-title">Bust Risk</div>
+                    <div class="result-value">${bustRisk.toFixed(1)}%</div>
+                    <div class="result-subtitle">Pick #${draftPosition} expectations</div>
+                </div>
+                
+                <div class="result-card steal-potential">
+                    <div class="result-title">Steal Potential</div>
+                    <div class="result-value">${stealPotential.toFixed(1)}%</div>
+                    <div class="result-subtitle">Exceeds draft position</div>
+                </div>
+                
+                ${riskFactorsHTML}
+            `;
+            
+            document.getElementById('results-container').innerHTML = resultsHTML;
+        }
+
+        function loadHistoricalExamples() {
+            const grid = document.getElementById('examples-grid');
+            
+            HISTORICAL_EXAMPLES.forEach(example => {
+                const prediction = calculateExamplePrediction(example);
+                
+                let assessmentClass = 'assessment-solid';
+                if (example.actual.assessment.includes('STEAL')) {
+                    assessmentClass = 'assessment-steal';
+                } else if (example.actual.assessment.includes('BUST')) {
+                    assessmentClass = 'assessment-bust';
+                } else if (example.actual.assessment.includes('SUPERSTAR')) {
+                    assessmentClass = 'assessment-superstar';
+                }
+                
+                const card = document.createElement('div');
+                card.className = 'example-card';
+                card.innerHTML = `
+                    <div class="example-name">${example.name}</div>
+                    <div class="example-details">${example.year} Draft, Pick #${example.pick} - ${example.college}</div>
+                    <div class="example-stats">
+                        <strong>Predicted:</strong> TUSG ${prediction.projectedTUSG.toFixed(1)}% | PVR ${prediction.projectedPVR.toFixed(1)}<br>
+                        Bust Risk: ${prediction.bustRisk}% | Steal: ${prediction.stealPotential}%
+                    </div>
+                    <div class="example-stats">
+                        <strong>Actual NBA:</strong> TUSG ${example.actual.tusg}% | PVR ${example.actual.pvr}
+                    </div>
+                    <div class="example-assessment ${assessmentClass}">
+                        ${example.actual.assessment}
+                    </div>
+                `;
+                
+                grid.appendChild(card);
+            });
+        }
+
+        function calculateExamplePrediction(example) {
+            const collegeTUSG = calculateCollegeTUSG(example.stats);
+            const collegePVR = calculateCollegePVR(example.stats);
+            
+            const adjustedStats = applyProAdjustments(example.stats);
+            const projectedTUSG = calculateProjectedNBATUSG(adjustedStats);
+            const projectedPVR = calculateCollegePVR(adjustedStats);
+            
+            const { bustRisk, stealPotential } = calculateBustSteal(example.pick, projectedTUSG, projectedPVR);
+            
+            return {
+                collegeTUSG,
+                collegePVR,
+                projectedTUSG,
+                projectedPVR,
+                bustRisk,
+                stealPotential
+            };
+        }
+
+        function load2025Prospects() {
+            fetch('draft_predictor_2025.json')
+                .then(response => response.json())
+                .then(prospects => {
+                    const grid = document.getElementById('prospects-2025-grid');
+                    
+                    prospects.forEach(prospect => {
+                        const pred = prospect.prediction;
+                        
+                        let borderColor = '#667eea';
+                        if (pred.bust_risk > 70) {
+                            borderColor = '#ff6b6b';
+                        } else if (pred.steal_potential > 65) {
+                            borderColor = '#51cf66';
+                        }
+                        
+                        let riskFactorsHTML = '';
+                        if (pred.risk_factors && pred.risk_factors.length > 0) {
+                            riskFactorsHTML = `
+                                <div>
+                                    <strong>Risk Factors:</strong><br>
+                                    ${pred.risk_factors.join('<br>')}
+                                </div>
+                            `;
+                        }
+                        
+                        const card = document.createElement('div');
+                        card.className = 'example-card';
+                        card.style.borderLeftColor = borderColor;
+                        card.innerHTML = `
+                            <div class="example-name">${prospect.name}</div>
+                            <div class="example-details">Projected Pick #${prospect.projected_position} - ${prospect.college}</div>
+                            <div class="example-stats">
+                                <strong>Projected NBA:</strong> TUSG ${pred.projected_tusg}% | PVR ${pred.projected_pvr}<br>
+                                Bust Risk: ${pred.bust_risk}% | Steal: ${pred.steal_potential}%
+                            </div>
+                            ${riskFactorsHTML}
+                            <div class="example-stats">
+                                ${prospect.scouting_notes}
+                            </div>
+                        `;
+                        
+                        grid.appendChild(card);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error loading 2025 prospects:', error);
+                    document.getElementById('prospects-2025-grid').innerHTML = '<p>Unable to load 2025 prospects data</p>';
+                });
+        }
+
+        document.getElementById('draft-position').addEventListener('input', function() {
+            document.getElementById('draft-position-value').textContent = '#' + this.value;
+        });
+
+        loadHistoricalExamples();
+        load2025Prospects();
+    </script>
+    <script src="/static/js/theme.js"></script>
+</body>
+</html>

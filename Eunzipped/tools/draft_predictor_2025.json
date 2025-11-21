@@ -1,0 +1,175 @@
+[
+  {
+    "name": "Cooper Flagg",
+    "projected_position": 1,
+    "college": "Duke",
+    "competition_level": "P5",
+    "prediction": {
+      "college_tusg": 37.77,
+      "college_pvr": 29.01,
+      "projected_tusg": 22.59,
+      "projected_pvr": 38.88,
+      "bust_risk": 70.0,
+      "steal_potential": 20.0,
+      "risk_factors": [],
+      "ast_tov_ratio": 2.0,
+      "draft_position": 1,
+      "competition_level": "P5"
+    },
+    "scouting_notes": "Elite two-way wing with high IQ, defensive versatility"
+  },
+  {
+    "name": "Ace Bailey",
+    "projected_position": 2,
+    "college": "Rutgers",
+    "competition_level": "P5",
+    "prediction": {
+      "college_tusg": 45.14,
+      "college_pvr": 12.96,
+      "projected_tusg": 26.99,
+      "projected_pvr": 21.49,
+      "bust_risk": 70.0,
+      "steal_potential": 20.0,
+      "risk_factors": [],
+      "ast_tov_ratio": 1.12,
+      "draft_position": 2,
+      "competition_level": "P5"
+    },
+    "scouting_notes": "Elite scorer, explosive athlete, needs playmaking development"
+  },
+  {
+    "name": "Dylan Harper",
+    "projected_position": 3,
+    "college": "Rutgers",
+    "competition_level": "P5",
+    "prediction": {
+      "college_tusg": 47.43,
+      "college_pvr": 24.86,
+      "projected_tusg": 28.36,
+      "projected_pvr": 34.53,
+      "bust_risk": 70.0,
+      "steal_potential": 20.0,
+      "risk_factors": [],
+      "ast_tov_ratio": 1.81,
+      "draft_position": 3,
+      "competition_level": "P5"
+    },
+    "scouting_notes": "High-usage guard, advanced playmaking, elite scoring versatility"
+  },
+  {
+    "name": "Nolan Traore",
+    "projected_position": 4,
+    "college": "Saint-Quentin (France)",
+    "competition_level": "International",
+    "prediction": {
+      "college_tusg": 39.55,
+      "college_pvr": 37.54,
+      "projected_tusg": 23.65,
+      "projected_pvr": 47.44,
+      "bust_risk": 70.0,
+      "steal_potential": 20.0,
+      "risk_factors": [],
+      "ast_tov_ratio": 2.32,
+      "draft_position": 4,
+      "competition_level": "International"
+    },
+    "scouting_notes": "Elite passer, high IQ, needs to improve shooting consistency"
+  },
+  {
+    "name": "VJ Edgecombe",
+    "projected_position": 6,
+    "college": "Baylor",
+    "competition_level": "P5",
+    "prediction": {
+      "college_tusg": 37.9,
+      "college_pvr": 13.76,
+      "projected_tusg": 22.66,
+      "projected_pvr": 31.8,
+      "bust_risk": 70.0,
+      "steal_potential": 20.0,
+      "risk_factors": [],
+      "ast_tov_ratio": 1.6,
+      "draft_position": 6,
+      "competition_level": "P5"
+    },
+    "scouting_notes": "Elite defender, explosive athlete, developing offensive game"
+  },
+  {
+    "name": "Egor Demin",
+    "projected_position": 7,
+    "college": "BYU",
+    "competition_level": "P5",
+    "prediction": {
+      "college_tusg": 39.95,
+      "college_pvr": 29.89,
+      "projected_tusg": 23.89,
+      "projected_pvr": 39.72,
+      "bust_risk": 70.0,
+      "steal_potential": 20.0,
+      "risk_factors": [],
+      "ast_tov_ratio": 2.08,
+      "draft_position": 7,
+      "competition_level": "P5"
+    },
+    "scouting_notes": "Tall playmaker, versatile skillset, needs strength development"
+  },
+  {
+    "name": "Kasparas Jakucionis",
+    "projected_position": 8,
+    "college": "Illinois",
+    "competition_level": "P5",
+    "prediction": {
+      "college_tusg": 40.23,
+      "college_pvr": 29.49,
+      "projected_tusg": 24.05,
+      "projected_pvr": 39.25,
+      "bust_risk": 70.0,
+      "steal_potential": 20.0,
+      "risk_factors": [],
+      "ast_tov_ratio": 2.42,
+      "draft_position": 8,
+      "competition_level": "P5"
+    },
+    "scouting_notes": "Smart playmaker, excellent passer, improving athleticism"
+  },
+  {
+    "name": "Khaman Maluach",
+    "projected_position": 9,
+    "college": "Duke",
+    "competition_level": "P5",
+    "prediction": {
+      "college_tusg": 34.23,
+      "college_pvr": 10.17,
+      "projected_tusg": 20.47,
+      "projected_pvr": 18.71,
+      "bust_risk": 85.0,
+      "steal_potential": 20.0,
+      "risk_factors": [
+        "Poor AST/TOV ratio"
+      ],
+      "ast_tov_ratio": 0.56,
+      "draft_position": 9,
+      "competition_level": "P5"
+    },
+    "scouting_notes": "Elite rim protector, raw offensively, high upside"
+  },
+  {
+    "name": "Tre Johnson",
+    "projected_position": 10,
+    "college": "Texas",
+    "competition_level": "P5",
+    "prediction": {
+      "college_tusg": 43.64,
+      "college_pvr": 10.17,
+      "projected_tusg": 26.1,
+      "projected_pvr": 18.49,
+      "bust_risk": 60.0,
+      "steal_potential": 50.0,
+      "risk_factors": [],
+      "ast_tov_ratio": 1.45,
+      "draft_position": 10,
+      "competition_level": "P5"
+    },
+    "scouting_notes": "Elite scorer, explosive athlete, needs playmaking development"
+  }
+]

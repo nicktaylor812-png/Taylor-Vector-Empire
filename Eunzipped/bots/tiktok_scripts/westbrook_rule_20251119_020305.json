@@ -1,0 +1,50 @@
+{
+  "title": "Why Russell Westbrook breaks PVR formulas",
+  "topic": "The Westbrook Rule",
+  "generated_at": "2025-11-19T02:03:05.170759",
+  "total_duration": "60 seconds",
+  "sections": {
+    "hook": {
+      "timestamp": "0:00-0:15",
+      "duration": "15 seconds",
+      "text": "Russell Westbrook broke basketball so bad, we had to create a new rule just for him.\n\n[On-screen: \"THE WESTBROOK PARADOX \ud83e\udd2f\"]\n\nHere's the stat that makes NO sense..."
+    },
+    "explanation": {
+      "timestamp": "0:15-0:40",
+      "duration": "25 seconds",
+      "text": "Westbrook 2017: 48.1% TUSG (highest ever) + 25.11 PVR (really good).\n\nBut here's the problem - he had 5.4 turnovers per game. That should KILL his PVR.\n\n[Show graphic: AST/TOV ratio affects multiplier]\n\nNormal players: AST/TOV < 1.8 = 1.8x assist multiplier\nElite playmakers: AST/TOV > 1.8 = 2.3x assist multiplier\n\nWestbrook's 10.4 assists with 5.4 TOV = 1.93 ratio. Just barely elite."
+    },
+    "example": {
+      "timestamp": "0:40-0:50",
+      "duration": "10 seconds",
+      "text": "That's The Westbrook Rule: obscene usage + high assists + high turnovers = still works.\n\n[Show: 31.6 PPG + 10.4 APG > 5.4 TOV]\n\nThe volume was SO high, the efficiency still mattered. Pure math magic."
+    },
+    "cta": {
+      "timestamp": "0:50-0:60",
+      "duration": "10 seconds",
+      "text": "Follow for more stats that break your brain. Link in bio for the Westbrook Rule calculator.\n\n[End screen: \"VOLUME > EFFICIENCY?\" + thinking emoji]"
+    }
+  },
+  "recommended_sounds": [
+    "Mind-blown audio effect",
+    "Dramatic reveal music",
+    "Energetic sports content beat"
+  ],
+  "trending_sounds": [
+    "original sound (use trending audio from FYP)",
+    "Storytelling beat - medium tempo",
+    "Upbeat sports commentary music",
+    "Dramatic reveal audio",
+    "Suspenseful music for analytics",
+    "Epic sports highlight music",
+    "Energetic explainer content beat",
+    "Educational TikTok trending audio"
+  ],
+  "tips": [
+    "Use text overlays for key stats and formulas",
+    "Show graphics/charts during explanation section",
+    "Keep energy high - fast cuts, dynamic visuals",
+    "Use captions for accessibility",
+    "Test different hooks for best performance"
+  ]
+}

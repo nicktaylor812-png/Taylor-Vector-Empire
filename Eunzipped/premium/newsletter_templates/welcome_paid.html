@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to TAYLOR VECTOR Premium!</title>
+    <link rel="stylesheet" href="/static/css/theme.css">
+</head>
+<body>
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+        <span class="theme-icon">◐</span>
+        <span id="theme-text">Dark</span>
+    </button>
+
+
+    <div class="email-container">
+        <div class="header">
+            <div class="welcome-emoji"></div>
+            <h1>Welcome to Premium!</h1>
+            <div class="premium-badge"> PREMIUM MEMBER</div>
+        </div>
+
+        <div class="content">
+            <div class="greeting">
+                Welcome {{ subscriber_name }}! 
+            </div>
+
+            <p class="intro-text">
+                Thank you for upgrading to <strong>TAYLOR VECTOR PREMIUM</strong>! You now have unlimited access to our most powerful analytics, daily edge reports, and exclusive insights.
+            </p>
+
+            <div class="premium-features">
+                <h2> Your Premium Benefits</h2>
+                
+                <ul class="benefits-list">
+                    {% for benefit in tier_benefits %}
+                    <li>{{ benefit }}</li>
+                    {% endfor %}
+                </ul>
+
+                <div class="feature-grid">
+                    <div class="feature-box">
+                        <div class="icon"></div>
+                        <h3>Daily Reports</h3>
+                        <p>Every morning at 7 AM ET</p>
+                    </div>
+                    <div class="feature-box">
+                        <div class="icon"></div>
+                        <h3>Deep Dives</h3>
+                        <p>Every Wednesday</p>
+                    </div>
+                    <div class="feature-box">
+                        <div class="icon"></div>
+                        <h3>Analytics</h3>
+                        <p>Real-time access</p>
+                    </div>
+                    <div class="feature-box">
+                        <div class="icon"></div>
+                        <h3>Support</h3>
+                        <p>Priority responses</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="what-next-section">
+                <h3> What Happens Next?</h3>
+                
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="time">Tomorrow 7 AM</div>
+                        <div class="description">
+                            <strong>First Daily Edge Report</strong><br>
+                            Your first daily report arrives with today's best betting opportunities
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="time">Wednesday</div>
+                        <div class="description">
+                            <strong>Player Deep Dive</strong><br>
+                            15+ page comprehensive analysis of a top NBA player
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="time">Ongoing</div>
+                        <div class="description">
+                            <strong>Daily Updates</strong><br>
+                            Edge reports every morning + exclusive insights as they develop
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quick-start">
+                <h3> Quick Start Guide</h3>
+                <p>Get the most out of your premium subscription:</p>
+                
+                <div class="quick-start-grid">
+                    <div class="quick-start-box">
+                        <div class="number">1</div>
+                        <p><strong>Read Daily</strong><br>Check your edge report every morning</p>
+                    </div>
+                    <div class="quick-start-box">
+                        <div class="number">2</div>
+                        <p><strong>Track Edges</strong><br>Monitor our success rate</p>
+                    </div>
+                    <div class="quick-start-box">
+                        <div class="number">3</div>
+                        <p><strong>Ask Questions</strong><br>Reply anytime for help</p>
+                    </div>
+                </div>
+            </div>
+
+            <h3> Understanding Your Reports</h3>
+            
+            <p><strong>Edge %:</strong> The statistical advantage we've identified. Higher = stronger opportunity. We flag anything above 8% as high confidence.</p>
+            
+            <p><strong>TUSG% Differential:</strong> Difference in true usage between teams. Large gaps (5%+) indicate significant mismatches in offensive responsibility.</p>
+            
+            <p><strong>PVR Differential:</strong> Efficiency advantage. A +5 PVR difference is substantial and often correlates with covering spreads.</p>
+
+            <div class="support-section">
+                <h3> Premium Support</h3>
+                <p>Have questions? Need help understanding the analytics?</p>
+                <p><strong>Reply to any email and we'll get back to you within 24 hours.</strong></p>
+            </div>
+
+            <p>
+                Get ready for tomorrow's edge report! 
+            </p>
+
+            <p>
+                We're excited to have you on board. Let's find some edges together! 
+            </p>
+        </div>
+
+        <div class="footer">
+            <p><strong>TAYLOR VECTOR TERMINAL - PREMIUM</strong></p>
+            <p>Advanced NBA Analytics • Daily Edge Reports • Player Deep Dives</p>
+            
+            <div>
+                <p>
+                    <a href="{{ manage_url }}">Manage Subscription</a> | 
+                    <a href="{{ unsubscribe_url }}">Unsubscribe</a>
+                </p>
+                <p>
+                    You subscribed with {{ subscriber_email }}<br>
+                    Billing: $29/month<br>
+                     {{ year }} TAYLOR VECTOR TERMINAL. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </div>
+    <script src="/static/js/theme.js"></script>
+</body>
+</html>

@@ -1,0 +1,125 @@
+[
+  {
+    "name": "Lakers-Pelicans Anthony Davis Trade (2019)",
+    "description": "Lakers acquire AD, Pelicans get young core + picks",
+    "team_a": "LAL",
+    "team_a_gives": [
+      "Lonzo Ball",
+      "Brandon Ingram",
+      "Josh Hart"
+    ],
+    "team_b": "NOP",
+    "team_b_gives": [
+      "Anthony Davis"
+    ],
+    "year": 2019,
+    "result": "Lakers won 2020 NBA Championship"
+  },
+  {
+    "name": "Mavericks-Nets Kyrie Irving Trade (2023)",
+    "description": "Mavs acquire Kyrie to pair with Luka",
+    "team_a": "DAL",
+    "team_a_gives": [
+      "Spencer Dinwiddie",
+      "Dorian Finney-Smith"
+    ],
+    "team_b": "BKN",
+    "team_b_gives": [
+      "Kyrie Irving"
+    ],
+    "year": 2023,
+    "result": "Mavs reached 2024 Finals"
+  },
+  {
+    "name": "Clippers-76ers James Harden Trade (2023)",
+    "description": "Clippers acquire Harden for depth pieces",
+    "team_a": "LAC",
+    "team_a_gives": [
+      "Marcus Morris",
+      "Robert Covington"
+    ],
+    "team_b": "PHI",
+    "team_b_gives": [
+      "James Harden"
+    ],
+    "year": 2023,
+    "result": "Clippers formed Big 4"
+  },
+  {
+    "name": "Nets-Rockets James Harden Trade (2021)",
+    "description": "Nets acquire Harden for Nets young assets",
+    "team_a": "BKN",
+    "team_a_gives": [
+      "Caris LeVert",
+      "Jarrett Allen"
+    ],
+    "team_b": "HOU",
+    "team_b_gives": [
+      "James Harden"
+    ],
+    "year": 2021,
+    "result": "Nets superteam formed (KD, Harden, Kyrie)"
+  },
+  {
+    "name": "76ers-Nets James Harden Trade (2022)",
+    "description": "Sixers acquire Harden, Nets get Simmons",
+    "team_a": "PHI",
+    "team_a_gives": [
+      "Ben Simmons",
+      "Seth Curry"
+    ],
+    "team_b": "BKN",
+    "team_b_gives": [
+      "James Harden"
+    ],
+    "year": 2022,
+    "result": "Both teams struggled post-trade"
+  },
+  {
+    "name": "Celtics-Nets Big 3 Trade (2013)",
+    "description": "Nets acquire aging stars for massive haul",
+    "team_a": "BKN",
+    "team_a_gives": [
+      "MarShon Brooks",
+      "Kris Humphries"
+    ],
+    "team_b": "BOS",
+    "team_b_gives": [
+      "Paul Pierce",
+      "Kevin Garnett"
+    ],
+    "year": 2013,
+    "result": "Celtics rebuild, Nets disaster"
+  },
+  {
+    "name": "Raptors-Spurs Kawhi Leonard Trade (2018)",
+    "description": "Raptors all-in for championship run",
+    "team_a": "TOR",
+    "team_a_gives": [
+      "DeMar DeRozan",
+      "Jakob Poeltl"
+    ],
+    "team_b": "SAS",
+    "team_b_gives": [
+      "Kawhi Leonard",
+      "Danny Green"
+    ],
+    "year": 2018,
+    "result": "Raptors won 2019 NBA Championship"
+  },
+  {
+    "name": "Suns-Nets Kevin Durant Trade (2023)",
+    "description": "Suns acquire KD for championship push",
+    "team_a": "PHX",
+    "team_a_gives": [
+      "Mikal Bridges",
+      "Cam Johnson"
+    ],
+    "team_b": "BKN",
+    "team_b_gives": [
+      "Kevin Durant"
+    ],
+    "year": 2023,
+    "result": "Suns superteam (KD, Booker, Beal)"
+  }
+]

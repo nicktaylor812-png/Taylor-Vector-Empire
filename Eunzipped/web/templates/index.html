@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TAYLOR VECTOR TERMINAL</title>
+    <link rel="stylesheet" href="/static/css/theme.css">
+</head>
+<body>
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+        <span class="theme-icon">◐</span>
+        <span id="theme-text">Dark</span>
+    </button>
+
+    <!-- Sidebar Navigation (starts collapsed - not blocking homepage) -->
+    <aside class="sidebar collapsed" id="sidebar">
+        <img src="{{ url_for('static', filename='images/logo_minimal.png') }}" alt="TAYLOR VECTOR TERMINAL Logo" style="width: 120px; height: 120px; margin: 0 auto 24px; display: block;">
+        <h2 style="font-size: 18px; font-weight: 600; margin-bottom: 24px; text-align: center;">TAYLOR VECTOR</h2>
+        
+        <div class="sidebar-section">
+            <h3 class="sidebar-category">Analytics Suite</h3>
+            <a href="/compare" class="sidebar-link">Player Comparison</a>
+            <a href="/cross-era" class="sidebar-link">Cross-Era PVR</a>
+            <a href="/westbrook-rule" class="sidebar-link">Westbrook Rule</a>
+            <a href="/westbrook-hof" class="sidebar-link">Westbrook HOF</a>
+            <a href="/goat-rankings" class="sidebar-link">GOAT Rankings</a>
+        </div>
+        
+        <div class="sidebar-section">
+            <h3 class="sidebar-category">Team Operations</h3>
+            <a href="/draft-predictor" class="sidebar-link">Draft Predictor</a>
+            <a href="/trade-calculator" class="sidebar-link">Trade Calculator</a>
+            <a href="/contract-value" class="sidebar-link">Contract Value</a>
+            <a href="/team-builder" class="sidebar-link">Team Builder</a>
+        </div>
+        
+        <div class="sidebar-section">
+            <h3 class="sidebar-category">Tools</h3>
+            <a href="/fantasy-optimizer" class="sidebar-link">Fantasy Optimizer</a>
+            <a href="/metric-customizer" class="sidebar-link">Metric Customizer</a>
+            <a href="/instagram-creator" class="sidebar-link">Instagram Creator</a>
+            <a href="/tiktok-scripts" class="sidebar-link">TikTok Scripts</a>
+        </div>
+        
+        <div class="sidebar-section">
+            <h3 class="sidebar-category">Premium</h3>
+            <a href="/daily-report" class="sidebar-link">Daily Reports</a>
+            <a href="/player-deepdive" class="sidebar-link">Player Deep Dive</a>
+            <a href="/season-predictions" class="sidebar-link">Season Predictions</a>
+            <a href="/underrated-stars" class="sidebar-link">Underrated Stars</a>
+            <a href="/api-docs" class="sidebar-link">API Docs</a>
+            <a href="/newsletter" class="sidebar-link">Newsletter</a>
+            <a href="/portal/demo" class="sidebar-link">Consulting Portal</a>
+            <a href="/partnerships" class="sidebar-link">Partnerships</a>
+        </div>
+    </aside>
+
+    <!-- Sidebar Overlay (click outside to close) -->
+    <div id="sidebar-overlay" class="sidebar-overlay"></div>
+
+    <!-- Fixed Logo Button (Top-Left Corner) -->
+    <button class="logo-button" id="sidebar-toggle" aria-label="Toggle sidebar">
+        <img src="{{ url_for('static', filename='images/logo_minimal.png') }}" alt="TAYLOR VECTOR TERMINAL Logo">
+    </button>
+
+    <!-- Main Content -->
+    <div class="container">
+        <header>
+            <h1>NBA Betting Edge Detection</h1>
+            <p class="tagline">Proprietary TUSG% and PVR Analytics</p>
+            <div class="status-bar">
+                <span id="live-status" class="status-badge">CHECKING</span>
+                <span id="last-update">Last Update: --</span>
+            </div>
+        </header>
+
+        <section class="stats-list">
+            <div class="list-item">
+                <div class="item-title">Total Edges Found</div>
+                <div class="item-value" id="total-picks">--</div>
+            </div>
+            <div class="list-item">
+                <div class="item-title">Average Edge</div>
+                <div class="item-value" id="avg-edge">--</div>
+            </div>
+            <div class="list-item">
+                <div class="item-title">Highest Edge</div>
+                <div class="item-value" id="highest-edge">--</div>
+            </div>
+            <div class="list-item">
+                <div class="item-title">Min Threshold</div>
+                <div class="item-value">≥65%</div>
+            </div>
+        </section>
+
+        <section class="metrics-info">
+            <h2>Core Metrics</h2>
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <h3>TUSG% (True Usage Percentage)</h3>
+                    <p class="formula">TUSG% = (FGA + TOV + (FTA × 0.44)) / ((MP/48) × TeamPace) × 100</p>
+                    <p class="description">Measures possession usage rate adjusted for team pace</p>
+                </div>
+                <div class="metric-card">
+                    <h3>PVR (Possession Value Rating)</h3>
+                    <p class="formula">PVR = [(PTS + (AST × Multiplier)) / (FGA + TOV + (0.44 × FTA) + AST) - 1.00] × 100</p>
+                    <p class="description">Efficiency per possession with assist quality weighting</p>
+                    <p class="rule">Multiplier: AST/TOV ≤1.8 → 1.8x | AST/TOV >1.8 → 2.3x</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="picks-section">
+            <h2>Recent Edges (≥65% Confidence)</h2>
+            <div id="picks-container" class="picks-container">
+                <div class="loading">Loading picks...</div>
+            </div>
+        </section>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/theme.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+    <script>
+        // Sidebar with overlay and click-outside-to-close
+        const sidebar = document.getElementById('sidebar');
+        const sidebarToggle = document.getElementById('sidebar-toggle');
+        const sidebarOverlay = document.getElementById('sidebar-overlay');
+        
+        function openSidebar() {
+            sidebar.classList.remove('collapsed');
+            sidebarOverlay.classList.add('active');
+            localStorage.setItem('sidebarCollapsed', 'false');
+        }
+        
+        function closeSidebar() {
+            sidebar.classList.add('collapsed');
+            sidebarOverlay.classList.remove('active');
+            localStorage.setItem('sidebarCollapsed', 'true');
+        }
+        
+        sidebarToggle.addEventListener('click', () => {
+            if (sidebar.classList.contains('collapsed')) {
+                openSidebar();
+            } else {
+                closeSidebar();
+            }
+        });
+        
+        // Click outside sidebar to close
+        sidebarOverlay.addEventListener('click', closeSidebar);
+        
+        // Press Escape to close
+        document.addEventListener('keydown', (evt) => {
+            if (evt.key === 'Escape' && !sidebar.classList.contains('collapsed')) {
+                closeSidebar();
+            }
+        });
+        
+        // Restore sidebar state (defaults to collapsed)
+        const savedState = localStorage.getItem('sidebarCollapsed');
+        if (savedState === 'false') {
+            openSidebar();
+        } else {
+            closeSidebar();
+        }
+    </script>
+</body>
+</html>

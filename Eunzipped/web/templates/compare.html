@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Player Comparison - TAYLOR VECTOR TERMINAL</title>
+    <link rel="stylesheet" href="/static/css/theme.css">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/compare.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+        <span class="theme-icon">◐</span>
+        <span id="theme-text">Dark</span>
+    </button>
+
+
+    <div class="container">
+        <header>
+            <h1> NBA Player Comparison</h1>
+            <p class="tagline">Compare Players Using TUSG% and PVR Metrics</p>
+            <div class="nav-links">
+                <a href="/" class="nav-link"> Home</a>
+                <a href="/cross-era" class="nav-link"> Cross-Era Comparisons</a>
+            </div>
+        </header>
+
+        <section class="comparison-section">
+            <h2>Select Players to Compare</h2>
+            <div class="player-selectors">
+                <div class="player-selector-card">
+                    <h3>Player 1</h3>
+                    <div class="search-container">
+                        <input type="text" id="player1-search" class="player-search" placeholder="Search player...">
+                        <select id="player1-select" class="player-select" size="8">
+                            <option value="">Loading players...</option>
+                        </select>
+                    </div>
+                    <div id="player1-info" class="player-info"></div>
+                </div>
+
+                <div class="vs-separator">
+                    <span class="vs-text">VS</span>
+                </div>
+
+                <div class="player-selector-card">
+                    <h3>Player 2</h3>
+                    <div class="search-container">
+                        <input type="text" id="player2-search" class="player-search" placeholder="Search player...">
+                        <select id="player2-select" class="player-select" size="8">
+                            <option value="">Loading players...</option>
+                        </select>
+                    </div>
+                    <div id="player2-info" class="player-info"></div>
+                </div>
+            </div>
+
+            <button id="compare-btn" class="compare-btn" disabled>Compare Players</button>
+        </section>
+
+        <section id="comparison-results" class="comparison-results" style="display: none;">
+            <h2>Comparison Results</h2>
+            
+            <div class="radar-chart-container">
+                <canvas id="radarChart"></canvas>
+            </div>
+
+            <div class="stats-comparison">
+                <div class="stats-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Metric</th>
+                                <th id="player1-name-header">Player 1</th>
+                                <th id="player2-name-header">Player 2</th>
+                                <th>Difference</th>
+                            </tr>
+                        </thead>
+                        <tbody id="stats-table-body">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="metric-explanations">
+                <h3>Metric Definitions</h3>
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <h4>TUSG% (True Usage Percentage)</h4>
+                        <p class="formula">TUSG% = (FGA + TOV + (FTA × 0.44)) / ((MP/48) × TeamPace) × 100</p>
+                        <p class="description">Measures possession usage rate adjusted for team pace</p>
+                    </div>
+                    <div class="metric-card">
+                        <h4>PVR (Possession Value Rating)</h4>
+                        <p class="formula">PVR = [(PTS + (AST × Multiplier)) / (FGA + TOV + (0.44 × FTA) + AST) - 1.00] × 100</p>
+                        <p class="description">Efficiency per possession with assist quality weighting</p>
+                        <p class="rule">Multiplier: AST/TOV ≤1.8 → 1.8x | AST/TOV >1.8 → 2.3x</p>
+                    </div>
+                    <div class="metric-card">
+                        <h4>Efficiency Rating</h4>
+                        <p class="description">Combined score based on shooting efficiency and turnovers</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/compare.js') }}"></script>
+    <script src="/static/js/theme.js"></script>
+</body>
+</html>

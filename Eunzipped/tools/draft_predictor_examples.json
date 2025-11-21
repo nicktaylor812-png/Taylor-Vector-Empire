@@ -1,0 +1,802 @@
+[
+  {
+    "name": "Trae Young",
+    "draft_year": 2018,
+    "draft_position": 5,
+    "college": "Oklahoma",
+    "prediction": {
+      "college_tusg": 59.52,
+      "college_pvr": 9.21,
+      "projected_tusg": 35.59,
+      "projected_pvr": 29.71,
+      "bust_risk": 35.0,
+      "steal_potential": 60.0,
+      "risk_factors": [],
+      "ast_tov_ratio": 1.67,
+      "draft_position": 5,
+      "competition_level": "P5"
+    },
+    "actual": {
+      "career_avg_tusg": 42.8,
+      "career_avg_pvr": 28.5,
+      "assessment": "STEAL - Elite playmaker, exceeded expectations"
+    }
+  },
+  {
+    "name": "Luka Doncic",
+    "draft_year": 2018,
+    "draft_position": 3,
+    "college": "Real Madrid (EuroLeague)",
+    "prediction": {
+      "college_tusg": 42.26,
+      "college_pvr": 32.21,
+      "projected_tusg": 25.27,
+      "projected_pvr": 42.11,
+      "bust_risk": 70.0,
+      "steal_potential": 20.0,
+      "risk_factors": [],
+      "ast_tov_ratio": 1.85,
+      "draft_position": 3,
+      "competition_level": "International"
+    },
+    "actual": {
+      "career_avg_tusg": 38.2,
+      "career_avg_pvr": 35.4,
+      "assessment": "SUPERSTAR - Franchise player, MVP-level"
+    }
+  },
+  {
+    "name": "Zion Williamson",
+    "draft_year": 2019,
+    "draft_position": 1,
+    "college": "Duke",
+    "prediction": {
+      "college_tusg": 42.74,
+      "college_pvr": 26.83,
+      "projected_tusg": 25.56,
+      "projected_pvr": 36.3,
+      "bust_risk": 70.0,
+      "steal_potential": 20.0,
+      "risk_factors": [],
+      "ast_tov_ratio": 1.0,
+      "draft_position": 1,
+      "competition_level": "P5"
+    },
+    "actual": {
+      "career_avg_tusg": 35.6,
+      "career_avg_pvr": 32.8,
+      "assessment": "SOLID - Elite scorer, injury concerns affected ceiling"
+    }
+  },
+  {
+    "name": "Ja Morant",
+    "draft_year": 2019,
+    "draft_position": 2,
+    "college": "Murray State",
+    "prediction": {
+      "college_tusg": 47.51,
+      "college_pvr": 42.13,
+      "projected_tusg": 28.41,
+      "projected_pvr": 52.11,
+      "bust_risk": 70.0,
+      "steal_potential": 40.0,
+      "risk_factors": [
+        "Elite college PVR"
+      ],
+      "ast_tov_ratio": 2.86,
+      "draft_position": 2,
+      "competition_level": "P5"
+    },
+    "actual": {
+      "career_avg_tusg": 40.5,
+      "career_avg_pvr": 30.2,
+      "assessment": "STEAL - Dynamic playmaker, All-NBA caliber"
+    }
+  },
+  {
+    "name": "Anthony Edwards",
+    "draft_year": 2020,
+    "draft_position": 1,
+    "college": "Georgia",
+    "prediction": {
+      "college_tusg": 42.36,
+      "college_pvr": 4.11,
+      "projected_tusg": 25.33,
+      "projected_pvr": 12.14,
+      "bust_risk": 70.0,
+      "steal_potential": 20.0,
+      "risk_factors": [],
+      "ast_tov_ratio": 1.08,
+      "draft_position": 1,
+      "competition_level": "P5"
+    },
+    "actual": {
+      "career_avg_tusg": 37.2,
+      "career_avg_pvr": 22.8,
+      "assessment": "SOLID - Two-way star,met expectations"
+    }
+  },
+  {
+    "name": "LaMelo Ball",
+    "draft_year": 2020,
+    "draft_position": 3,
+    "college": "Illawarra Hawks (Australia)",
+    "prediction": {
+      "college_tusg": 40.98,
+      "college_pvr": 30.99,
+      "projected_tusg": 24.51,
+      "projected_pvr": 40.71,
+      "bust_risk": 70.0,
+      "steal_potential": 20.0,
+      "risk_factors": [],
+      "ast_tov_ratio": 1.97,
+      "draft_position": 3,
+      "competition_level": "International"
+    },
+    "actual": {
+      "career_avg_tusg": 38.8,
+      "career_avg_pvr": 28.9,
+      "assessment": "STEAL - Elite passer, All-Star level"
+    }
+  },
+  {
+    "name": "Cade Cunningham",
+    "draft_year": 2021,
+    "draft_position": 1,
+    "college": "Oklahoma State",
+    "prediction": {
+      "college_tusg": 41.94,
+      "college_pvr": 12.24,
+      "projected_tusg": 25.08,
+      "projected_pvr": 32.95,
+      "bust_risk": 70.0,
+      "steal_potential": 20.0,
+      "risk_factors": [],
+      "ast_tov_ratio": 1.77,
+      "draft_position": 1,
+      "competition_level": "P5"
+    },
+    "actual": {
+      "career_avg_tusg": 36.4,
+      "career_avg_pvr": 24.6,
+      "assessment": "SOLID - Complete player, steady development"
+    }
+  },
+  {
+    "name": "Paolo Banchero",
+    "draft_year": 2022,
+    "draft_position": 1,
+    "college": "Duke",
+    "prediction": {
+      "college_tusg": 36.76,
+      "college_pvr": 9.06,
+      "projected_tusg": 21.98,
+      "projected_pvr": 17.28,
+      "bust_risk": 70.0,
+      "steal_potential": 20.0,
+      "risk_factors": [],
+      "ast_tov_ratio": 1.28,
+      "draft_position": 1,
+      "competition_level": "P5"
+    },
+    "actual": {
+      "career_avg_tusg": 34.8,
+      "career_avg_pvr": 20.5,
+      "assessment": "SOLID - ROY winner, versatile forward"
+    }
+  },
+  {
+    "name": "Victor Wembanyama",
+    "draft_year": 2023,
+    "draft_position": 1,
+    "college": "Metropolitans 92 (France)",
+    "prediction": {
+      "college_tusg": 49.52,
+      "college_pvr": 16.44,
+      "projected_tusg": 29.61,
+      "projected_pvr": 25.25,
+      "bust_risk": 85.0,
+      "steal_potential": 20.0,
+      "risk_factors": [
+        "Poor AST/TOV ratio"
+      ],
+      "ast_tov_ratio": 0.86,
+      "draft_position": 1,
+      "competition_level": "International"
+    },
+    "actual": {
+      "career_avg_tusg": 36.2,
+      "career_avg_pvr": 28.4,
+      "assessment": "SUPERSTAR - Generational talent, immediate impact"
+    }
+  },
+  {
+    "name": "Markelle Fultz",
+    "draft_year": 2017,
+    "draft_position": 1,
+    "college": "Washington",
+    "prediction": {
+      "college_tusg": 45.38,
+      "college_pvr": 14.09,
+      "projected_tusg": 27.14,
+      "projected_pvr": 33.45,
+      "bust_risk": 70.0,
+      "steal_potential": 20.0,
+      "risk_factors": [],
+      "ast_tov_ratio": 1.58,
+      "draft_position": 1,
+      "competition_level": "P5"
+    },
+    "actual": {
+      "career_avg_tusg": 28.4,
+      "career_avg_pvr": 12.6,
+      "assessment": "BUST - Injury derailed career, never reached potential"
+    }
+  },
+  {
+    "name": "Devin Booker",
+    "draft_year": 2015,
+    "draft_position": 13,
+    "college": "Kentucky",
+    "prediction": {
+      "college_tusg": 29.56,
+      "college_pvr": 15.55,
+      "projected_tusg": 17.68,
+      "projected_pvr": 24.31,
+      "bust_risk": 70.0,
+      "steal_potential": 20.0,
+      "risk_factors": [],
+      "ast_tov_ratio": 1.1,
+      "draft_position": 13,
+      "competition_level": "P5"
+    },
+    "actual": {
+      "career_avg_tusg": 40.2,
+      "career_avg_pvr": 24.8,
+      "assessment": "STEAL - Elite scorer, All-NBA level"
+    }
+  },
+  {
+    "name": "Jayson Tatum",
+    "draft_year": 2017,
+    "draft_position": 3,
+    "college": "Duke",
+    "prediction": {
+      "college_tusg": 31.77,
+      "college_pvr": 17.73,
+      "projected_tusg": 19.0,
+      "projected_pvr": 26.56,
+      "bust_risk": 70.0,
+      "steal_potential": 20.0,
+      "risk_factors": [],
+      "ast_tov_ratio": 1.17,
+      "draft_position": 3,
+      "competition_level": "P5"
+    },
+    "actual": {
+      "career_avg_tusg": 36.8,
+      "career_avg_pvr": 22.4,
+      "assessment": "SOLID - MVP candidate, franchise cornerstone"
+    }
+  },
+  {
+    "name": "Donovan Mitchell",
+    "draft_year": 2017,
+    "draft_position": 13,
+    "college": "Louisville",
+    "prediction": {
+      "college_tusg": 29.84,
+      "college_pvr": 13.84,
+      "projected_tusg": 17.84,
+      "projected_pvr": 22.32,
+      "bust_risk": 70.0,
+      "steal_potential": 20.0,
+      "risk_factors": [],
+      "ast_tov_ratio": 1.29,
+      "draft_position": 13,
+      "competition_level": "P5"
+    },
+    "actual": {
+      "career_avg_tusg": 39.8,
+      "career_avg_pvr": 20.6,
+      "assessment": "STEAL - All-Star, elite scorer"
+    }
+  },
+  {
+    "name": "Karl-Anthony Towns",
+    "draft_year": 2015,
+    "draft_position": 1,
+    "college": "Kentucky",
+    "prediction": {
+      "college_tusg": 32.38,
+      "college_pvr": 10.99,
+      "projected_tusg": 19.36,
+      "projected_pvr": 19.5,
+      "bust_risk": 85.0,
+      "steal_potential": 20.0,
+      "risk_factors": [
+        "Poor AST/TOV ratio"
+      ],
+      "ast_tov_ratio": 0.79,
+      "draft_position": 1,
+      "competition_level": "P5"
+    },
+    "actual": {
+      "career_avg_tusg": 33.5,
+      "career_avg_pvr": 26.8,
+      "assessment": "SOLID - Multiple All-Star, elite big man"
+    }
+  },
+  {
+    "name": "D'Angelo Russell",
+    "draft_year": 2015,
+    "draft_position": 2,
+    "college": "Ohio State",
+    "prediction": {
+      "college_tusg": 38.46,
+      "college_pvr": 13.86,
+      "projected_tusg": 23.0,
+      "projected_pvr": 33.55,
+      "bust_risk": 70.0,
+      "steal_potential": 20.0,
+      "risk_factors": [],
+      "ast_tov_ratio": 1.72,
+      "draft_position": 2,
+      "competition_level": "P5"
+    },
+    "actual": {
+      "career_avg_tusg": 37.2,
+      "career_avg_pvr": 18.4,
+      "assessment": "SOLID - All-Star, solid starter"
+    }
+  },
+  {
+    "name": "Jaren Jackson Jr.",
+    "draft_year": 2018,
+    "draft_position": 4,
+    "college": "Michigan State",
+    "prediction": {
+      "college_tusg": 33.19,
+      "college_pvr": 9.94,
+      "projected_tusg": 19.85,
+      "projected_pvr": 18.43,
+      "bust_risk": 85.0,
+      "steal_potential": 20.0,
+      "risk_factors": [
+        "Poor AST/TOV ratio"
+      ],
+      "ast_tov_ratio": 0.67,
+      "draft_position": 4,
+      "competition_level": "P5"
+    },
+    "actual": {
+      "career_avg_tusg": 30.2,
+      "career_avg_pvr": 18.6,
+      "assessment": "SOLID - DPOY, elite two-way player"
+    }
+  },
+  {
+    "name": "Shai Gilgeous-Alexander",
+    "draft_year": 2018,
+    "draft_position": 11,
+    "college": "Kentucky",
+    "prediction": {
+      "college_tusg": 35.86,
+      "college_pvr": 28.95,
+      "projected_tusg": 21.44,
+      "projected_pvr": 38.76,
+      "bust_risk": 70.0,
+      "steal_potential": 20.0,
+      "risk_factors": [],
+      "ast_tov_ratio": 1.86,
+      "draft_position": 11,
+      "competition_level": "P5"
+    },
+    "actual": {
+      "career_avg_tusg": 39.4,
+      "career_avg_pvr": 32.8,
+      "assessment": "STEAL - MVP candidate, elite two-way guard"
+    }
+  },
+  {
+    "name": "Bam Adebayo",
+    "draft_year": 2017,
+    "draft_position": 14,
+    "college": "Kentucky",
+    "prediction": {
+      "college_tusg": 27.08,
+      "college_pvr": 14.17,
+      "projected_tusg": 16.19,
+      "projected_pvr": 23.03,
+      "bust_risk": 85.0,
+      "steal_potential": 20.0,
+      "risk_factors": [
+        "Poor AST/TOV ratio"
+      ],
+      "ast_tov_ratio": 0.53,
+      "draft_position": 14,
+      "competition_level": "P5"
+    },
+    "actual": {
+      "career_avg_tusg": 26.8,
+      "career_avg_pvr": 22.4,
+      "assessment": "STEAL - Multiple All-Star, elite defender"
+    }
+  },
+  {
+    "name": "De'Aaron Fox",
+    "draft_year": 2017,
+    "draft_position": 5,
+    "college": "Kentucky",
+    "prediction": {
+      "college_tusg": 41.51,
+      "college_pvr": 9.47,
+      "projected_tusg": 24.82,
+      "projected_pvr": 28.99,
+      "bust_risk": 70.0,
+      "steal_potential": 20.0,
+      "risk_factors": [],
+      "ast_tov_ratio": 1.53,
+      "draft_position": 5,
+      "competition_level": "P5"
+    },
+    "actual": {
+      "career_avg_tusg": 40.6,
+      "career_avg_pvr": 26.2,
+      "assessment": "SOLID - All-NBA, elite speed and playmaking"
+    }
+  },
+  {
+    "name": "Deandre Ayton",
+    "draft_year": 2018,
+    "draft_position": 1,
+    "college": "Arizona",
+    "prediction": {
+      "college_tusg": 37.25,
+      "college_pvr": 15.76,
+      "projected_tusg": 22.27,
+      "projected_pvr": 24.64,
+      "bust_risk": 85.0,
+      "steal_potential": 20.0,
+      "risk_factors": [
+        "Poor AST/TOV ratio"
+      ],
+      "ast_tov_ratio": 0.84,
+      "draft_position": 1,
+      "competition_level": "P5"
+    },
+    "actual": {
+      "career_avg_tusg": 28.4,
+      "career_avg_pvr": 22.6,
+      "assessment": "SOLID - Solid starter, Finals contributor"
+    }
+  },
+  {
+    "name": "Collin Sexton",
+    "draft_year": 2018,
+    "draft_position": 8,
+    "college": "Alabama",
+    "prediction": {
+      "college_tusg": 43.87,
+      "college_pvr": 4.46,
+      "projected_tusg": 26.23,
+      "projected_pvr": 12.45,
+      "bust_risk": 60.0,
+      "steal_potential": 50.0,
+      "risk_factors": [],
+      "ast_tov_ratio": 1.29,
+      "draft_position": 8,
+      "competition_level": "P5"
+    },
+    "actual": {
+      "career_avg_tusg": 38.2,
+      "career_avg_pvr": 15.8,
+      "assessment": "SOLID - Quality scorer, solid rotation player"
+    }
+  },
+  {
+    "name": "Brandon Ingram",
+    "draft_year": 2016,
+    "draft_position": 2,
+    "college": "Duke",
+    "prediction": {
+      "college_tusg": 34.41,
+      "college_pvr": 8.98,
+      "projected_tusg": 20.58,
+      "projected_pvr": 17.37,
+      "bust_risk": 70.0,
+      "steal_potential": 20.0,
+      "risk_factors": [],
+      "ast_tov_ratio": 1.19,
+      "draft_position": 2,
+      "competition_level": "P5"
+    },
+    "actual": {
+      "career_avg_tusg": 35.4,
+      "career_avg_pvr": 20.8,
+      "assessment": "SOLID - All-Star, MIP winner"
+    }
+  },
+  {
+    "name": "Jaylen Brown",
+    "draft_year": 2016,
+    "draft_position": 3,
+    "college": "California",
+    "prediction": {
+      "college_tusg": 31.49,
+      "college_pvr": 10.55,
+      "projected_tusg": 18.83,
+      "projected_pvr": 19.11,
+      "bust_risk": 85.0,
+      "steal_potential": 20.0,
+      "risk_factors": [
+        "Poor AST/TOV ratio"
+      ],
+      "ast_tov_ratio": 0.86,
+      "draft_position": 3,
+      "competition_level": "P5"
+    },
+    "actual": {
+      "career_avg_tusg": 34.2,
+      "career_avg_pvr": 21.6,
+      "assessment": "SOLID - All-NBA, Finals MVP"
+    }
+  },
+  {
+    "name": "Damian Lillard",
+    "draft_year": 2012,
+    "draft_position": 6,
+    "college": "Weber State",
+    "prediction": {
+      "college_tusg": 46.02,
+      "college_pvr": 24.6,
+      "projected_tusg": 27.52,
+      "projected_pvr": 34.31,
+      "bust_risk": 60.0,
+      "steal_potential": 50.0,
+      "risk_factors": [],
+      "ast_tov_ratio": 1.92,
+      "draft_position": 6,
+      "competition_level": "P5"
+    },
+    "actual": {
+      "career_avg_tusg": 42.8,
+      "career_avg_pvr": 28.4,
+      "assessment": "STEAL - Multiple All-NBA, elite clutch scorer"
+    }
+  },
+  {
+    "name": "Bradley Beal",
+    "draft_year": 2012,
+    "draft_position": 3,
+    "college": "Florida",
+    "prediction": {
+      "college_tusg": 32.62,
+      "college_pvr": 12.09,
+      "projected_tusg": 19.5,
+      "projected_pvr": 20.45,
+      "bust_risk": 70.0,
+      "steal_potential": 20.0,
+      "risk_factors": [],
+      "ast_tov_ratio": 1.5,
+      "draft_position": 3,
+      "competition_level": "P5"
+    },
+    "actual": {
+      "career_avg_tusg": 38.6,
+      "career_avg_pvr": 22.2,
+      "assessment": "SOLID - Multiple All-Star, elite scorer"
+    }
+  },
+  {
+    "name": "Kyrie Irving",
+    "draft_year": 2011,
+    "draft_position": 1,
+    "college": "Duke",
+    "prediction": {
+      "college_tusg": 42.59,
+      "college_pvr": 11.81,
+      "projected_tusg": 25.47,
+      "projected_pvr": 32.47,
+      "bust_risk": 70.0,
+      "steal_potential": 20.0,
+      "risk_factors": [],
+      "ast_tov_ratio": 1.69,
+      "draft_position": 1,
+      "competition_level": "P5"
+    },
+    "actual": {
+      "career_avg_tusg": 39.8,
+      "career_avg_pvr": 30.2,
+      "assessment": "SOLID - Champion, elite ball-handler"
+    }
+  },
+  {
+    "name": "Kawhi Leonard",
+    "draft_year": 2011,
+    "draft_position": 15,
+    "college": "San Diego State",
+    "prediction": {
+      "college_tusg": 30.15,
+      "college_pvr": 16.06,
+      "projected_tusg": 18.03,
+      "projected_pvr": 24.76,
+      "bust_risk": 70.0,
+      "steal_potential": 20.0,
+      "risk_factors": [],
+      "ast_tov_ratio": 1.31,
+      "draft_position": 15,
+      "competition_level": "P5"
+    },
+    "actual": {
+      "career_avg_tusg": 34.2,
+      "career_avg_pvr": 26.4,
+      "assessment": "STEAL - 2x Finals MVP, elite two-way player"
+    }
+  },
+  {
+    "name": "Jimmy Butler",
+    "draft_year": 2011,
+    "draft_position": 30,
+    "college": "Marquette",
+    "prediction": {
+      "college_tusg": 32.21,
+      "college_pvr": 20.33,
+      "projected_tusg": 19.26,
+      "projected_pvr": 37.21,
+      "bust_risk": 70.0,
+      "steal_potential": 20.0,
+      "risk_factors": [],
+      "ast_tov_ratio": 1.64,
+      "draft_position": 30,
+      "competition_level": "P5"
+    },
+    "actual": {
+      "career_avg_tusg": 32.8,
+      "career_avg_pvr": 24.6,
+      "assessment": "STEAL - Multiple All-NBA, elite two-way wing"
+    }
+  },
+  {
+    "name": "Paul George",
+    "draft_year": 2010,
+    "draft_position": 10,
+    "college": "Fresno State",
+    "prediction": {
+      "college_tusg": 34.73,
+      "college_pvr": 10.36,
+      "projected_tusg": 20.77,
+      "projected_pvr": 18.76,
+      "bust_risk": 70.0,
+      "steal_potential": 20.0,
+      "risk_factors": [],
+      "ast_tov_ratio": 1.1,
+      "draft_position": 10,
+      "competition_level": "P5"
+    },
+    "actual": {
+      "career_avg_tusg": 36.4,
+      "career_avg_pvr": 22.8,
+      "assessment": "STEAL - Multiple All-NBA, elite two-way wing"
+    }
+  },
+  {
+    "name": "John Wall",
+    "draft_year": 2010,
+    "draft_position": 1,
+    "college": "Kentucky",
+    "prediction": {
+      "college_tusg": 36.96,
+      "college_pvr": 9.93,
+      "projected_tusg": 22.1,
+      "projected_pvr": 32.07,
+      "bust_risk": 70.0,
+      "steal_potential": 20.0,
+      "risk_factors": [],
+      "ast_tov_ratio": 1.71,
+      "draft_position": 1,
+      "competition_level": "P5"
+    },
+    "actual": {
+      "career_avg_tusg": 38.2,
+      "career_avg_pvr": 24.4,
+      "assessment": "SOLID - Multiple All-Star, elite athleticism"
+    }
+  },
+  {
+    "name": "Joel Embiid",
+    "draft_year": 2014,
+    "draft_position": 3,
+    "college": "Kansas",
+    "prediction": {
+      "college_tusg": 34.45,
+      "college_pvr": 5.51,
+      "projected_tusg": 20.6,
+      "projected_pvr": 13.66,
+      "bust_risk": 85.0,
+      "steal_potential": 20.0,
+      "risk_factors": [
+        "Poor AST/TOV ratio"
+      ],
+      "ast_tov_ratio": 0.56,
+      "draft_position": 3,
+      "competition_level": "P5"
+    },
+    "actual": {
+      "career_avg_tusg": 38.6,
+      "career_avg_pvr": 32.8,
+      "assessment": "STEAL - MVP, elite two-way center"
+    }
+  },
+  {
+    "name": "Nikola Jokic",
+    "draft_year": 2014,
+    "draft_position": 41,
+    "college": "Mega Basket (Serbia)",
+    "prediction": {
+      "college_tusg": 33.38,
+      "college_pvr": 21.71,
+      "projected_tusg": 19.96,
+      "projected_pvr": 42.04,
+      "bust_risk": 60.0,
+      "steal_potential": 50.0,
+      "risk_factors": [],
+      "ast_tov_ratio": 1.56,
+      "draft_position": 41,
+      "competition_level": "International"
+    },
+    "actual": {
+      "career_avg_tusg": 32.8,
+      "career_avg_pvr": 42.6,
+      "assessment": "STEAL - 3x MVP, greatest passing big ever"
+    }
+  },
+  {
+    "name": "Andrew Wiggins",
+    "draft_year": 2014,
+    "draft_position": 1,
+    "college": "Kansas",
+    "prediction": {
+      "college_tusg": 32.79,
+      "college_pvr": 8.58,
+      "projected_tusg": 19.61,
+      "projected_pvr": 16.99,
+      "bust_risk": 70.0,
+      "steal_potential": 20.0,
+      "risk_factors": [],
+      "ast_tov_ratio": 1.07,
+      "draft_position": 1,
+      "competition_level": "P5"
+    },
+    "actual": {
+      "career_avg_tusg": 32.4,
+      "career_avg_pvr": 16.8,
+      "assessment": "SOLID - Champion, solid two-way wing"
+    }
+  },
+  {
+    "name": "Julius Randle",
+    "draft_year": 2014,
+    "draft_position": 7,
+    "college": "Kentucky",
+    "prediction": {
+      "college_tusg": 34.55,
+      "college_pvr": 8.07,
+      "projected_tusg": 20.66,
+      "projected_pvr": 16.44,
+      "bust_risk": 85.0,
+      "steal_potential": 20.0,
+      "risk_factors": [
+        "Poor AST/TOV ratio"
+      ],
+      "ast_tov_ratio": 0.67,
+      "draft_position": 7,
+      "competition_level": "P5"
+    },
+    "actual": {
+      "career_avg_tusg": 33.6,
+      "career_avg_pvr": 20.4,
+      "assessment": "SOLID - All-NBA, versatile forward"
+    }
+  }
+]

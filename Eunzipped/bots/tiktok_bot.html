@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TikTok Script Generator | Taylor Vector Terminal</title>
+    <link rel="stylesheet" href="/static/css/theme.css">
+</head>
+<body>
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+        <span class="theme-icon">◐</span>
+        <span id="theme-text">Dark</span>
+    </button>
+
+
+    <div class="container">
+        <header>
+            <h1> TikTok Script Generator</h1>
+            <div class="subtitle">Taylor Vector Terminal | NBA Analytics Content</div>
+            <div class="description">Auto-generate 60-second metric tutorial scripts for TikTok</div>
+        </header>
+
+        <div class="controls">
+            <div class="control-group">
+                <label for="topic-select"> Select Topic</label>
+                <select id="topic-select">
+                    <option value="">-- Choose a topic --</option>
+                    <option value="tusg_basics">TUSG% Basics - Stop using USG% wrong</option>
+                    <option value="pvr_basics">PVR Basics - The metric that predicted Jokić's MVP</option>
+                    <option value="westbrook_rule">The Westbrook Rule - Why he breaks formulas</option>
+                    <option value="jokic_mvp">Jokić MVP Prediction - Analytics knew first</option>
+                    <option value="curry_efficiency">Curry 2016 - Mathematically unfair</option>
+                    <option value="usage_vs_efficiency">Usage vs Efficiency - Which matters more?</option>
+                    <option value="mj_vs_lebron">MJ vs LeBron - GOAT debate settled by math</option>
+                    <option value="game_prediction">Game Prediction System - 65%+ accuracy</option>
+                    <option value="era_adjusted">Era-Adjusted Metrics - Fair cross-era comparisons</option>
+                    <option value="hidden_gems">Hidden Gems - Find stars before they blow up</option>
+                </select>
+            </div>
+
+            <button id="generate-btn" onclick="generateScript()">
+                 Generate Script
+            </button>
+        </div>
+
+        <div id="script-output" class="script-output">
+            <!-- Script content will be inserted here -->
+        </div>
+    </div>
+
+    <div id="copy-notification" class="copy-notification">
+         Script copied to clipboard!
+    </div>
+
+    <script>
+        const SCRIPT_TEMPLATES = {
+            'tusg_basics': {
+                'title': "TUSG% in 60 seconds: Stop using USG% wrong",
+                'topic': 'TUSG% Basics',
+                'hook': {
+                    'timestamp': '0:00-0:15',
+                    'text': "You've been using Usage % wrong this whole time. Let me show you why TUSG% is better.\n\n[On-screen text: \"TRADITIONAL USG% IS BROKEN \"]\n\nTraditional Usage % ignores pace. A player in 1962 played at 126 possessions per game. Today? 99. That's broken math."
+                },
+                'explanation': {
+                    'timestamp': '0:15-0:40',
+                    'text': "TUSG% fixes this. True Usage % = how much a player controls the offense, adjusted for team pace.\n\n[Show formula graphic: (FGA + TOV + FTA×0.44) / (MIN/48 × Pace) × 100]\n\nIt answers: 'If this player was on ANY team, how much would they dominate the ball?'\n\nNow we can compare Wilt to Harden. Modern stars to '80s legends. Fair math."
+                },
+                'example': {
+                    'timestamp': '0:40-0:50',
+                    'text': "Russell Westbrook 2017: 48.1% TUSG - highest EVER. He controlled nearly HALF his team's possessions.\n\n[Show graphic: Westbrook 48.1% > League Average 20%]\n\nThat's why he averaged a triple-double. Pure ball dominance."
+                },
+                'cta': {
+                    'timestamp': '0:50-0:60',
+                    'text': "Follow for more NBA metrics that actually make sense. Link in bio for the full TUSG% leaderboard.\n\n[End screen: \"TUSG% > USG%\" + \"Link in bio \"]"
+                },
+                'sounds': [
+                    "original sound (trending audio for sports content)",
+                    "Storytelling beat (medium tempo)",
+                    "Upbeat sports commentary audio"
+                ],
+                'tips': [
+                    "Use text overlays for key stats and formulas",
+                    "Show graphics/charts during explanation section",
+                    "Keep energy high - fast cuts, dynamic visuals",
+                    "Use captions for accessibility",
+                    "Test different hooks for best performance"
+                ]
+            },
+            'pvr_basics': {
+                'title': "What is PVR? The efficiency metric that predicted Jokić's MVP",
+                'topic': 'PVR Basics',
+                'hook': {
+                    'timestamp': '0:00-0:15',
+                    'text': "This metric predicted Nikola Jokić's MVP 3 years before anyone else saw it coming.\n\n[On-screen: \"THE METRIC THAT KNEW \"]\n\nIt's called PVR. And it's about to change how you watch basketball."
+                },
+                'explanation': {
+                    'timestamp': '0:15-0:40',
+                    'text': "PVR = Production-to-Volume Ratio. How many points you GENERATE per possession you USE.\n\n[Show formula: (PTS + AST×Mult) / (FGA + TOV + FTA×0.44 + AST) - 1] × 100\n\nTS% only counts your own scoring. PVR counts assists - the points you CREATE for teammates.\n\nHigh PVR = elite efficiency. You're not just scoring, you're making everyone better."
+                },
+                'example': {
+                    'timestamp': '0:40-0:50',
+                    'text': "Jokić 2021-22: 44.54 PVR - HIGHEST in the top 15 all-time.\n\n[Show: Curry 40.27, Magic 44.03, Jokić 44.54]\n\nHe scored 27 PPG + 8 APG with zero wasted possessions. That's MVP-level efficiency."
+                },
+                'cta': {
+                    'timestamp': '0:50-0:60',
+                    'text': "Want to see your favorite player's PVR? Link in bio. Follow for more analytics that actually matter.\n\n[End screen: \"PVR = TRUE EFFICIENCY\" + emoji]"
+                },
+                'sounds': [
+                    "Suspenseful reveal audio",
+                    "Upbeat analytical content music",
+                    "Sports highlight reel sound"
+                ],
+                'tips': [
+                    "Use text overlays for key stats and formulas",
+                    "Show graphics/charts during explanation section",
+                    "Keep energy high - fast cuts, dynamic visuals",
+                    "Use captions for accessibility",
+                    "Test different hooks for best performance"
+                ]
+            },
+            'westbrook_rule': {
+                'title': "Why Russell Westbrook breaks PVR formulas",
+                'topic': 'The Westbrook Rule',
+                'hook': {
+                    'timestamp': '0:00-0:15',
+                    'text': "Russell Westbrook broke basketball so bad, we had to create a new rule just for him.\n\n[On-screen: \"THE WESTBROOK PARADOX \"]\n\nHere's the stat that makes NO sense..."
+                },
+                'explanation': {
+                    'timestamp': '0:15-0:40',
+                    'text': "Westbrook 2017: 48.1% TUSG (highest ever) + 25.11 PVR (really good).\n\nBut here's the problem - he had 5.4 turnovers per game. That should KILL his PVR.\n\n[Show graphic: AST/TOV ratio affects multiplier]\n\nNormal players: AST/TOV < 1.8 = 1.8x assist multiplier\nElite playmakers: AST/TOV > 1.8 = 2.3x assist multiplier\n\nWestbrook's 10.4 assists with 5.4 TOV = 1.93 ratio. Just barely elite."
+                },
+                'example': {
+                    'timestamp': '0:40-0:50',
+                    'text': "That's The Westbrook Rule: obscene usage + high assists + high turnovers = still works.\n\n[Show: 31.6 PPG + 10.4 APG > 5.4 TOV]\n\nThe volume was SO high, the efficiency still mattered. Pure math magic."
+                },
+                'cta': {
+                    'timestamp': '0:50-0:60',
+                    'text': "Follow for more stats that break your brain. Link in bio for the Westbrook Rule calculator.\n\n[End screen: \"VOLUME > EFFICIENCY?\" + thinking emoji]"
+                },
+                'sounds': [
+                    "Mind-blown audio effect",
+                    "Dramatic reveal music",
+                    "Energetic sports content beat"
+                ],
+                'tips': [
+                    "Use text overlays for key stats and formulas",
+                    "Show graphics/charts during explanation section",
+                    "Keep energy high - fast cuts, dynamic visuals",
+                    "Use captions for accessibility",
+                    "Test different hooks for best performance"
+                ]
+            },
+            'jokic_mvp': {
+                'title': "The metric that predicted Jokić's MVP before anyone else",
+                'topic': 'Jokić MVP Prediction',
+                'hook': {
+                    'timestamp': '0:00-0:15',
+                    'text': "In 2019, this metric said Nikola Jokić was the most efficient star in the NBA. Everyone laughed.\n\n[On-screen: \"THEY CALLED IT CRAZY \"]\n\nThree MVPs later... who's laughing now?"
+                },
+                'explanation': {
+                    'timestamp': '0:15-0:40',
+                    'text': "PVR = Production Value Ratio. It measures points created (scoring + assists) per possession used.\n\n[Show 2019 stats: Jokić 42.3 PVR vs League Average ~15]\n\nEveryone saw 20 PPG, 7 APG. Good, not MVP.\n\nPVR saw: elite efficiency, zero wasted possessions, perfect playmaking. MVP-caliber impact.\n\nThe difference? PVR counts BOTH scoring AND creating for others."
+                },
+                'example': {
+                    'timestamp': '0:40-0:50',
+                    'text': "2022 MVP season: 27.1 PPG, 7.9 APG, 44.54 PVR.\n\n[Show comparison: Embiid 35.2 PVR, Giannis 38.1 PVR, Jokić 44.54 PVR]\n\nHighest PVR in the top 15 all-time. The metric was right all along."
+                },
+                'cta': {
+                    'timestamp': '0:50-0:60',
+                    'text': "Want to see next year's MVP before the media? Follow for analytics that predict the future. Link in bio.\n\n[End screen: \"PVR KNOWS \"]"
+                },
+                'sounds': [
+                    "Dramatic prediction reveal",
+                    "Inspirational sports music",
+                    "I told you so audio"
+                ],
+                'tips': [
+                    "Use text overlays for key stats and formulas",
+                    "Show graphics/charts during explanation section",
+                    "Keep energy high - fast cuts, dynamic visuals",
+                    "Use captions for accessibility",
+                    "Test different hooks for best performance"
+                ]
+            },
+            'curry_efficiency': {
+                'title': "Steph Curry's 2016 season was UNFAIR (by the numbers)",
+                'topic': 'Curry 2016 Efficiency',
+                'hook': {
+                    'timestamp': '0:00-0:15',
+                    'text': "Steph Curry's 2016 season wasn't just good. It was mathematically ILLEGAL.\n\n[On-screen: \"73-9 + UNANIMOUS MVP \"]\n\nHere's the stat that proves it..."
+                },
+                'explanation': {
+                    'timestamp': '0:15-0:40',
+                    'text': "40.27 PVR. For context:\n- League average: ~15 PVR\n- All-Stars: 20-30 PVR\n- MVPs: 30-40 PVR\n- Curry: 40.27 PVR\n\n[Show graphic with tiers]\n\nHe scored 30.1 PPG on absurd efficiency WHILE creating for teammates. Every possession was productive.\n\nAnd his TUSG%? Only 36.87%. He wasn't even dominating the ball like Westbrook."
+                },
+                'example': {
+                    'timestamp': '0:40-0:50',
+                    'text': "Translation: Lower usage than Harden, higher efficiency than anyone.\n\n[Show: 402 threes + 67 wins + 40.27 PVR = UNSTOPPABLE]\n\nThat's why it's the greatest offensive season ever. Pure math dominance."
+                },
+                'cta': {
+                    'timestamp': '0:50-0:60',
+                    'text': "Follow for more stats that prove what your eyes see. Link in bio for all-time PVR leaders.\n\n[End screen: \"CURRY '16 = BROKEN \"]"
+                },
+                'sounds': [
+                    "Epic sports moment audio",
+                    "Triumphant victory music",
+                    "Celebration crowd noise"
+                ],
+                'tips': [
+                    "Use text overlays for key stats and formulas",
+                    "Show graphics/charts during explanation section",
+                    "Keep energy high - fast cuts, dynamic visuals",
+                    "Use captions for accessibility",
+                    "Test different hooks for best performance"
+                ]
+            },
+            'usage_vs_efficiency': {
+                'title': "High usage vs high efficiency: Which matters more?",
+                'topic': 'Usage vs Efficiency',
+                'hook': {
+                    'timestamp': '0:00-0:15',
+                    'text': "LeBron or Curry? Westbrook or Jokić? The eternal debate.\n\n[On-screen: \"VOLUME VS EFFICIENCY \"]\n\nHere's what the math actually says..."
+                },
+                'explanation': {
+                    'timestamp': '0:15-0:40',
+                    'text': "TUSG% = Volume (how much you dominate the ball)\nPVR = Efficiency (how well you use each possession)\n\n[Show quadrant chart]\n\nTop right = High usage + High efficiency (MVP tier)\nTop left = High efficiency, low usage (role player/system player)\nBottom right = High usage, low efficiency (volume scorer)\nBottom left = You're getting traded.\n\nThe BEST players? Both high. Curry 2016: 36.9 TUSG + 40.3 PVR."
+                },
+                'example': {
+                    'timestamp': '0:40-0:50',
+                    'text': "Compare:\n- Harden 2019: 45.7 TUSG, 18.6 PVR (elite volume, good efficiency)\n- Jokić 2022: 33.7 TUSG, 44.5 PVR (good volume, ELITE efficiency)\n\n[Show: Both won MVP - different paths]\n\nBoth won MVP. Math says: either path works if you're elite."
+                },
+                'cta': {
+                    'timestamp': '0:50-0:60',
+                    'text': "Want to plot your favorite player? Link in bio. Follow for daily NBA analytics.\n\n[End screen: \"BOTH MATTER \"]"
+                },
+                'sounds': [
+                    "Debate-style music",
+                    "Analytical content beat",
+                    "Sports discussion audio"
+                ],
+                'tips': [
+                    "Use text overlays for key stats and formulas",
+                    "Show graphics/charts during explanation section",
+                    "Keep energy high - fast cuts, dynamic visuals",
+                    "Use captions for accessibility",
+                    "Test different hooks for best performance"
+                ]
+            }
+        };
+
+        function generateScript() {
+            const topicSelect = document.getElementById('topic-select');
+            const selectedTopic = topicSelect.value;
+            
+            if (!selectedTopic) {
+                alert('Please select a topic first!');
+                return;
+            }
+
+            const template = SCRIPT_TEMPLATES[selectedTopic];
+            
+            const scriptOutput = document.getElementById('script-output');
+            scriptOutput.innerHTML = `
+                <div class="script-header">
+                    <h2 class="script-title">${template.title}</h2>
+                    <div class="script-meta">
+                        <span> ${template.topic}</span>
+                        <span> 60 seconds total</span>
+                        <span> ${new Date().toLocaleDateString()}</span>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-header">
+                        <h3 class="section-title"> HOOK</h3>
+                        <span class="timestamp">${template.hook.timestamp}</span>
+                    </div>
+                    <div class="section-text">${template.hook.text}</div>
+                </div>
+
+                <div class="section">
+                    <div class="section-header">
+                        <h3 class="section-title"> EXPLANATION</h3>
+                        <span class="timestamp">${template.explanation.timestamp}</span>
+                    </div>
+                    <div class="section-text">${template.explanation.text}</div>
+                </div>
+
+                <div class="section">
+                    <div class="section-header">
+                        <h3 class="section-title"> EXAMPLE</h3>
+                        <span class="timestamp">${template.example.timestamp}</span>
+                    </div>
+                    <div class="section-text">${template.example.text}</div>
+                </div>
+
+                <div class="section">
+                    <div class="section-header">
+                        <h3 class="section-title"> CALL TO ACTION</h3>
+                        <span class="timestamp">${template.cta.timestamp}</span>
+                    </div>
+                    <div class="section-text">${template.cta.text}</div>
+                </div>
+
+                <div class="sounds-section">
+                    <h3> Recommended Sounds</h3>
+                    <ul class="sounds-list">
+                        ${template.sounds.map(sound => `<li>${sound}</li>`).join('')}
+                    </ul>
+                </div>
+
+                <div class="tips-section">
+                    <h3> Production Tips</h3>
+                    <ul class="tips-list">
+                        ${template.tips.map(tip => `<li>${tip}</li>`).join('')}
+                    </ul>
+                </div>
+
+                <button class="copy-btn" onclick="copyScript()">
+                     Copy Full Script to Clipboard
+                </button>
+            `;
+
+            scriptOutput.classList.add('active');
+            scriptOutput.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function copyScript() {
+            const topicSelect = document.getElementById('topic-select');
+            const selectedTopic = topicSelect.value;
+            const template = SCRIPT_TEMPLATES[selectedTopic];
+
+            const scriptText = ` ${template.title}
+ ${template.topic}
+ Total Duration: 60 seconds
+${'='.repeat(60)}
+
+ HOOK (${template.hook.timestamp})
+${template.hook.text}
+
+ EXPLANATION (${template.explanation.timestamp})
+${template.explanation.text}
+
+ EXAMPLE (${template.example.timestamp})
+${template.example.text}
+
+ CALL TO ACTION (${template.cta.timestamp})
+${template.cta.text}
+
+${'='.repeat(60)}
+ RECOMMENDED SOUNDS:
+${template.sounds.map(s => `  • ${s}`).join('\n')}
+
+ PRODUCTION TIPS:
+${template.tips.map(t => `  • ${t}`).join('\n')}
+`;
+
+            navigator.clipboard.writeText(scriptText).then(() => {
+                const notification = document.getElementById('copy-notification');
+                notification.classList.add('show');
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 3000);
+            }).catch(err => {
+                alert('Failed to copy script. Please try again.');
+                console.error('Copy failed:', err);
+            });
+        }
+    </script>
+    <script src="/static/js/theme.js"></script>
+</body>
+</html>

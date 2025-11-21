@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Underrated PVR Stars - Taylor Vector Terminal</title>
+    <link rel="stylesheet" href="/static/css/theme.css">
+</head>
+<body>
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+        <span class="theme-icon">◐</span>
+        <span id="theme-text">Dark</span>
+    </button>
+
+
+    <div class="container">
+        <a href="/" class="back-link">← Back to Dashboard</a>
+
+        <header>
+            <h1> Underrated PVR Stars Series</h1>
+            <p class="subtitle">Discover High-Value, Low-Profile Players (Hidden Gems)</p>
+        </header>
+
+        <div class="criteria-box">
+            <h3> Discovery Criteria</h3>
+            <div class="criteria-list">
+                <div class="criteria-item">
+                    <span class="criteria-icon"></span>
+                    <span class="criteria-text">PVR > 15.0</span>
+                </div>
+                <div class="criteria-item">
+                    <span class="criteria-icon"></span>
+                    <span class="criteria-text">Salary < $25M</span>
+                </div>
+                <div class="criteria-item">
+                    <span class="criteria-icon"></span>
+                    <span class="criteria-text">Non-All-Stars</span>
+                </div>
+                <div class="criteria-item">
+                    <span class="criteria-icon"></span>
+                    <span class="criteria-text">High Undervalued Score</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="featured-section" id="featuredSection">
+            <div class="loading" id="featuredLoading">
+                <div class="spinner"></div>
+                <p style="margin-top: 15px; font-size: 1.1em;">Loading featured player...</p>
+            </div>
+
+            <div id="featuredContent" style="display: none;">
+                <div class="featured-header">
+                    <div class="featured-badge"> Featured Hidden Gem This Week</div>
+                    <div class="featured-title" id="featuredPlayerName">-</div>
+                    <div class="featured-team" id="featuredPlayerTeam">-</div>
+                </div>
+
+                <div class="featured-grid">
+                    <div class="stat-card">
+                        <div class="stat-label">PVR Rating</div>
+                        <div class="stat-value" id="featuredPVR">-</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Salary</div>
+                        <div class="stat-value" id="featuredSalary">-</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">PPG</div>
+                        <div class="stat-value" id="featuredPPG">-</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">APG</div>
+                        <div class="stat-value" id="featuredAPG">-</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Undervalued Score</div>
+                        <div class="stat-value" id="featuredScore">-</div>
+                    </div>
+                </div>
+
+                <div class="analysis-section">
+                    <h3> Why Underrated?</h3>
+                    <ul id="whyUnderratedList">
+                    </ul>
+                </div>
+
+                <div class="analysis-section">
+                    <h3> Fantasy Implications</h3>
+                    <ul id="fantasyImplicationsList">
+                    </ul>
+                </div>
+
+                <div class="analysis-section">
+                    <h3> Betting Implications</h3>
+                    <ul id="bettingImplicationsList">
+                    </ul>
+                </div>
+
+                <div class="share-section">
+                    <h3> Share This Hidden Gem</h3>
+                    <div class="share-buttons">
+                        <a href="#" class="share-btn share-twitter" id="shareTwitter" target="_blank">
+                            <span></span>
+                            <span>Share on Twitter</span>
+                        </a>
+                        <a href="#" class="share-btn share-facebook" id="shareFacebook" target="_blank">
+                            <span></span>
+                            <span>Share on Facebook</span>
+                        </a>
+                        <a href="#" class="share-btn share-reddit" id="shareReddit" target="_blank">
+                            <span></span>
+                            <span>Share on Reddit</span>
+                        </a>
+                        <button class="share-btn btn-copy" onclick="copyShareLink()">
+                            <span></span>
+                            <span>Copy Link</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="leaderboard-section">
+            <div class="leaderboard-header">
+                <h2> Hidden Gems Leaderboard</h2>
+                <p class="leaderboard-description">
+                    Top 10 undervalued players ranked by PVR-to-salary ratio
+                </p>
+            </div>
+
+            <div class="loading" id="leaderboardLoading">
+                <div class="spinner"></div>
+                <p style="margin-top: 15px; font-size: 1.1em;">Loading hidden gems...</p>
+            </div>
+
+            <div id="leaderboardContent" style="display: none;">
+                <table class="leaderboard-table">
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Player</th>
+                            <th>Team</th>
+                            <th>PVR</th>
+                            <th>Salary</th>
+                            <th>PPG</th>
+                            <th>APG</th>
+                            <th>Undervalued Score</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leaderboardTableBody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let featuredPlayerData = null;
+
+        async function loadFeaturedPlayer() {
+            try {
+                const response = await fetch('/api/underrated-stars/featured');
+                const data = await response.json();
+
+                if (data.success && data.featured) {
+                    featuredPlayerData = data.featured;
+                    displayFeaturedPlayer(data.featured, data.analysis);
+                }
+            } catch (error) {
+                console.error('Error loading featured player:', error);
+                document.getElementById('featuredLoading').innerHTML = 
+                    '<p style="color: #ff4444;">Error loading featured player</p>';
+            }
+        }
+
+        function displayFeaturedPlayer(player, analysis) {
+            document.getElementById('featuredLoading').style.display = 'none';
+            document.getElementById('featuredContent').style.display = 'block';
+
+            document.getElementById('featuredPlayerName').textContent = player.player;
+            document.getElementById('featuredPlayerTeam').textContent = player.team;
+            document.getElementById('featuredPVR').textContent = player.pvr.toFixed(2);
+            document.getElementById('featuredSalary').textContent = '$' + player.salary.toFixed(1) + 'M';
+            document.getElementById('featuredPPG').textContent = player.ppg.toFixed(1);
+            document.getElementById('featuredAPG').textContent = player.apg.toFixed(1);
+            document.getElementById('featuredScore').textContent = player.undervalued_score.toFixed(3);
+
+            // Why underrated
+            const whyList = document.getElementById('whyUnderratedList');
+            whyList.innerHTML = analysis.why_underrated.map(reason => 
+                `<li>${reason}</li>`
+            ).join('');
+
+            // Fantasy implications
+            const fantasyList = document.getElementById('fantasyImplicationsList');
+            fantasyList.innerHTML = analysis.fantasy_implications.map(implication => 
+                `<li>${implication}</li>`
+            ).join('');
+
+            // Betting implications
+            const bettingList = document.getElementById('bettingImplicationsList');
+            bettingList.innerHTML = analysis.betting_implications.map(implication => 
+                `<li>${implication}</li>`
+            ).join('');
+
+            // Setup share links
+            setupShareLinks(player);
+        }
+
+        function setupShareLinks(player) {
+            const text = `Check out ${player.player} (${player.team}) - Hidden Gem with PVR ${player.pvr.toFixed(1)} on only $${player.salary}M! `;
+            const url = window.location.href;
+
+            document.getElementById('shareTwitter').href = 
+                `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
+            
+            document.getElementById('shareFacebook').href = 
+                `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+            
+            document.getElementById('shareReddit').href = 
+                `https://reddit.com/submit?url=${encodeURIComponent(url)}&title=${encodeURIComponent(text)}`;
+        }
+
+        function copyShareLink() {
+            navigator.clipboard.writeText(window.location.href).then(() => {
+                alert('Link copied to clipboard!');
+            }).catch(err => {
+                console.error('Error copying link:', err);
+            });
+        }
+
+        async function loadLeaderboard() {
+            try {
+                const response = await fetch('/api/underrated-stars/leaderboard');
+                const data = await response.json();
+
+                if (data.success && data.leaderboard) {
+                    displayLeaderboard(data.leaderboard);
+                }
+            } catch (error) {
+                console.error('Error loading leaderboard:', error);
+                document.getElementById('leaderboardLoading').innerHTML = 
+                    '<p style="color: #ff4444;">Error loading leaderboard</p>';
+            }
+        }
+
+        function displayLeaderboard(players) {
+            document.getElementById('leaderboardLoading').style.display = 'none';
+            document.getElementById('leaderboardContent').style.display = 'block';
+
+            const tbody = document.getElementById('leaderboardTableBody');
+            tbody.innerHTML = players.map((player, index) => {
+                let rankBadgeClass = '';
+                if (index === 0) rankBadgeClass = 'gold';
+                else if (index === 1) rankBadgeClass = 'silver';
+                else if (index === 2) rankBadgeClass = 'bronze';
+
+                return `
+                    <tr>
+                        <td>
+                            <div class="rank-badge ${rankBadgeClass}">${player.rank}</div>
+                        </td>
+                        <td>
+                            <div class="player-name">${player.player}</div>
+                        </td>
+                        <td>
+                            <div class="team-name">${player.team}</div>
+                        </td>
+                        <td>${player.pvr.toFixed(2)}</td>
+                        <td>$${player.salary.toFixed(1)}M</td>
+                        <td>${player.ppg.toFixed(1)}</td>
+                        <td>${player.apg.toFixed(1)}</td>
+                        <td>
+                            <div class="value-score">${player.undervalued_score.toFixed(3)}</div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // Load data on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            loadFeaturedPlayer();
+            loadLeaderboard();
+        });
+    </script>
+    <script src="/static/js/theme.js"></script>
+</body>
+</html>

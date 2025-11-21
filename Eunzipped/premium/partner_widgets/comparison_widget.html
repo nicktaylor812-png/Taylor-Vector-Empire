@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Player Comparison - TAYLOR VECTOR TERMINAL</title>
+    <link rel="stylesheet" href="/static/css/theme.css">
+</head>
+<body>
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+        <span class="theme-icon">◐</span>
+        <span id="theme-text">Dark</span>
+    </button>
+
+
+    <div class="widget-container">
+        <div class="widget-header">
+            <img id="partnerLogo" class="partner-logo" />
+            <h1> Player Comparison Tool</h1>
+        </div>
+        
+        <div class="player-selectors">
+            <div class="player-select">
+                <label>Player 1</label>
+                <select id="player1Select" onchange="comparePlayers()">
+                    <option value="">Select Player...</option>
+                </select>
+            </div>
+            
+            <div class="vs-badge">VS</div>
+            
+            <div class="player-select">
+                <label>Player 2</label>
+                <select id="player2Select" onchange="comparePlayers()">
+                    <option value="">Select Player...</option>
+                </select>
+            </div>
+        </div>
+        
+        <div id="comparisonContent"></div>
+        
+        <div class="attribution">
+            Data powered by <a href="https://taylor-vector-terminal.replit.app" target="_blank">TAYLOR VECTOR TERMINAL</a>
+        </div>
+    </div>
+    
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const primaryColor = urlParams.get('color') ? `#${urlParams.get('color')}` : '#f5576c';
+        const logoUrl = urlParams.get('logo');
+        const partnerKey = urlParams.get('partner');
+        
+        document.documentElement.style.setProperty('--primary-color', primaryColor);
+        
+        if (logoUrl) {
+            const logoElement = document.getElementById('partnerLogo');
+            logoElement.src = decodeURIComponent(logoUrl);
+            logoElement.style.display = 'block';
+        }
+        
+        let players = [];
+        
+        async function loadPlayers() {
+            try {
+                const response = await fetch('/api/v1/leaderboard?limit=100');
+                const data = await response.json();
+                players = data.leaderboard;
+                
+                const select1 = document.getElementById('player1Select');
+                const select2 = document.getElementById('player2Select');
+                
+                players.forEach((player, index) => {
+                    const option1 = new Option(`${player.player} (${player.season})`, index);
+                    const option2 = new Option(`${player.player} (${player.season})`, index);
+                    select1.add(option1);
+                    select2.add(option2);
+                });
+                
+                if (partnerKey) {
+                    trackView();
+                }
+            } catch (error) {
+                console.error('Error loading players:', error);
+            }
+        }
+        
+        function comparePlayers() {
+            const index1 = document.getElementById('player1Select').value;
+            const index2 = document.getElementById('player2Select').value;
+            
+            if (!index1 || !index2) return;
+            
+            const player1 = players[index1];
+            const player2 = players[index2];
+            
+            const html = `
+                <div class="comparison-grid">
+                    <div class="player-card">
+                        <div class="player-name">${player1.player}</div>
+                        <div class="player-season">${player1.season} Season</div>
+                        <div class="stat-row">
+                            <span class="stat-label">TUSG%</span>
+                            <span class="stat-value">${player1.tusg.toFixed(2)}${player1.tusg > player2.tusg ? '<span class="winner-badge"></span>' : ''}</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">PVR</span>
+                            <span class="stat-value">${player1.pvr.toFixed(2)}${player1.pvr > player2.pvr ? '<span class="winner-badge"></span>' : ''}</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">PPG</span>
+                            <span class="stat-value">${player1.ppg.toFixed(1)}${player1.ppg > player2.ppg ? '<span class="winner-badge"></span>' : ''}</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">APG</span>
+                            <span class="stat-value">${player1.apg.toFixed(1)}${player1.apg > player2.apg ? '<span class="winner-badge"></span>' : ''}</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">MPG</span>
+                            <span class="stat-value">${player1.mpg.toFixed(1)}${player1.mpg > player2.mpg ? '<span class="winner-badge"></span>' : ''}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="player-card player2">
+                        <div class="player-name">${player2.player}</div>
+                        <div class="player-season">${player2.season} Season</div>
+                        <div class="stat-row">
+                            <span class="stat-label">TUSG%</span>
+                            <span class="stat-value">${player2.tusg.toFixed(2)}${player2.tusg > player1.tusg ? '<span class="winner-badge"></span>' : ''}</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">PVR</span>
+                            <span class="stat-value">${player2.pvr.toFixed(2)}${player2.pvr > player1.pvr ? '<span class="winner-badge"></span>' : ''}</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">PPG</span>
+                            <span class="stat-value">${player2.ppg.toFixed(1)}${player2.ppg > player1.ppg ? '<span class="winner-badge"></span>' : ''}</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">APG</span>
+                            <span class="stat-value">${player2.apg.toFixed(1)}${player2.apg > player1.apg ? '<span class="winner-badge"></span>' : ''}</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">MPG</span>
+                            <span class="stat-value">${player2.mpg.toFixed(1)}${player2.mpg > player1.mpg ? '<span class="winner-badge"></span>' : ''}</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="metrics-comparison">
+                    <div class="metrics-title"> Visual Comparison</div>
+                    
+                    <div class="metric-bar">
+                        <div class="metric-label">
+                            <span>TUSG% (True Usage %)</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar-fill">
+                                ${player1.tusg.toFixed(1)}
+                            </div>
+                            <div class="bar-fill">
+                                ${player2.tusg.toFixed(1)}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="metric-bar">
+                        <div class="metric-label">
+                            <span>PVR (Points Value Rating)</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar-fill">
+                                ${player1.pvr.toFixed(1)}
+                            </div>
+                            <div class="bar-fill">
+                                ${player2.pvr.toFixed(1)}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="metric-bar">
+                        <div class="metric-label">
+                            <span>Points Per Game</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar-fill">
+                                ${player1.ppg.toFixed(1)}
+                            </div>
+                            <div class="bar-fill">
+                                ${player2.ppg.toFixed(1)}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('comparisonContent').innerHTML = html;
+            
+            if (partnerKey) {
+                trackClick(player1.player, player2.player);
+            }
+        }
+        
+        async function trackView() {
+            try {
+                await fetch('/partnerships/track', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        partner_key: partnerKey,
+                        event_type: 'view',
+                        widget_type: 'comparison'
+                    })
+                });
+            } catch (error) {
+                console.error('Tracking error:', error);
+            }
+        }
+        
+        async function trackClick(player1, player2) {
+            try {
+                await fetch('/partnerships/track', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        partner_key: partnerKey,
+                        event_type: 'click',
+                        widget_type: 'comparison',
+                        player_name: `${player1} vs ${player2}`
+                    })
+                });
+            } catch (error) {
+                console.error('Tracking error:', error);
+            }
+        }
+        
+        loadPlayers();
+    </script>
+    <script src="/static/js/theme.js"></script>
+</body>
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TUSG% Leaderboard - TAYLOR VECTOR TERMINAL</title>
+    <link rel="stylesheet" href="/static/css/theme.css">
+</head>
+<body>
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+        <span class="theme-icon">◐</span>
+        <span id="theme-text">Dark</span>
+    </button>
+
+
+    <div class="widget-container">
+        <div class="widget-header">
+            <div class="widget-logo">
+                <h1> TUSG% Leaderboard</h1>
+                <img id="partnerLogo" class="partner-logo" />
+            </div>
+            <div class="metric-selector">
+                <button class="metric-btn active" onclick="switchMetric('tusg')">TUSG%</button>
+                <button class="metric-btn" onclick="switchMetric('pvr')">PVR</button>
+            </div>
+        </div>
+        
+        <div id="leaderboardContent" class="loading">Loading leaderboard...</div>
+        
+        <div class="attribution">
+            Data powered by <a href="https://taylor-vector-terminal.replit.app" target="_blank">TAYLOR VECTOR TERMINAL</a>
+        </div>
+    </div>
+    
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const primaryColor = urlParams.get('color') ? `#${urlParams.get('color')}` : '#667eea';
+        const logoUrl = urlParams.get('logo');
+        const limit = parseInt(urlParams.get('limit')) || 10;
+        const partnerKey = urlParams.get('partner');
+        
+        document.documentElement.style.setProperty('--primary-color', primaryColor);
+        
+        if (logoUrl) {
+            const logoElement = document.getElementById('partnerLogo');
+            logoElement.src = decodeURIComponent(logoUrl);
+            logoElement.style.display = 'block';
+        }
+        
+        let currentMetric = 'tusg';
+        let leaderboardData = [];
+        
+        async function loadLeaderboard() {
+            try {
+                const response = await fetch('/api/v1/leaderboard?metric=tusg&limit=100');
+                const data = await response.json();
+                leaderboardData = data.leaderboard;
+                displayLeaderboard();
+                
+                if (partnerKey) {
+                    trackView();
+                }
+            } catch (error) {
+                document.getElementById('leaderboardContent').innerHTML = 
+                    '<p>Error loading leaderboard data</p>';
+            }
+        }
+        
+        function displayLeaderboard() {
+            const sorted = [...leaderboardData].sort((a, b) => b[currentMetric] - a[currentMetric]);
+            const limited = sorted.slice(0, limit);
+            
+            const html = `
+                <table class="leaderboard-table">
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Player</th>
+                            <th>Season</th>
+                            <th>${currentMetric.toUpperCase()}</th>
+                            <th class="stats">Stats</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${limited.map((player, index) => `
+                            <tr>
+                                <td class="rank">#${index + 1}</td>
+                                <td class="player-cell">${player.player}</td>
+                                <td class="season">${player.season}</td>
+                                <td class="metric-value">${player[currentMetric].toFixed(2)}</td>
+                                <td class="stats">${player.ppg.toFixed(1)} PPG, ${player.apg.toFixed(1)} APG</td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
+            
+            document.getElementById('leaderboardContent').innerHTML = html;
+        }
+        
+        function switchMetric(metric) {
+            currentMetric = metric;
+            
+            document.querySelectorAll('.metric-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            displayLeaderboard();
+        }
+        
+        async function trackView() {
+            try {
+                await fetch('/partnerships/track', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        partner_key: partnerKey,
+                        event_type: 'view',
+                        widget_type: 'leaderboard'
+                    })
+                });
+            } catch (error) {
+                console.error('Tracking error:', error);
+            }
+        }
+        
+        loadLeaderboard();
+    </script>
+    <script src="/static/js/theme.js"></script>
+</body>
+</html>

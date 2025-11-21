@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All-Time Team Builder | TAYLOR VECTOR TERMINAL</title>
+    <link rel="stylesheet" href="/static/css/theme.css">
+</head>
+<body>
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+        <span class="theme-icon">◐</span>
+        <span id="theme-text">Dark</span>
+    </button>
+
+
+    <div class="container">
+        <header>
+            <h1> All-Time Team Builder</h1>
+            <div class="subtitle">Build your dream team with $120M salary cap</div>
+            <div class="info-badge"> Salary Cap: $120M</div>
+            <div class="info-badge"> Roster: 5 Players</div>
+            <div class="info-badge"> Goal: Maximize PVR</div>
+            <div class="info-badge"> Historical Data</div>
+        </header>
+
+        <div class="main-grid">
+            <!-- Player Pool -->
+            <div class="panel">
+                <h2> Player Pool</h2>
+                <input type="text" id="searchBar" class="search-bar" placeholder="Search players by name...">
+                <div id="playerPool" class="player-pool">
+                    <div class="loading">Loading players</div>
+                </div>
+            </div>
+
+            <!-- Roster Builder -->
+            <div class="panel">
+                <h2> Your Roster</h2>
+                
+                <!-- Cap Tracker -->
+                <div class="cap-tracker">
+                    <h3> Salary Cap Tracker</h3>
+                    <div class="cap-bar">
+                        <div id="capFill" class="cap-fill">$0 / $120M</div>
+                    </div>
+                    <div class="cap-stats">
+                        <div class="cap-stat">
+                            <div class="cap-stat-label">Cap Used</div>
+                            <div id="capUsed" class="cap-stat-value">$0</div>
+                        </div>
+                        <div class="cap-stat">
+                            <div class="cap-stat-label">Cap Space</div>
+                            <div id="capSpace" class="cap-stat-value">$120M</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Roster Slots -->
+                <div class="roster-slots">
+                    <div id="slot1" class="roster-slot empty">Empty Slot (Click player to add)</div>
+                    <div id="slot2" class="roster-slot empty">Empty Slot (Click player to add)</div>
+                    <div id="slot3" class="roster-slot empty">Empty Slot (Click player to add)</div>
+                    <div id="slot4" class="roster-slot empty">Empty Slot (Click player to add)</div>
+                    <div id="slot5" class="roster-slot empty">Empty Slot (Click player to add)</div>
+                </div>
+
+                <!-- Team Metrics -->
+                <div class="team-metrics">
+                    <h3> Team Metrics</h3>
+                    <div class="metrics-grid">
+                        <div class="metric-item">
+                            <div class="metric-label">Total PVR</div>
+                            <div id="totalPVR" class="metric-value">0.00</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-label">Avg TUSG%</div>
+                            <div id="avgTUSG" class="metric-value">0.0%</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                    <button id="optimizeBtn" class="btn btn-primary"> Auto-Optimize</button>
+                    <button id="clearBtn" class="btn btn-secondary"> Clear Roster</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Historical Team Templates -->
+        <div class="templates-section">
+            <h2> Historical Team Templates</h2>
+            <div id="templateGrid" class="template-grid">
+                <div class="loading">Loading templates</div>
+            </div>
+        </div>
+
+        <!-- Legend -->
+        <div class="legend">
+            <h3> Metrics Explained</h3>
+            <div class="legend-grid">
+                <div class="legend-item">
+                    <strong>PVR (Possession Value Rating)</strong>
+                    <p>Measures scoring and playmaking efficiency. Higher PVR = more value per possession. Elite: 35+, All-Star: 20+, Starter: 10+</p>
+                </div>
+                <div class="legend-item">
+                    <strong>TUSG% (True Usage %)</strong>
+                    <p>Percentage of team possessions used. Shows ball dominance. High: 40+%, Medium: 25-40%, Low: <25%</p>
+                </div>
+                <div class="legend-item">
+                    <strong>Salary</strong>
+                    <p>Estimated contract value based on PVR, era, and efficiency. Balances performance with cost-effectiveness.</p>
+                </div>
+                <div class="legend-item">
+                    <strong>Strategy Tip</strong>
+                    <p>Best teams blend high-PVR stars with efficient role players. Balance usage rates to avoid redundancy!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global state
+        let allPlayers = [];
+        let currentRoster = [null, null, null, null, null];
+        let templates = [];
+        const SALARY_CAP = 120_000_000;
+        const ROSTER_SIZE = 5;
+
+        // Load data on page load
+        document.addEventListener('DOMContentLoaded', async () => {
+            await loadData();
+            renderPlayerPool();
+            setupEventListeners();
+        });
+
+        async function loadData() {
+            try {
+                const response = await fetch('team_builder_data.json');
+                const data = await response.json();
+                
+                allPlayers = data.players;
+                templates = data.templates;
+                
+                renderTemplates();
+            } catch (error) {
+                console.error('Error loading data:', error);
+                document.getElementById('playerPool').innerHTML = '<div>Error loading player data. Please refresh the page.</div>';
+            }
+        }
+
+        function setupEventListeners() {
+            document.getElementById('searchBar').addEventListener('input', (e) => {
+                renderPlayerPool(e.target.value);
+            });
+
+            document.getElementById('optimizeBtn').addEventListener('click', autoOptimize);
+            document.getElementById('clearBtn').addEventListener('click', clearRoster);
+        }
+
+        function renderPlayerPool(searchTerm = '') {
+            const pool = document.getElementById('playerPool');
+            const filteredPlayers = allPlayers.filter(p => 
+                p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                p.season.includes(searchTerm)
+            );
+
+            if (filteredPlayers.length === 0) {
+                pool.innerHTML = '<div>No players found</div>';
+                return;
+            }
+
+            pool.innerHTML = filteredPlayers.map(player => {
+                const isSelected = currentRoster.some(p => p && p.id === player.id);
+                const isDisabled = !canAffordPlayer(player) && !isSelected;
+                
+                return `
+                    <div class="player-card ${isSelected ? 'selected' : ''} ${isDisabled ? 'disabled' : ''}" 
+                         data-player-id="${player.id}"
+                         onclick="togglePlayer('${player.id}')">
+                        <div class="player-name">${player.name}</div>
+                        <div class="player-season">${player.season}</div>
+                        <div class="player-stats">
+                            <div class="stat-item">
+                                <span class="stat-label">PVR</span>
+                                <span class="stat-value">${player.pvr.toFixed(2)}</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">TUSG%</span>
+                                <span class="stat-value">${player.tusg.toFixed(1)}%</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Salary</span>
+                                <span class="stat-value">$${(player.salary / 1_000_000).toFixed(1)}M</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function togglePlayer(playerId) {
+            const player = allPlayers.find(p => p.id === playerId);
+            const rosterIndex = currentRoster.findIndex(p => p && p.id === playerId);
+
+            if (rosterIndex !== -1) {
+                // Remove from roster
+                currentRoster[rosterIndex] = null;
+            } else {
+                // Add to roster if there's space and can afford
+                const emptySlot = currentRoster.findIndex(p => p === null);
+                if (emptySlot !== -1 && canAffordPlayer(player)) {
+                    currentRoster[emptySlot] = player;
+                }
+            }
+
+            updateDisplay();
+        }
+
+        function canAffordPlayer(player) {
+            const currentSalary = getCurrentSalary();
+            const rosterCount = currentRoster.filter(p => p !== null).length;
+            return rosterCount < ROSTER_SIZE && (currentSalary + player.salary) <= SALARY_CAP;
+        }
+
+        function getCurrentSalary() {
+            return currentRoster.reduce((sum, p) => sum + (p ? p.salary : 0), 0);
+        }
+
+        function updateDisplay() {
+            // Update roster slots
+            currentRoster.forEach((player, index) => {
+                const slot = document.getElementById(`slot${index + 1}`);
+                if (player) {
+                    slot.className = 'roster-slot filled';
+                    slot.innerHTML = `
+                        <div>
+                            <div>${player.name}</div>
+                            <div>${player.season} | PVR: ${player.pvr.toFixed(1)} | TUSG: ${player.tusg.toFixed(1)}%</div>
+                            <div>Salary: $${(player.salary / 1_000_000).toFixed(1)}M</div>
+                        </div>
+                        <button class="remove-btn" onclick="togglePlayer('${player.id}')"></button>
+                    `;
+                } else {
+                    slot.className = 'roster-slot empty';
+                    slot.innerHTML = 'Empty Slot (Click player to add)';
+                }
+            });
+
+            // Update cap tracker
+            const currentSalary = getCurrentSalary();
+            const capPercentage = (currentSalary / SALARY_CAP) * 100;
+            const capFill = document.getElementById('capFill');
+            
+            capFill.style.width = `${Math.min(capPercentage, 100)}%`;
+            capFill.textContent = `$${(currentSalary / 1_000_000).toFixed(1)}M / $120M`;
+            
+            if (currentSalary > SALARY_CAP) {
+                capFill.className = 'cap-fill over-cap';
+            } else {
+                capFill.className = 'cap-fill';
+            }
+
+            document.getElementById('capUsed').textContent = `$${(currentSalary / 1_000_000).toFixed(1)}M`;
+            document.getElementById('capSpace').textContent = `$${((SALARY_CAP - currentSalary) / 1_000_000).toFixed(1)}M`;
+
+            // Update team metrics
+            const activePlayers = currentRoster.filter(p => p !== null);
+            if (activePlayers.length > 0) {
+                const totalPVR = activePlayers.reduce((sum, p) => sum + p.pvr, 0);
+                const avgTUSG = activePlayers.reduce((sum, p) => sum + p.tusg, 0) / activePlayers.length;
+                
+                document.getElementById('totalPVR').textContent = totalPVR.toFixed(2);
+                document.getElementById('avgTUSG').textContent = avgTUSG.toFixed(1) + '%';
+            } else {
+                document.getElementById('totalPVR').textContent = '0.00';
+                document.getElementById('avgTUSG').textContent = '0.0%';
+            }
+
+            // Update player pool display
+            renderPlayerPool(document.getElementById('searchBar').value);
+        }
+
+        function autoOptimize() {
+            // Greedy algorithm: maximize PVR under cap
+            const playersByValue = [...allPlayers].map(p => ({
+                ...p,
+                valueRatio: p.pvr / (p.salary / 1_000_000)
+            })).sort((a, b) => b.valueRatio - a.valueRatio);
+
+            let tempRoster = [];
+            let tempSalary = 0;
+
+            for (const player of playersByValue) {
+                if (tempRoster.length >= ROSTER_SIZE) break;
+                if (tempSalary + player.salary <= SALARY_CAP) {
+                    tempRoster.push(player);
+                    tempSalary += player.salary;
+                }
+            }
+
+            // Try to optimize further by swapping
+            let improved = true;
+            while (improved) {
+                improved = false;
+                for (let i = 0; i < tempRoster.length; i++) {
+                    for (const candidate of playersByValue) {
+                        if (tempRoster.includes(candidate)) continue;
+                        
+                        const newSalary = tempSalary - tempRoster[i].salary + candidate.salary;
+                        if (newSalary <= SALARY_CAP && candidate.pvr > tempRoster[i].pvr) {
+                            tempSalary = newSalary;
+                            tempRoster[i] = candidate;
+                            improved = true;
+                            break;
+                        }
+                    }
+                    if (improved) break;
+                }
+            }
+
+            // Apply optimized roster
+            currentRoster = [...tempRoster];
+            while (currentRoster.length < ROSTER_SIZE) {
+                currentRoster.push(null);
+            }
+
+            updateDisplay();
+        }
+
+        function clearRoster() {
+            currentRoster = [null, null, null, null, null];
+            updateDisplay();
+        }
+
+        function loadTemplate(templateIndex) {
+            const template = templates[templateIndex];
+            if (!template) return;
+
+            // Clear current roster
+            currentRoster = [null, null, null, null, null];
+
+            // Load template roster
+            const templatePlayers = template.roster.map(playerId => 
+                allPlayers.find(p => p.id === playerId)
+            ).filter(p => p !== null);
+
+            templatePlayers.slice(0, ROSTER_SIZE).forEach((player, index) => {
+                currentRoster[index] = player;
+            });
+
+            updateDisplay();
+
+            // Scroll to roster
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function renderTemplates() {
+            const grid = document.getElementById('templateGrid');
+            
+            if (templates.length === 0) {
+                grid.innerHTML = '<div>No templates available</div>';
+                return;
+            }
+
+            grid.innerHTML = templates.map((template, index) => `
+                <div class="template-card" onclick="loadTemplate(${index})">
+                    <h3>${template.name}</h3>
+                    <div class="template-desc">${template.description}</div>
+                    <div class="template-stats">
+                        <div class="template-stat">
+                            Total PVR
+                            <strong>${template.metrics.total_pvr.toFixed(2)}</strong>
+                        </div>
+                        <div class="template-stat">
+                            Avg TUSG%
+                            <strong>${template.metrics.avg_tusg.toFixed(1)}%</strong>
+                        </div>
+                        <div class="template-stat">
+                            Total Salary
+                            <strong>$${(template.metrics.total_salary / 1_000_000).toFixed(1)}M</strong>
+                        </div>
+                        <div class="template-stat">
+                            Cap Space
+                            <strong>$${(template.metrics.cap_space / 1_000_000).toFixed(1)}M</strong>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+    </script>
+    <script src="/static/js/theme.js"></script>
+</body>
+</html>

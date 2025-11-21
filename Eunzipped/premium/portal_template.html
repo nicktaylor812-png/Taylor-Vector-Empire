@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ group.name }} | TAYLOR VECTOR TERMINAL</title>
+    <link rel="stylesheet" href="/static/css/theme.css">
+</head>
+<body>
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+        <span class="theme-icon">◐</span>
+        <span id="theme-text">Dark</span>
+    </button>
+
+
+    <header>
+        <div class="header-content">
+            <div class="logo-section">
+                {% if group.logo_url %}
+                    <img src="{{ group.logo_url }}" alt="{{ group.name }}" class="group-logo">
+                {% else %}
+                    <div class="group-logo">{{ group.name[0] }}</div>
+                {% endif %}
+                <div>
+                    <div class="group-name">{{ group.name }}</div>
+                    <div>TAYLOR VECTOR TERMINAL</div>
+                </div>
+            </div>
+            <div class="user-section">
+                <div class="user-info">
+                    <div class="user-name">{{ member.username }}</div>
+                    <div class="user-role">{{ member.role }}</div>
+                </div>
+                <button class="btn btn-danger" onclick="logout()">Logout</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="nav-tabs">
+            <button class="nav-tab active" onclick="switchTab('dashboard')"> Dashboard</button>
+            <button class="nav-tab" onclick="switchTab('picks')"> Edge Feed</button>
+            <button class="nav-tab" onclick="switchTab('chat')"> Group Chat</button>
+            <button class="nav-tab" onclick="switchTab('analytics')"> Analytics</button>
+            {% if member.role == 'admin' %}
+            <button class="nav-tab" onclick="switchTab('settings')"> Settings</button>
+            {% endif %}
+        </div>
+
+        <!-- Dashboard Tab -->
+        <div id="dashboard" class="tab-content active">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Total Picks</div>
+                    <div class="stat-value">{{ analytics.group.total_picks or 0 }}</div>
+                    <div class="stat-subtext">Since {{ group.created_at[:10] }}</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Win Rate</div>
+                    <div class="stat-value">{{ "%.1f"|format(analytics.group.accuracy_rate or 0) }}%</div>
+                    <div class="stat-subtext">{{ analytics.group.successful_picks or 0 }} wins</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Avg Edge</div>
+                    <div class="stat-value">{{ "%.1f"|format(analytics.picks.avg_edge or 0) }}%</div>
+                    <div class="stat-subtext">Max: {{ "%.1f"|format(analytics.picks.max_edge or 0) }}%</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Active Members</div>
+                    <div class="stat-value">{{ group.member_count or 0 }}</div>
+                    <div class="stat-subtext">{{ analytics.active_members_7d }} active (7d)</div>
+                </div>
+            </div>
+
+            <h3> Latest Picks</h3>
+            <div class="picks-feed">
+                {% if picks[:5] %}
+                    {% for pick in picks[:5] %}
+                    <div class="pick-item">
+                        <div class="pick-header">
+                            <div class="pick-game">{{ pick.game }}</div>
+                            <div class="pick-edge">{{ "%.1f"|format(pick.edge) }}%</div>
+                        </div>
+                        <div>
+                            {{ pick.pick }}
+                        </div>
+                        <div class="pick-details">
+                            <div class="pick-stat">TUSG: <strong>{{ "%.1f"|format(pick.home_tusg) }} vs {{ "%.1f"|format(pick.away_tusg) }}</strong></div>
+                            <div class="pick-stat">PVR: <strong>{{ "%.1f"|format(pick.home_pvr) }} vs {{ "%.1f"|format(pick.away_pvr) }}</strong></div>
+                            <div class="pick-stat">Spread: <strong>{{ "%+.1f"|format(pick.spread) }}</strong></div>
+                            {% if pick.result %}
+                            <div class="pick-stat">
+                                Result: 
+                                <span class="badge badge-{{ 'success' if pick.result == 'win' else 'loss' }}">
+                                    {{ pick.result.upper() }}
+                                </span>
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div class="pick-timestamp">{{ pick.timestamp }}</div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="empty-state">
+                        <div class="empty-state-icon"></div>
+                        <p>No picks yet. Check back soon for edge opportunities!</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Edge Feed Tab -->
+        <div id="picks" class="tab-content">
+            <h2> Private Edge Feed</h2>
+            <div>
+                <strong>Custom Thresholds:</strong> TUSG ≥ {{ "%.1f"|format(group.min_tusg) }}% | PVR ≥ {{ "%.1f"|format(group.min_pvr) }}% | Edge ≥ {{ "%.1f"|format(group.min_edge) }}%
+            </div>
+            <div class="picks-feed">
+                {% if picks %}
+                    {% for pick in picks %}
+                    <div class="pick-item">
+                        <div class="pick-header">
+                            <div class="pick-game">{{ pick.game }}</div>
+                            <div class="pick-edge">{{ "%.1f"|format(pick.edge) }}% EDGE</div>
+                        </div>
+                        <div>
+                             {{ pick.pick }}
+                        </div>
+                        <div class="pick-details">
+                            <div class="pick-stat">Home TUSG: <strong>{{ "%.1f"|format(pick.home_tusg) }}%</strong></div>
+                            <div class="pick-stat">Away TUSG: <strong>{{ "%.1f"|format(pick.away_tusg) }}%</strong></div>
+                            <div class="pick-stat">Home PVR: <strong>{{ "%.1f"|format(pick.home_pvr) }}%</strong></div>
+                            <div class="pick-stat">Away PVR: <strong>{{ "%.1f"|format(pick.away_pvr) }}%</strong></div>
+                            <div class="pick-stat">Spread: <strong>{{ "%+.1f"|format(pick.spread) }}</strong></div>
+                            <div class="pick-stat">
+                                Status: 
+                                <span class="badge badge-{{ 'success' if pick.result == 'win' else ('loss' if pick.result == 'loss' else 'pending') }}">
+                                    {{ (pick.result or pick.status).upper() }}
+                                </span>
+                            </div>
+                        </div>
+                        {% if pick.posted_by_username %}
+                        <div>
+                            Posted by {{ pick.posted_by_username }}
+                        </div>
+                        {% endif %}
+                        <div class="pick-timestamp">{{ pick.timestamp }}</div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="empty-state">
+                        <div class="empty-state-icon"></div>
+                        <p>No picks match your custom thresholds yet.</p>
+                        <p>The system is actively scanning for high-edge opportunities...</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Chat Tab -->
+        <div id="chat" class="tab-content">
+            <h2> Group Discussion</h2>
+            <div class="chat-container">
+                <div class="members-list">
+                    <h3>Members ({{ members|length }})</h3>
+                    {% for m in members %}
+                    <div class="member-item">
+                        <div class="member-name">{{ m.username }}</div>
+                        <span class="member-role-badge role-{{ m.role }}">{{ m.role }}</span>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="chat-box">
+                    <div class="chat-messages" id="chatMessages">
+                        {% if chat_messages %}
+                            {% for msg in chat_messages|reverse %}
+                            <div class="chat-message">
+                                <div class="message-header">
+                                    <span class="message-author">{{ msg.username }}</span>
+                                    <span class="member-role-badge role-{{ msg.role }}">{{ msg.role }}</span>
+                                    <span class="message-time">{{ msg.timestamp }}</span>
+                                </div>
+                                <div class="message-text">{{ msg.message }}</div>
+                            </div>
+                            {% endfor %}
+                        {% else %}
+                            <div class="empty-state">
+                                <div class="empty-state-icon"></div>
+                                <p>No messages yet. Start the conversation!</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="chat-input-container">
+                        <input type="text" class="chat-input" id="chatInput" placeholder="Type your message..." onkeypress="if(event.key==='Enter') sendMessage()">
+                        <button class="btn btn-primary" onclick="sendMessage()">Send</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Analytics Tab -->
+        <div id="analytics" class="tab-content">
+            <h2> Performance Analytics</h2>
+            <div class="analytics-grid">
+                <div class="analytics-card">
+                    <div class="analytics-title">Pick Distribution</div>
+                    <div>
+                        <div>
+                            <span>Total Picks:</span>
+                            <strong>{{ analytics.picks.total or 0 }}</strong>
+                        </div>
+                        <div>
+                            <span>Wins:</span>
+                            <strong>{{ analytics.picks.wins or 0 }}</strong>
+                        </div>
+                        <div>
+                            <span>Losses:</span>
+                            <strong>{{ analytics.picks.losses or 0 }}</strong>
+                        </div>
+                        <div>
+                            <span>Pending:</span>
+                            <strong>{{ (analytics.picks.total or 0) - (analytics.picks.wins or 0) - (analytics.picks.losses or 0) }}</strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="analytics-card">
+                    <div class="analytics-title">Recent Performance</div>
+                    <div>
+                        {% if analytics.recent_picks %}
+                            {% for pick in analytics.recent_picks %}
+                            <div>
+                                <span>{{ pick.timestamp[:10] }}</span>
+                                <span>{{ "%.1f"|format(pick.edge) }}%</span>
+                                {% if pick.result %}
+                                <span class="badge badge-{{ 'success' if pick.result == 'win' else 'loss' }}">{{ pick.result.upper() }}</span>
+                                {% else %}
+                                <span class="badge badge-pending">PENDING</span>
+                                {% endif %}
+                            </div>
+                            {% endfor %}
+                        {% else %}
+                            <div class="empty-state">
+                                <p>No recent picks to display</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Tab (Admin Only) -->
+        {% if member.role == 'admin' %}
+        <div id="settings" class="tab-content">
+            <h2> Group Settings</h2>
+            
+            <div class="settings-section">
+                <div class="settings-title"> Branding</div>
+                <form onsubmit="updateBranding(event)">
+                    <div class="form-group">
+                        <label class="form-label">Group Name</label>
+                        <input type="text" class="form-input" value="{{ group.name }}" id="groupName">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Logo URL</label>
+                        <input type="text" class="form-input" value="{{ group.logo_url or '' }}" id="logoUrl" placeholder="https://example.com/logo.png">
+                    </div>
+                    <div class="color-picker-group">
+                        <div class="color-picker">
+                            <label class="form-label">Primary Color</label>
+                            <input type="color" value="{{ group.primary_color }}" id="primaryColor">
+                        </div>
+                        <div class="color-picker">
+                            <label class="form-label">Secondary Color</label>
+                            <input type="color" value="{{ group.secondary_color }}" id="secondaryColor">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save Branding</button>
+                </form>
+            </div>
+
+            <div class="settings-section">
+                <div class="settings-title"> Custom Metric Thresholds</div>
+                <form onsubmit="updateThresholds(event)">
+                    <div class="threshold-grid">
+                        <div class="form-group">
+                            <label class="form-label">Minimum TUSG%</label>
+                            <input type="number" step="0.1" class="form-input" value="{{ group.min_tusg }}" id="minTusg">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Minimum PVR%</label>
+                            <input type="number" step="0.1" class="form-input" value="{{ group.min_pvr }}" id="minPvr">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Minimum Edge%</label>
+                            <input type="number" step="0.1" class="form-input" value="{{ group.min_edge }}" id="minEdge">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Update Thresholds</button>
+                </form>
+            </div>
+
+            <div class="settings-section">
+                <div class="settings-title"> Member Management</div>
+                <form onsubmit="addMember(event)">
+                    <div>
+                        <input type="email" class="form-input" placeholder="Email" id="newMemberEmail" required>
+                        <input type="password" class="form-input" placeholder="Password" id="newMemberPassword" required>
+                        <select class="form-input" id="newMemberRole">
+                            <option value="member">Member</option>
+                            <option value="analyst">Analyst</option>
+                            <option value="admin">Admin</option>
+                        </select>
+                        <button type="submit" class="btn btn-primary">Add Member</button>
+                    </div>
+                </form>
+                <div>
+                    {% for m in members %}
+                    <div>
+                        <div>
+                            <div>{{ m.username }}</div>
+                            <div>{{ m.email }}</div>
+                        </div>
+                        <div>
+                            <span class="member-role-badge role-{{ m.role }}">{{ m.role }}</span>
+                            <span>Joined {{ m.joined_at[:10] }}</span>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="pricing-info">
+                <div class="pricing-text">${{ "%.2f"|format(group.monthly_price) }}/month</div>
+                <div class="pricing-subtext">{{ group.member_count }} members ({{ "$%.2f"|format(BASE_PRICE) }} for first 10, {{ "$%.2f"|format(PER_MEMBER_PRICE) }} per additional)</div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <script>
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.nav-tab').forEach(tab => tab.classList.remove('active'));
+            
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                window.location.href = '/portal/{{ group.slug }}/logout';
+            }
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            
+            if (!message) return;
+            
+            fetch('/portal/{{ group.slug }}/chat/send', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: message })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    input.value = '';
+                    location.reload();
+                } else {
+                    alert('Failed to send message: ' + data.error);
+                }
+            });
+        }
+
+        function updateBranding(event) {
+            event.preventDefault();
+            
+            const data = {
+                logo_url: document.getElementById('logoUrl').value,
+                primary_color: document.getElementById('primaryColor').value,
+                secondary_color: document.getElementById('secondaryColor').value
+            };
+            
+            fetch('/portal/{{ group.slug }}/settings/branding', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Branding updated! Refreshing...');
+                    location.reload();
+                } else {
+                    alert('Failed to update branding: ' + data.error);
+                }
+            });
+        }
+
+        function updateThresholds(event) {
+            event.preventDefault();
+            
+            const data = {
+                min_tusg: parseFloat(document.getElementById('minTusg').value),
+                min_pvr: parseFloat(document.getElementById('minPvr').value),
+                min_edge: parseFloat(document.getElementById('minEdge').value)
+            };
+            
+            fetch('/portal/{{ group.slug }}/settings/thresholds', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Thresholds updated successfully!');
+                    location.reload();
+                } else {
+                    alert('Failed to update thresholds: ' + data.error);
+                }
+            });
+        }
+
+        function addMember(event) {
+            event.preventDefault();
+            
+            const data = {
+                email: document.getElementById('newMemberEmail').value,
+                password: document.getElementById('newMemberPassword').value,
+                role: document.getElementById('newMemberRole').value
+            };
+            
+            fetch('/portal/{{ group.slug }}/members/add', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    alert(`Member added! New price: $${data.new_monthly_price}/month`);
+                    location.reload();
+                } else {
+                    alert('Failed to add member: ' + data.error);
+                }
+            });
+        }
+
+        setInterval(() => {
+            if (document.getElementById('picks').classList.contains('active') || 
+                document.getElementById('dashboard').classList.contains('active')) {
+                location.reload();
+            }
+        }, 60000);
+    </script>
+    <script src="/static/js/theme.js"></script>
+</body>
+</html>

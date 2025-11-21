@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Westbrook Rule Historical Machine | TAYLOR VECTOR TERMINAL</title>
+    <link rel="stylesheet" href="/static/css/theme.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+        <span class="theme-icon">◐</span>
+        <span id="theme-text">Dark</span>
+    </button>
+
+
+    <div class="container">
+        <header>
+            <h1> Westbrook Rule Historical Machine</h1>
+            <div class="subtitle">AST/TOV Multiplier Analysis Across NBA History (1950-2025)</div>
+        </header>
+
+        <div class="grid">
+            <div class="card">
+                <h2> Overview Statistics</h2>
+                <div class="stat-item">
+                    <span class="stat-label">Total Seasons Analyzed</span>
+                    <span class="stat-value" id="totalSeasons">30</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">"Broken" Seasons (AST/TOV > 3.0)</span>
+                    <span class="stat-value" id="brokenSeasons">6</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Highest AST/TOV Ratio</span>
+                    <span class="stat-value" id="highestRatio">5.18</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Highest TUSG%</span>
+                    <span class="stat-value" id="highestTusg">48.1%</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2> The Westbrook Rule</h2>
+                <div class="insight-box">
+                    <h3>Multiplier Formula</h3>
+                    <p><strong>AST/TOV Ratio ≥ 1.8:</strong> Assists count as 2.3x in PVR</p>
+                    <p><strong>AST/TOV Ratio < 1.8:</strong> Assists count as 1.8x in PVR</p>
+                </div>
+                <div class="insight-box">
+                    <h3>Why It Matters</h3>
+                    <p>Elite playmakers with low turnover rates get rewarded with significantly higher PVR. 
+                       This rule creates a massive gap between efficient passers (Magic, CP3, Stockton) 
+                       and high-volume, high-turnover players (Westbrook, Harden).</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2> "Broken" Seasons - AST/TOV > 3.0 + High Usage</h2>
+            <p>
+                These players would have astronomical PVR with even higher multipliers
+            </p>
+            <div id="brokenSeasonsList"></div>
+        </div>
+
+        <div class="card">
+            <h2> Timeline: AST/TOV Efficiency by Era</h2>
+            <div class="chart-container">
+                <canvas id="timelineChart"></canvas>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2> Top 10 Multiplier Beneficiaries</h2>
+            <p>
+                Players who gain the most PVR from the AST/TOV > 1.8 multiplier bonus
+            </p>
+            <div id="topBeneficiaries"></div>
+        </div>
+
+        <div class="card">
+            <h2> Cross-Era Impact: Pace Adjustments</h2>
+            <div class="chart-container">
+                <canvas id="paceChart"></canvas>
+            </div>
+            <p>
+                Shows how TUSG% changes when adjusting from era pace to modern pace (99.5)
+            </p>
+        </div>
+
+        <div class="grid">
+            <div class="card">
+                <h2> Key Insights</h2>
+                
+                <div class="insight-box">
+                    <h3>Magic Johnson (1986-87)</h3>
+                    <p><strong>AST/TOV Ratio:</strong> 3.21 (12.2 APG / 3.8 TOV)</p>
+                    <p><strong>Actual PVR:</strong> 44.03</p>
+                    <p><strong>Era Pace:</strong> 107.0 → Modern: 99.5</p>
+                    <p>
+                         Magic's efficiency was elite even by today's standards. With modern pace, 
+                        his usage would remain sustainable while maintaining extraordinary PVR.
+                    </p>
+                </div>
+
+                <div class="insight-box">
+                    <h3>Russell Westbrook (2016-17)</h3>
+                    <p><strong>TUSG%:</strong> 48.1% (Unprecedented volume)</p>
+                    <p><strong>AST/TOV Ratio:</strong> 1.93 (just above threshold)</p>
+                    <p><strong>Actual PVR:</strong> 25.11</p>
+                    <p>
+                         Westbrook's season represents the absolute peak of sustainable usage. 
+                        If his AST/TOV dropped to 1.79, his PVR would fall to 20.8 (−4.3 points).
+                    </p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2> Elite Efficiency Club</h2>
+                
+                <div class="insight-box">
+                    <h3>John Stockton (1989-90)</h3>
+                    <p><strong>AST/TOV Ratio:</strong> 5.18 (14.5 APG / 2.8 TOV)</p>
+                    <p><strong>PVR Benefit:</strong> +21.2 from multiplier</p>
+                    <p>
+                         Stockton's 5.18 AST/TOV ratio is the highest in our dataset. 
+                        His extraordinary ball security makes him the ultimate multiplier beneficiary.
+                    </p>
+                </div>
+
+                <div class="insight-box">
+                    <h3>Chris Paul (2008-09)</h3>
+                    <p><strong>AST/TOV Ratio:</strong> 4.07 (11.0 APG / 2.7 TOV)</p>
+                    <p><strong>PVR Benefit:</strong> +18.9 from multiplier</p>
+                    <p>
+                         CP3's elite ball-handling efficiency demonstrates why point guard 
+                        PVR values can rival high-volume scorers.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2> Cross-Era Comparison Tool</h2>
+            <div class="comparison-grid" id="eraComparison"></div>
+        </div>
+
+        <div class="card">
+            <h2> Usage vs Efficiency</h2>
+            <div class="chart-container">
+                <canvas id="scatterChart"></canvas>
+            </div>
+            <p>
+                Higher AST/TOV ratios (right side) unlock the 2.3x multiplier, dramatically boosting PVR
+            </p>
+        </div>
+    </div>
+
+    <script>
+        const historicalData = [
+            { name: 'John Stockton', season: '1989-90', year: 1990, ast_tov: 5.18, pvr: 62.14, tusg: 21.85, pvr_delta: 21.2, era_pace: 107.0, tusg_modern: 20.31, apg: 14.5, tov: 2.8, broken: true },
+            { name: 'Chris Paul', season: '2008-09', year: 2009, ast_tov: 4.07, pvr: 54.73, tusg: 31.76, pvr_delta: 18.9, era_pace: 95.0, tusg_modern: 34.2, apg: 11.0, tov: 2.7, broken: true },
+            { name: 'Steve Nash', season: '2006-07', year: 2007, ast_tov: 4.30, pvr: 58.32, tusg: 26.14, pvr_delta: 19.5, era_pace: 95.0, tusg_modern: 28.1, apg: 11.6, tov: 2.7, broken: true },
+            { name: 'Magic Johnson', season: '1986-87', year: 1987, ast_tov: 3.21, pvr: 44.03, tusg: 29.51, pvr_delta: 15.8, era_pace: 107.0, tusg_modern: 27.4, apg: 12.2, tov: 3.8, broken: true },
+            { name: 'Nikola Jokić', season: '2021-22', year: 2022, ast_tov: 2.63, pvr: 44.54, tusg: 33.73, pvr_delta: 13.2, era_pace: 99.5, tusg_modern: 33.73, apg: 7.9, tov: 3.0, broken: false },
+            { name: 'Larry Bird', season: '1987-88', year: 1988, ast_tov: 2.10, pvr: 44.35, tusg: 28.8, pvr_delta: 9.8, era_pace: 107.0, tusg_modern: 26.7, apg: 6.1, tov: 2.9, broken: false },
+            { name: 'Stephen Curry', season: '2015-16', year: 2016, ast_tov: 2.03, pvr: 40.27, tusg: 36.87, pvr_delta: 10.1, era_pace: 98.0, tusg_modern: 37.4, apg: 6.7, tov: 3.3, broken: false },
+            { name: 'LeBron James', season: '2012-13', year: 2013, ast_tov: 2.43, pvr: 39.21, tusg: 31.03, pvr_delta: 11.8, era_pace: 98.0, tusg_modern: 31.5, apg: 7.3, tov: 3.0, broken: false },
+            { name: 'Russell Westbrook', season: '2016-17', year: 2017, ast_tov: 1.93, pvr: 25.11, tusg: 48.1, pvr_delta: 4.2, era_pace: 98.0, tusg_modern: 48.8, apg: 10.4, tov: 5.4, broken: false },
+            { name: 'James Harden', season: '2018-19', year: 2019, ast_tov: 1.50, pvr: 18.55, tusg: 45.71, pvr_delta: 0.0, era_pace: 98.0, tusg_modern: 46.4, apg: 7.5, tov: 5.0, broken: false },
+            { name: 'Kevin Durant', season: '2013-14', year: 2014, ast_tov: 1.57, pvr: 23.79, tusg: 36.06, pvr_delta: 0.0, era_pace: 98.0, tusg_modern: 36.6, apg: 5.5, tov: 3.5, broken: false },
+            { name: 'Michael Jordan', season: '1987-88', year: 1988, ast_tov: 1.90, pvr: 15.54, tusg: 40.13, pvr_delta: 4.8, era_pace: 107.0, tusg_modern: 37.3, apg: 5.9, tov: 3.1, broken: false },
+            { name: 'Kobe Bryant', season: '2005-06', year: 2006, ast_tov: 1.45, pvr: 10.72, tusg: 42.87, pvr_delta: 0.0, era_pace: 95.0, tusg_modern: 46.1, apg: 4.5, tov: 3.1, broken: false },
+            { name: 'Wilt Chamberlain', season: '1961-62', year: 1962, ast_tov: 0.48, pvr: 0.63, tusg: 44.73, pvr_delta: 0.0, era_pace: 115.0, tusg_modern: 38.7, apg: 2.4, tov: 5.0, broken: false },
+            { name: 'Giannis Antetokounmpo', season: '2019-20', year: 2020, ast_tov: 1.81, pvr: 28.35, tusg: 43.51, pvr_delta: 2.1, era_pace: 99.5, tusg_modern: 43.51, apg: 5.6, tov: 3.1, broken: false },
+            { name: 'Luka Dončić', season: '2022-23', year: 2023, ast_tov: 2.39, pvr: 35.42, tusg: 37.82, pvr_delta: 11.2, era_pace: 99.5, tusg_modern: 37.82, apg: 8.6, tov: 3.6, broken: false },
+            { name: 'Oscar Robertson', season: '1963-64', year: 1964, ast_tov: 2.62, pvr: 28.45, tusg: 35.62, pvr_delta: 13.1, era_pace: 115.0, tusg_modern: 30.8, apg: 11.0, tov: 4.2, broken: false },
+            { name: 'Dirk Nowitzki', season: '2006-07', year: 2007, ast_tov: 1.79, pvr: 18.92, tusg: 28.41, pvr_delta: 0.0, era_pace: 95.0, tusg_modern: 30.6, apg: 3.4, tov: 1.9, broken: false },
+            { name: 'Allen Iverson', season: '2005-06', year: 2006, ast_tov: 2.24, pvr: 22.18, tusg: 42.35, pvr_delta: 9.8, era_pace: 95.0, tusg_modern: 45.5, apg: 7.4, tov: 3.3, broken: false },
+            { name: 'Dwyane Wade', season: '2008-09', year: 2009, ast_tov: 2.21, pvr: 24.87, tusg: 38.64, pvr_delta: 9.3, era_pace: 95.0, tusg_modern: 41.6, apg: 7.5, tov: 3.4, broken: false },
+        ];
+
+        historicalData.sort((a, b) => a.year - b.year);
+
+        document.getElementById('totalSeasons').textContent = historicalData.length;
+        document.getElementById('brokenSeasons').textContent = historicalData.filter(p => p.broken).length;
+        document.getElementById('highestRatio').textContent = Math.max(...historicalData.map(p => p.ast_tov)).toFixed(2);
+        document.getElementById('highestTusg').textContent = Math.max(...historicalData.map(p => p.tusg)).toFixed(1) + '%';
+
+        const brokenSeasonsList = document.getElementById('brokenSeasonsList');
+        historicalData.filter(p => p.broken).forEach(player => {
+            const card = document.createElement('div');
+            card.className = 'player-card';
+            card.innerHTML = `
+                <div class="player-name">${player.name} <span class="broken-badge">BROKEN</span></div>
+                <div class="player-season">${player.season}</div>
+                <div class="player-stats">
+                    <div class="mini-stat">
+                        <div class="mini-stat-label">AST/TOV</div>
+                        <div class="mini-stat-value">${player.ast_tov.toFixed(2)}</div>
+                    </div>
+                    <div class="mini-stat">
+                        <div class="mini-stat-label">PVR</div>
+                        <div class="mini-stat-value">${player.pvr.toFixed(1)}</div>
+                    </div>
+                    <div class="mini-stat">
+                        <div class="mini-stat-label">TUSG%</div>
+                        <div class="mini-stat-value">${player.tusg.toFixed(1)}%</div>
+                    </div>
+                </div>
+            `;
+            brokenSeasonsList.appendChild(card);
+        });
+
+        const topBeneficiaries = document.getElementById('topBeneficiaries');
+        const sorted = [...historicalData].sort((a, b) => b.pvr_delta - a.pvr_delta).slice(0, 10);
+        sorted.forEach((player, idx) => {
+            const card = document.createElement('div');
+            card.className = 'player-card';
+            card.innerHTML = `
+                <div>
+                    <div>
+                        <div class="player-name">#${idx + 1} ${player.name}</div>
+                        <div class="player-season">${player.season}</div>
+                    </div>
+                    <div>
+                        <div>+${player.pvr_delta.toFixed(1)}</div>
+                        <div>PVR Gain</div>
+                    </div>
+                </div>
+                <div class="player-stats">
+                    <div class="mini-stat">
+                        <div class="mini-stat-label">AST/TOV</div>
+                        <div class="mini-stat-value">${player.ast_tov.toFixed(2)}</div>
+                    </div>
+                    <div class="mini-stat">
+                        <div class="mini-stat-label">Actual PVR</div>
+                        <div class="mini-stat-value">${player.pvr.toFixed(1)}</div>
+                    </div>
+                    <div class="mini-stat">
+                        <div class="mini-stat-label">APG / TOV</div>
+                        <div class="mini-stat-value">${player.apg} / ${player.tov}</div>
+                    </div>
+                </div>
+            `;
+            topBeneficiaries.appendChild(card);
+        });
+
+        new Chart(document.getElementById('timelineChart'), {
+            type: 'scatter',
+            data: {
+                datasets: [{
+                    label: 'AST/TOV ≥ 1.8 (2.3x Multiplier)',
+                    data: historicalData.filter(p => p.ast_tov >= 1.8).map(p => ({ x: p.year, y: p.ast_tov })),
+                    backgroundColor: 'rgba(0, 255, 136, 0.8)',
+                    borderColor: '#00ff88',
+                    pointRadius: 8,
+                    pointHoverRadius: 12
+                }, {
+                    label: 'AST/TOV < 1.8 (1.8x Multiplier)',
+                    data: historicalData.filter(p => p.ast_tov < 1.8).map(p => ({ x: p.year, y: p.ast_tov })),
+                    backgroundColor: 'rgba(255, 0, 128, 0.8)',
+                    borderColor: '#ff0080',
+                    pointRadius: 8,
+                    pointHoverRadius: 12
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { 
+                        labels: { color: '#e0e0e0', font: { size: 14 } }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const player = historicalData.find(p => p.year === context.parsed.x && p.ast_tov === context.parsed.y);
+                                return player ? `${player.name}: ${player.ast_tov.toFixed(2)} AST/TOV` : '';
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        title: { display: true, text: 'Season Year', color: '#00d4ff', font: { size: 14 } },
+                        ticks: { color: '#e0e0e0' },
+                        grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                    },
+                    y: {
+                        title: { display: true, text: 'AST/TOV Ratio', color: '#00d4ff', font: { size: 14 } },
+                        ticks: { color: '#e0e0e0' },
+                        grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                    }
+                }
+            }
+        });
+
+        const paceImpact = historicalData.filter(p => Math.abs(p.tusg - p.tusg_modern) > 2);
+        new Chart(document.getElementById('paceChart'), {
+            type: 'bar',
+            data: {
+                labels: paceImpact.map(p => p.name),
+                datasets: [{
+                    label: 'Era TUSG%',
+                    data: paceImpact.map(p => p.tusg),
+                    backgroundColor: 'rgba(0, 212, 255, 0.7)',
+                    borderColor: '#00d4ff',
+                    borderWidth: 2
+                }, {
+                    label: 'Modern Pace TUSG%',
+                    data: paceImpact.map(p => p.tusg_modern),
+                    backgroundColor: 'rgba(0, 255, 136, 0.7)',
+                    borderColor: '#00ff88',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { 
+                        labels: { color: '#e0e0e0', font: { size: 14 } }
+                    }
+                },
+                scales: {
+                    x: { 
+                        ticks: { color: '#e0e0e0', font: { size: 11 } },
+                        grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                    },
+                    y: {
+                        title: { display: true, text: 'TUSG%', color: '#00d4ff', font: { size: 14 } },
+                        ticks: { color: '#e0e0e0' },
+                        grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                    }
+                }
+            }
+        });
+
+        new Chart(document.getElementById('scatterChart'), {
+            type: 'scatter',
+            data: {
+                datasets: [{
+                    label: 'All Players',
+                    data: historicalData.map(p => ({ x: p.ast_tov, y: p.tusg, name: p.name, pvr: p.pvr })),
+                    backgroundColor: historicalData.map(p => p.ast_tov >= 1.8 ? 'rgba(0, 255, 136, 0.7)' : 'rgba(255, 0, 128, 0.7)'),
+                    borderColor: historicalData.map(p => p.ast_tov >= 1.8 ? '#00ff88' : '#ff0080'),
+                    pointRadius: 10,
+                    pointHoverRadius: 14,
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const point = context.raw;
+                                return [
+                                    point.name,
+                                    `AST/TOV: ${point.x.toFixed(2)}`,
+                                    `TUSG%: ${point.y.toFixed(1)}%`,
+                                    `PVR: ${point.pvr.toFixed(1)}`
+                                ];
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        title: { display: true, text: 'AST/TOV Ratio', color: '#00d4ff', font: { size: 14 } },
+                        ticks: { color: '#e0e0e0' },
+                        grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                    },
+                    y: {
+                        title: { display: true, text: 'TUSG% (Usage)', color: '#00d4ff', font: { size: 14 } },
+                        ticks: { color: '#e0e0e0' },
+                        grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                    }
+                }
+            }
+        });
+
+        const eraComparison = document.getElementById('eraComparison');
+        [
+            { name: 'Magic Johnson (1986-87)', era: '107.0 pace', modern: '99.5 pace', tusg_era: '29.5%', tusg_modern: '27.4%' },
+            { name: 'Wilt Chamberlain (1961-62)', era: '115.0 pace', modern: '99.5 pace', tusg_era: '44.7%', tusg_modern: '38.7%' },
+            { name: 'Kobe Bryant (2005-06)', era: '95.0 pace', modern: '99.5 pace', tusg_era: '42.9%', tusg_modern: '46.1%' },
+            { name: 'Russell Westbrook (2016-17)', era: '98.0 pace', modern: '99.5 pace', tusg_era: '48.1%', tusg_modern: '48.8%' }
+        ].forEach(comp => {
+            const card = document.createElement('div');
+            card.className = 'insight-box';
+            card.innerHTML = `
+                <h3>${comp.name}</h3>
+                <div>
+                    <div>
+                        <div>Era (${comp.era})</div>
+                        <div class="highlight-number">${comp.tusg_era}</div>
+                    </div>
+                    <div>
+                        <div>Modern (${comp.modern})</div>
+                        <div class="highlight-number">${comp.tusg_modern}</div>
+                    </div>
+                </div>
+            `;
+            eraComparison.appendChild(card);
+        });
+    </script>
+    <script src="/static/js/theme.js"></script>
+</body>
+</html>

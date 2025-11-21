@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to TAYLOR VECTOR!</title>
+    <link rel="stylesheet" href="/static/css/theme.css">
+</head>
+<body>
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+        <span class="theme-icon">◐</span>
+        <span id="theme-text">Dark</span>
+    </button>
+
+
+    <div class="email-container">
+        <div class="header">
+            <div class="welcome-emoji"></div>
+            <h1>Welcome to TAYLOR VECTOR!</h1>
+        </div>
+
+        <div class="content">
+            <div class="greeting">
+                Hi {{ subscriber_name }}! 
+            </div>
+
+            <p class="intro-text">
+                Thanks for joining the <strong>TAYLOR VECTOR TERMINAL</strong> community! You're now part of an exclusive group using cutting-edge NBA analytics to gain a competitive edge.
+            </p>
+
+            <div class="benefits-section">
+                <h2>What You Get (Free Tier)</h2>
+                <ul class="benefits-list">
+                    {% for benefit in tier_benefits %}
+                    <li>{{ benefit }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="what-to-expect">
+                <h3> What to Expect</h3>
+                <ul>
+                    <li><strong>Every Monday:</strong> Weekly highlights email with top betting edges and player insights</li>
+                    <li><strong>Quality Insights:</strong> Powered by our proprietary TUSG% and PVR metrics</li>
+                    <li><strong>Clear Analysis:</strong> Easy-to-understand breakdowns of complex analytics</li>
+                    <li><strong>No Spam:</strong> Just one focused email per week</li>
+                </ul>
+            </div>
+
+            <h3> Understanding Our Metrics</h3>
+            
+            <p><strong>TUSG% (True Usage):</strong> Measures what percentage of team possessions a player uses. Higher = more offensive responsibility. Elite players are typically 28%+.</p>
+            
+            <p><strong>PVR (Possession Value Rating):</strong> Measures efficiency and value created per possession. Positive PVR = above replacement level. Elite efficiency is +12 or higher.</p>
+
+            <div class="upgrade-callout">
+                <h3> Want More?</h3>
+                <p>Upgrade to Premium and get daily edge reports, exclusive player deep dives, and advanced analytics.</p>
+                
+                <div class="price">$29<span>/month</span></div>
+                <p class="price-note">Cancel anytime, no commitment</p>
+
+                <ul class="premium-benefits">
+                    <li>Daily edge reports every morning</li>
+                    <li>Weekly player deep dives (15+ pages)</li>
+                    <li>Exclusive betting insights</li>
+                    <li>Advanced analytics dashboard</li>
+                    <li>Priority support</li>
+                </ul>
+
+                <a href="{{ manage_url }}" class="cta-button">Upgrade to Premium →</a>
+            </div>
+
+            <h3> Questions?</h3>
+            <p>Reply to this email anytime. We're here to help you understand the analytics and maximize your edge.</p>
+
+            <p>
+                Welcome aboard! Your first newsletter arrives Monday. 
+            </p>
+        </div>
+
+        <div class="footer">
+            <p><strong>TAYLOR VECTOR TERMINAL</strong></p>
+            <p>Advanced NBA Analytics • TUSG% & PVR Metrics</p>
+            
+            <div>
+                <p>
+                    <a href="{{ manage_url }}">Manage Preferences</a> | 
+                    <a href="{{ unsubscribe_url }}">Unsubscribe</a>
+                </p>
+                <p>
+                    You subscribed with {{ subscriber_email }}<br>
+                     {{ year }} TAYLOR VECTOR TERMINAL. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </div>
+    <script src="/static/js/theme.js"></script>
+</body>
+</html>

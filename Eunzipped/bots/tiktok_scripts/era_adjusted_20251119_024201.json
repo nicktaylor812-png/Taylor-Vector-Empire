@@ -1,0 +1,51 @@
+{
+  "title": "Why comparing Wilt to Giannis is actually fair now",
+  "topic": "Era-Adjusted Metrics",
+  "generated_at": "2025-11-19T02:42:01.087215",
+  "total_duration": "60 seconds",
+  "sections": {
+    "hook": {
+      "timestamp": "0:00-0:15",
+      "duration": "15 seconds",
+      "text": "\"You can't compare players from different eras!\" \n\n[On-screen: \"YES YOU CAN \ud83d\udd25\"]\n\nWrong. TUSG% makes it possible. Here's how..."
+    },
+    "explanation": {
+      "timestamp": "0:15-0:40",
+      "duration": "25 seconds",
+      "text": "1962: Teams averaged 126 possessions per game (Wilt's era)\n2020: Teams averaged 99.5 possessions per game (Giannis' era)\n\n[Show pace comparison chart]\n\nTUSG% adjusts for this. It asks: 'If both played at the SAME pace, who dominated more?'\n\nWilt 1962: 44.73 TUSG% (50 PPG adjusted for pace)\nGiannis 2020: 43.51 TUSG% (29.5 PPG adjusted for pace)\n\nNow it's fair. Same math, different eras."
+    },
+    "example": {
+      "timestamp": "0:40-0:50",
+      "duration": "10 seconds",
+      "text": "The result? Wilt edges Giannis in usage, but it's CLOSE.\n\n[Show: #3 Wilt vs #4 Giannis all-time]\n\nWithout pace adjustment? Not even comparable. With TUSG%? Legitimate debate."
+    },
+    "cta": {
+      "timestamp": "0:50-0:60",
+      "duration": "10 seconds",
+      "text": "Want to see how your favorite legend ranks? Link in bio for cross-era leaderboards. Follow for fair comparisons.\n\n[End screen: \"FAIR MATH = FAIR DEBATE \u2696\ufe0f\"]"
+    }
+  },
+  "recommended_sounds": [
+    "Educational explainer audio",
+    "History/nostalgia music",
+    "Analytical sports content beat"
+  ],
+  "trending_sounds": [
+    "original sound (use trending audio from FYP)",
+    "Storytelling beat - medium tempo",
+    "Upbeat sports commentary music",
+    "Dramatic reveal audio",
+    "Suspenseful music for analytics",
+    "Epic sports highlight music",
+    "Energetic explainer content beat",
+    "Educational TikTok trending audio"
+  ],
+  "hashtags": "#NBA #NBAHistory #Basketball #Wilt #Giannis #Analytics #CrossEra #Vintage #NBAStats #BasketballHistory",
+  "tips": [
+    "Use text overlays for key stats and formulas",
+    "Show graphics/charts during explanation section",
+    "Keep energy high - fast cuts, dynamic visuals",
+    "Use captions for accessibility",
+    "Test different hooks for best performance"
+  ]
+}

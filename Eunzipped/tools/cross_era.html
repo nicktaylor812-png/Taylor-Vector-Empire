@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cross-Era PVR Comparisons | TAYLOR VECTOR TERMINAL</title>
+    <link rel="stylesheet" href="/static/css/theme.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+        <span class="theme-icon">◐</span>
+        <span id="theme-text">Dark</span>
+    </button>
+
+
+    <div class="container">
+        <header>
+            <h1> CROSS-ERA PVR COMPARISONS</h1>
+            <div class="subtitle">Compare NBA Legends Across Different Eras</div>
+            <div class="tagline">Adjust pace, defensive intensity, and usage to see how greats would perform in any era</div>
+        </header>
+
+        <div class="info-banner">
+            <h3> How Era Adjustment Works</h3>
+            <p>NBA eras differ dramatically in pace (possessions per game), defensive rules, and playing style. This tool lets you adjust these variables to answer questions like: "What if Wilt Chamberlain played in the 2020s?" or "How would LeBron fare in the 1960s?" Use the sliders below to modify era characteristics and see real-time recalculations.</p>
+        </div>
+
+        <div class="section">
+            <h2> Select Players to Compare</h2>
+            <div class="player-grid" id="player-grid"></div>
+        </div>
+
+        <div class="section">
+            <h2> Era Adjustment Controls</h2>
+            <div class="controls-grid">
+                <div class="control-group">
+                    <h3> Era Pace Multipliers</h3>
+                    <div class="slider-wrapper">
+                        <div class="slider-label">
+                            <span>1960s Pace
+                                <span class="tooltip-icon" data-tooltip="Average possessions per 48 minutes in the 1960s. Wilt's era had extremely fast pace with limited defensive rules.">?</span>
+                            </span>
+                            <span class="slider-value" id="pace-1960s-val">115.0</span>
+                        </div>
+                        <input type="range" id="pace-1960s" min="90" max="130" step="0.5" value="115">
+                    </div>
+                    <div class="slider-wrapper">
+                        <div class="slider-label">
+                            <span>1970s-1980s Pace
+                                <span class="tooltip-icon" data-tooltip="Magic and Bird era. Moderate pace with more structured halfcourt offense.">?</span>
+                            </span>
+                            <span class="slider-value" id="pace-1970s-val">107.0</span>
+                        </div>
+                        <input type="range" id="pace-1970s" min="90" max="130" step="0.5" value="107">
+                    </div>
+                    <div class="slider-wrapper">
+                        <div class="slider-label">
+                            <span>1990s-2000s Pace
+                                <span class="tooltip-icon" data-tooltip="Slowest era in NBA history. Physical defense, hand-checking allowed until 2004.">?</span>
+                            </span>
+                            <span class="slider-value" id="pace-1990s-val">95.0</span>
+                        </div>
+                        <input type="range" id="pace-1990s" min="90" max="130" step="0.5" value="95">
+                    </div>
+                    <div class="slider-wrapper">
+                        <div class="slider-label">
+                            <span>2010s Pace
+                                <span class="tooltip-icon" data-tooltip="Post hand-checking era. Rise of three-point shooting and pace-and-space offense.">?</span>
+                            </span>
+                            <span class="slider-value" id="pace-2010s-val">98.0</span>
+                        </div>
+                        <input type="range" id="pace-2010s" min="90" max="130" step="0.5" value="98">
+                    </div>
+                    <div class="slider-wrapper">
+                        <div class="slider-label">
+                            <span>2020s Pace
+                                <span class="tooltip-icon" data-tooltip="Modern era with maximum spacing, positionless basketball, and rule changes favoring offense.">?</span>
+                            </span>
+                            <span class="slider-value" id="pace-2020s-val">99.5</span>
+                        </div>
+                        <input type="range" id="pace-2020s" min="90" max="130" step="0.5" value="99.5">
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <h3> Defensive Intensity</h3>
+                    <div class="slider-wrapper">
+                        <div class="slider-label">
+                            <span>Defensive Multiplier
+                                <span class="tooltip-icon" data-tooltip="Adjusts efficiency based on defensive era. Higher values = tougher defense = lower efficiency.">?</span>
+                            </span>
+                            <span class="slider-value" id="defense-val">1.00x</span>
+                        </div>
+                        <input type="range" id="defense-multiplier" min="0.80" max="1.30" step="0.05" value="1.00">
+                    </div>
+                    <div class="slider-wrapper">
+                        <div class="slider-label">
+                            <span>Hand-Check Era Penalty
+                                <span class="tooltip-icon" data-tooltip="Pre-2004 seasons allowed hand-checking, which hurt perimeter efficiency. Applies to 1960s-1990s eras.">?</span>
+                            </span>
+                            <span class="slider-value" id="handcheck-val">0%</span>
+                        </div>
+                        <input type="range" id="handcheck-penalty" min="0" max="15" step="1" value="0">
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <h3> Usage Rate Adjustments</h3>
+                    <div class="slider-wrapper">
+                        <div class="slider-label">
+                            <span>Usage Rate Scaling
+                                <span class="tooltip-icon" data-tooltip="Adjusts how much possessions are concentrated. Higher = more star-dominant offense.">?</span>
+                            </span>
+                            <span class="slider-value" id="usage-val">1.00x</span>
+                        </div>
+                        <input type="range" id="usage-scaling" min="0.70" max="1.40" step="0.05" value="1.00">
+                    </div>
+                    <div class="slider-wrapper">
+                        <div class="slider-label">
+                            <span>Modern Spacing Bonus
+                                <span class="tooltip-icon" data-tooltip="3-point revolution created more space. Adds efficiency bonus to 2010s+ eras.">?</span>
+                            </span>
+                            <span class="slider-value" id="spacing-val">0%</span>
+                        </div>
+                        <input type="range" id="spacing-bonus" min="0" max="20" step="1" value="0">
+                    </div>
+                </div>
+            </div>
+            <div>
+                <button class="btn-reset" onclick="resetAllControls()"> Reset to Historical Defaults</button>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2> Adjusted Metrics Comparison</h2>
+            <div class="charts-grid">
+                <div class="chart-box">
+                    <h3>TUSG% (True Usage %)</h3>
+                    <div class="chart-container">
+                        <canvas id="tusg-chart"></canvas>
+                    </div>
+                </div>
+                <div class="chart-box">
+                    <h3>PVR (Possession Value Rating)</h3>
+                    <div class="chart-container">
+                        <canvas id="pvr-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="charts-grid">
+                <div class="chart-box">
+                    <h3>Era-Adjusted TUSG% Comparison</h3>
+                    <div class="chart-container">
+                        <canvas id="adjusted-tusg-chart"></canvas>
+                    </div>
+                </div>
+                <div class="chart-box">
+                    <h3>Adjusted PVR with Defensive Factors</h3>
+                    <div class="chart-container">
+                        <canvas id="adjusted-pvr-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="chart-box">
+                <h3> PVR Evolution Across Pace Values 
+                    <span class="tooltip-icon" data-tooltip="Shows how each player's PVR changes as you adjust era pace from 90 to 130 possessions per 48 minutes. This demonstrates sensitivity to pace adjustments.">?</span>
+                </h3>
+                <div class="chart-container">
+                    <canvas id="pvr-evolution-chart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2> Peak Performance Timeline</h2>
+            <div class="timeline-container">
+                <div class="timeline" id="timeline"></div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2> What-If Scenarios</h2>
+            <div class="what-if-grid" id="what-if-grid"></div>
+        </div>
+
+        <div class="section">
+            <h2> Detailed Statistical Comparison</h2>
+            <div>
+                <table class="stats-table" id="stats-table">
+                    <thead>
+                        <tr>
+                            <th>Player</th>
+                            <th>Season</th>
+                            <th>Era</th>
+                            <th>Original TUSG%</th>
+                            <th>Adjusted TUSG%</th>
+                            <th>Original PVR</th>
+                            <th>Adjusted PVR</th>
+                            <th>PPG</th>
+                            <th>APG</th>
+                        </tr>
+                    </thead>
+                    <tbody id="stats-table-body">
+                        <tr>
+                            <td colspan="9">
+                                Select players above to see detailed comparison
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2> Understanding the Formulas</h2>
+            <div class="formula-box">
+                <h4>TUSG% (True Usage Percentage)</h4>
+                <div class="formula">TUSG% = (FGA + TOV + (FTA × 0.44)) / ((MP/48) × TeamPace) × 100</div>
+                <div class="formula-desc">
+                    <strong>Purpose:</strong> Measures what percentage of available possessions a player uses while on court.<br>
+                    <strong>Era Impact:</strong> Higher pace means more possessions, which affects the denominator. A 40% usage in the fast 1960s required more raw attempts than 40% usage in the slow 1990s.<br>
+                    <strong>Adjustments:</strong> We modify TeamPace based on era sliders and apply usage rate scaling.
+                </div>
+            </div>
+
+            <div class="formula-box">
+                <h4>PVR (Possession Value Rating)</h4>
+                <div class="formula">PVR = [(PTS + (AST × Multiplier)) / (FGA + TOV + (0.44 × FTA) + AST) - 1.00] × 100</div>
+                <div class="formula-desc">
+                    <strong>Purpose:</strong> Measures efficiency per possession used. Higher PVR = more points created per possession.<br>
+                    <strong>Era Impact:</strong> PVR is naturally pace-neutral BUT we apply defensive intensity and spacing adjustments.<br>
+                    <strong>Multiplier Rule:</strong> AST/TOV > 1.8 → 2.3x | AST/TOV ≤ 1.8 → 1.8x<br>
+                    <strong>Adjustments:</strong> Hand-check penalty reduces efficiency for pre-2004 eras. Modern spacing bonus increases efficiency for 2010s+.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="cross_era.js"></script>
+    <script src="/static/js/theme.js"></script>
+</body>
+</html>

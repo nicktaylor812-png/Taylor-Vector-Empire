@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metric Customizer | TAYLOR VECTOR TERMINAL</title>
+    <link rel="stylesheet" href="/static/css/theme.css">
+</head>
+<body>
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+        <span class="theme-icon">◐</span>
+        <span id="theme-text">Dark</span>
+    </button>
+
+
+    <div class="container">
+        <header>
+            <h1> Metric Customizer</h1>
+            <div class="subtitle">Experiment with TUSG% & PVR formulas - See why the defaults are optimal</div>
+        </header>
+
+        <div class="main-grid">
+            <div class="card">
+                <h2> Formula Controls</h2>
+                
+                <div class="formula-section">
+                    <div class="formula-title"> TUSG% Components</div>
+                    
+                    <div class="slider-group">
+                        <div class="slider-label">
+                            <span class="slider-name">FGA Weight</span>
+                            <span class="slider-value" id="fga-weight-val">1.00</span>
+                        </div>
+                        <input type="range" id="fga-weight" min="0" max="2" step="0.05" value="1">
+                    </div>
+
+                    <div class="slider-group">
+                        <div class="slider-label">
+                            <span class="slider-name">TOV Weight</span>
+                            <span class="slider-value" id="tov-weight-val">1.00</span>
+                        </div>
+                        <input type="range" id="tov-weight" min="0" max="2" step="0.05" value="1">
+                    </div>
+
+                    <div class="slider-group">
+                        <div class="slider-label">
+                            <span class="slider-name">FTA Multiplier</span>
+                            <span class="slider-value" id="fta-mult-val">0.44</span>
+                        </div>
+                        <input type="range" id="fta-mult" min="0" max="1" step="0.01" value="0.44">
+                    </div>
+
+                    <div class="slider-group">
+                        <div class="slider-label">
+                            <span class="slider-name">Pace Factor</span>
+                            <span class="slider-value" id="pace-factor-val">1.00</span>
+                        </div>
+                        <input type="range" id="pace-factor" min="0.5" max="1.5" step="0.05" value="1">
+                    </div>
+                </div>
+
+                <div class="formula-section">
+                    <div class="formula-title"> PVR Components</div>
+                    
+                    <div class="slider-group">
+                        <div class="slider-label">
+                            <span class="slider-name">AST/TOV Threshold</span>
+                            <span class="slider-value" id="ast-threshold-val">1.80</span>
+                        </div>
+                        <input type="range" id="ast-threshold" min="1" max="4" step="0.1" value="1.8">
+                    </div>
+
+                    <div class="slider-group">
+                        <div class="slider-label">
+                            <span class="slider-name">High AST Multiplier</span>
+                            <span class="slider-value" id="high-mult-val">2.30</span>
+                        </div>
+                        <input type="range" id="high-mult" min="1.5" max="3.5" step="0.1" value="2.3">
+                    </div>
+
+                    <div class="slider-group">
+                        <div class="slider-label">
+                            <span class="slider-name">Low AST Multiplier</span>
+                            <span class="slider-value" id="low-mult-val">1.80</span>
+                        </div>
+                        <input type="range" id="low-mult" min="1" max="2.5" step="0.1" value="1.8">
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button class="btn btn-reset" onclick="resetToDefaults()"> Reset to Original</button>
+                    <button class="btn btn-export" onclick="showExportModal()"> Export Formula</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2> Live Leaderboard</h2>
+                <div>
+                    <table class="leaderboard-table">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Player</th>
+                                <th>Season</th>
+                                <th>TUSG%</th>
+                                <th>PVR</th>
+                                <th>PPG</th>
+                            </tr>
+                        </thead>
+                        <tbody id="leaderboard-body">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2> Dynamic Insights</h2>
+            <div class="insights-grid" id="insights-container">
+            </div>
+        </div>
+    </div>
+
+    <div id="export-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeExportModal()">&times;</span>
+            <div class="modal-header"> Export Custom Formula</div>
+            
+            <h3>Python Code:</h3>
+            <div class="code-block" id="python-code"></div>
+            <button class="copy-btn" onclick="copyCode('python')"> Copy Python Code</button>
+
+            <h3>Formula Summary:</h3>
+            <div class="code-block" id="formula-summary"></div>
+        </div>
+    </div>
+
+    <script>
+        const ALL_TIME_GREATS = [
+            {name: 'Michael Jordan', season: '1987-88', year: 1988, stats: {mpg: 40.4, ppg: 35.0, apg: 5.9, fga: 27.8, fta: 11.9, tov: 3.1}},
+            {name: 'LeBron James', season: '2012-13', year: 2013, stats: {mpg: 37.9, ppg: 26.8, apg: 7.3, fga: 17.8, fta: 7.3, tov: 3.0}},
+            {name: 'Kobe Bryant', season: '2005-06', year: 2006, stats: {mpg: 41.0, ppg: 35.4, apg: 4.5, fga: 27.2, fta: 10.2, tov: 3.1}},
+            {name: 'Wilt Chamberlain', season: '1961-62', year: 1962, stats: {mpg: 48.5, ppg: 50.4, apg: 2.4, fga: 39.5, fta: 17.0, tov: 5.0}},
+            {name: 'Kareem Abdul-Jabbar', season: '1971-72', year: 1972, stats: {mpg: 44.2, ppg: 34.8, apg: 4.6, fga: 25.2, fta: 10.0, tov: 3.2}},
+            {name: 'Magic Johnson', season: '1986-87', year: 1987, stats: {mpg: 36.3, ppg: 23.9, apg: 12.2, fga: 17.7, fta: 5.4, tov: 3.8}},
+            {name: 'Larry Bird', season: '1987-88', year: 1988, stats: {mpg: 37.9, ppg: 29.9, apg: 6.1, fga: 19.1, fta: 5.3, tov: 2.9}},
+            {name: "Shaquille O'Neal", season: '1999-00', year: 2000, stats: {mpg: 40.0, ppg: 29.7, apg: 3.8, fga: 19.0, fta: 13.1, tov: 2.8}},
+            {name: 'Tim Duncan', season: '2001-02', year: 2002, stats: {mpg: 40.6, ppg: 25.5, apg: 3.7, fga: 18.8, fta: 6.7, tov: 2.5}},
+            {name: 'Kevin Durant', season: '2013-14', year: 2014, stats: {mpg: 38.5, ppg: 32.0, apg: 5.5, fga: 20.8, fta: 9.2, tov: 3.5}},
+            {name: 'Stephen Curry', season: '2015-16', year: 2016, stats: {mpg: 34.2, ppg: 30.1, apg: 6.7, fga: 20.2, fta: 5.1, tov: 3.3}},
+            {name: 'Giannis Antetokounmpo', season: '2019-20', year: 2020, stats: {mpg: 30.4, ppg: 29.5, apg: 5.6, fga: 19.7, fta: 10.5, tov: 3.1}},
+            {name: 'Nikola Jokić', season: '2021-22', year: 2022, stats: {mpg: 33.5, ppg: 27.1, apg: 7.9, fga: 18.0, fta: 5.5, tov: 3.0}},
+            {name: 'Russell Westbrook', season: '2016-17', year: 2017, stats: {mpg: 34.6, ppg: 31.6, apg: 10.4, fga: 24.0, fta: 10.4, tov: 5.4}},
+            {name: 'James Harden', season: '2018-19', year: 2019, stats: {mpg: 36.8, ppg: 36.1, apg: 7.5, fga: 24.5, fta: 11.0, tov: 5.0}}
+        ];
+
+        const HISTORICAL_PACE = {
+            1962: 115.0, 1972: 107.0, 1987: 107.0, 1988: 107.0,
+            2000: 95.0, 2002: 95.0, 2006: 95.0, 2013: 98.0,
+            2014: 98.0, 2016: 98.0, 2017: 98.0, 2019: 98.0,
+            2020: 99.5, 2022: 99.5
+        };
+
+        const DEFAULTS = {
+            fgaWeight: 1.0,
+            tovWeight: 1.0,
+            ftaMult: 0.44,
+            paceFactor: 1.0,
+            astThreshold: 1.8,
+            highMult: 2.3,
+            lowMult: 1.8
+        };
+
+        let currentParams = { ...DEFAULTS };
+        let originalRankings = [];
+
+        function getEraPace(year) {
+            return HISTORICAL_PACE[year] || 99.5;
+        }
+
+        function calculateTUSG(stats, year, params) {
+            const mp = stats.mpg;
+            const fga = stats.fga * params.fgaWeight;
+            const tov = stats.tov * params.tovWeight;
+            const fta = stats.fta * params.ftaMult;
+            const teamPace = getEraPace(year) * params.paceFactor;
+
+            if (mp === 0 || teamPace === 0) return 0;
+
+            const numerator = fga + tov + fta;
+            const denominator = (mp / 48) * teamPace;
+
+            if (denominator === 0) return 0;
+            return (numerator / denominator) * 100;
+        }
+
+        function calculatePVR(stats, params) {
+            const pts = stats.ppg;
+            const ast = stats.apg;
+            const fga = stats.fga;
+            const tov = stats.tov;
+            const fta = stats.fta;
+
+            const astTovRatio = tov === 0 ? (ast > 0 ? ast : 0) : ast / tov;
+            const multiplier = astTovRatio > params.astThreshold ? params.highMult : params.lowMult;
+
+            const numerator = pts + (ast * multiplier);
+            const denominator = fga + tov + (params.ftaMult * fta) + ast;
+
+            if (denominator === 0) return 0;
+            return ((numerator / denominator) - 1.00) * 100;
+        }
+
+        function calculateRankings(params) {
+            return ALL_TIME_GREATS.map(player => {
+                const tusg = calculateTUSG(player.stats, player.year, params);
+                const pvr = calculatePVR(player.stats, params);
+                return {
+                    ...player,
+                    tusg: tusg,
+                    pvr: pvr
+                };
+            }).sort((a, b) => b.tusg - a.tusg);
+        }
+
+        function updateLeaderboard() {
+            const params = {
+                fgaWeight: parseFloat(document.getElementById('fga-weight').value),
+                tovWeight: parseFloat(document.getElementById('tov-weight').value),
+                ftaMult: parseFloat(document.getElementById('fta-mult').value),
+                paceFactor: parseFloat(document.getElementById('pace-factor').value),
+                astThreshold: parseFloat(document.getElementById('ast-threshold').value),
+                highMult: parseFloat(document.getElementById('high-mult').value),
+                lowMult: parseFloat(document.getElementById('low-mult').value)
+            };
+
+            currentParams = params;
+
+            document.getElementById('fga-weight-val').textContent = params.fgaWeight.toFixed(2);
+            document.getElementById('tov-weight-val').textContent = params.tovWeight.toFixed(2);
+            document.getElementById('fta-mult-val').textContent = params.ftaMult.toFixed(2);
+            document.getElementById('pace-factor-val').textContent = params.paceFactor.toFixed(2);
+            document.getElementById('ast-threshold-val').textContent = params.astThreshold.toFixed(2);
+            document.getElementById('high-mult-val').textContent = params.highMult.toFixed(2);
+            document.getElementById('low-mult-val').textContent = params.lowMult.toFixed(2);
+
+            const rankings = calculateRankings(params);
+            const tbody = document.getElementById('leaderboard-body');
+            tbody.innerHTML = '';
+
+            rankings.forEach((player, index) => {
+                const originalRank = originalRankings.findIndex(p => p.name === player.name);
+                const rankChange = originalRank - index;
+                
+                let rankChangeHTML = '';
+                if (rankChange > 0) {
+                    rankChangeHTML = `<span class="rank-change rank-up">↑${rankChange}</span>`;
+                } else if (rankChange < 0) {
+                    rankChangeHTML = `<span class="rank-change rank-down">↓${Math.abs(rankChange)}</span>`;
+                } else {
+                    rankChangeHTML = `<span class="rank-change rank-same">–</span>`;
+                }
+
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td class="rank-col">${index + 1}${rankChangeHTML}</td>
+                    <td class="player-name">${player.name}</td>
+                    <td>${player.season}</td>
+                    <td class="metric-value">${player.tusg.toFixed(2)}%</td>
+                    <td class="metric-value">${player.pvr.toFixed(2)}</td>
+                    <td>${player.stats.ppg.toFixed(1)}</td>
+                `;
+                tbody.appendChild(row);
+            });
+
+            updateInsights(rankings);
+        }
+
+        function updateInsights(rankings) {
+            const insights = [];
+
+            const wilt = rankings.find(p => p.name === 'Wilt Chamberlain');
+            const wiltRank = rankings.indexOf(wilt) + 1;
+            if (wiltRank === 1 && currentParams.ftaMult !== DEFAULTS.ftaMult) {
+                insights.push({
+                    icon: '',
+                    text: `With ${currentParams.ftaMult.toFixed(2)} FTA multiplier, Wilt Chamberlain rises to #1!`
+                });
+            }
+
+            const magic = rankings.find(p => p.name === 'Magic Johnson');
+            const originalMagic = originalRankings.find(p => p.name === 'Magic Johnson');
+            const pvrChange = ((magic.pvr - originalMagic.pvr) / originalMagic.pvr) * 100;
+            if (Math.abs(pvrChange) > 5) {
+                insights.push({
+                    icon: pvrChange > 0 ? '' : '',
+                    text: `Magic Johnson's PVR ${pvrChange > 0 ? 'increases' : 'drops'} by ${Math.abs(pvrChange).toFixed(1)}% with AST threshold at ${currentParams.astThreshold.toFixed(1)}`
+                });
+            }
+
+            const curry = rankings.find(p => p.name === 'Stephen Curry');
+            const curryRank = rankings.indexOf(curry) + 1;
+            const originalCurryRank = originalRankings.indexOf(originalRankings.find(p => p.name === 'Stephen Curry')) + 1;
+            if (curryRank !== originalCurryRank) {
+                insights.push({
+                    icon: curryRank < originalCurryRank ? '' : '',
+                    text: `Curry moves from #${originalCurryRank} to #${curryRank} with current parameters`
+                });
+            }
+
+            const top3 = rankings.slice(0, 3).map(p => p.name);
+            const originalTop3 = originalRankings.slice(0, 3).map(p => p.name);
+            const top3Changed = JSON.stringify(top3) !== JSON.stringify(originalTop3);
+            if (top3Changed) {
+                insights.push({
+                    icon: '',
+                    text: `Top 3 reshuffled: ${top3.join(', ')}`
+                });
+            }
+
+            const highestPVR = rankings.reduce((max, p) => p.pvr > max.pvr ? p : max);
+            const lowestPVR = rankings.reduce((min, p) => p.pvr < min.pvr ? p : min);
+            insights.push({
+                icon: '',
+                text: `PVR range: ${highestPVR.name} (${highestPVR.pvr.toFixed(1)}) to ${lowestPVR.name} (${lowestPVR.pvr.toFixed(1)})`
+            });
+
+            const avgTUSG = rankings.reduce((sum, p) => sum + p.tusg, 0) / rankings.length;
+            insights.push({
+                icon: '',
+                text: `Average TUSG%: ${avgTUSG.toFixed(2)}% (${avgTUSG > 36 ? 'High usage era' : 'Moderate usage'})`
+            });
+
+            const container = document.getElementById('insights-container');
+            container.innerHTML = '';
+            insights.forEach(insight => {
+                const box = document.createElement('div');
+                box.className = 'insight-box';
+                box.innerHTML = `
+                    <div class="insight-icon">${insight.icon}</div>
+                    <div class="insight-text">${insight.text}</div>
+                `;
+                container.appendChild(box);
+            });
+        }
+
+        function resetToDefaults() {
+            document.getElementById('fga-weight').value = DEFAULTS.fgaWeight;
+            document.getElementById('tov-weight').value = DEFAULTS.tovWeight;
+            document.getElementById('fta-mult').value = DEFAULTS.ftaMult;
+            document.getElementById('pace-factor').value = DEFAULTS.paceFactor;
+            document.getElementById('ast-threshold').value = DEFAULTS.astThreshold;
+            document.getElementById('high-mult').value = DEFAULTS.highMult;
+            document.getElementById('low-mult').value = DEFAULTS.lowMult;
+            updateLeaderboard();
+        }
+
+        function showExportModal() {
+            const pythonCode = `# Custom TUSG% and PVR Calculator
+
+def calculate_custom_tusg(stats, year):
+    """
+    Custom TUSG% Formula
+    TUSG% = ((FGA × ${currentParams.fgaWeight.toFixed(2)}) + (TOV × ${currentParams.tovWeight.toFixed(2)}) + (FTA × ${currentParams.ftaMult.toFixed(2)})) / ((MP/48) × TeamPace × ${currentParams.paceFactor.toFixed(2)}) × 100
+    """
+    mp = stats['mpg']
+    fga = stats['fga'] * ${currentParams.fgaWeight.toFixed(2)}
+    tov = stats['tov'] * ${currentParams.tovWeight.toFixed(2)}
+    fta = stats['fta'] * ${currentParams.ftaMult.toFixed(2)}
+    team_pace = get_era_pace(year) * ${currentParams.paceFactor.toFixed(2)}
+    
+    if mp == 0 or team_pace == 0:
+        return 0.0
+    
+    numerator = fga + tov + fta
+    denominator = (mp / 48) * team_pace
+    
+    return (numerator / denominator) * 100 if denominator != 0 else 0.0
+
+def calculate_custom_pvr(stats):
+    """
+    Custom PVR Formula
+    AST/TOV Threshold: ${currentParams.astThreshold.toFixed(2)}
+    High Multiplier: ${currentParams.highMult.toFixed(2)}x
+    Low Multiplier: ${currentParams.lowMult.toFixed(2)}x
+    """
+    pts = stats['ppg']
+    ast = stats['apg']
+    fga = stats['fga']
+    tov = stats['tov']
+    fta = stats['fta']
+    
+    ast_tov_ratio = ast / tov if tov > 0 else (ast if ast > 0 else 0)
+    multiplier = ${currentParams.highMult.toFixed(2)} if ast_tov_ratio > ${currentParams.astThreshold.toFixed(2)} else ${currentParams.lowMult.toFixed(2)}
+    
+    numerator = pts + (ast * multiplier)
+    denominator = fga + tov + (${currentParams.ftaMult.toFixed(2)} * fta) + ast
+    
+    return ((numerator / denominator) - 1.00) * 100 if denominator != 0 else 0.0`;
+
+            const formulaSummary = `TUSG% Formula:
+((FGA × ${currentParams.fgaWeight.toFixed(2)}) + (TOV × ${currentParams.tovWeight.toFixed(2)}) + (FTA × ${currentParams.ftaMult.toFixed(2)})) / ((MP/48) × Pace × ${currentParams.paceFactor.toFixed(2)}) × 100
+
+PVR Formula:
+[(PTS + (AST × Multiplier)) / (FGA + TOV + (${currentParams.ftaMult.toFixed(2)} × FTA) + AST) - 1.00] × 100
+
+Where Multiplier = ${currentParams.highMult.toFixed(2)}x if AST/TOV > ${currentParams.astThreshold.toFixed(2)}, else ${currentParams.lowMult.toFixed(2)}x`;
+
+            document.getElementById('python-code').textContent = pythonCode;
+            document.getElementById('formula-summary').textContent = formulaSummary;
+            document.getElementById('export-modal').style.display = 'block';
+        }
+
+        function closeExportModal() {
+            document.getElementById('export-modal').style.display = 'none';
+        }
+
+        function copyCode(type) {
+            const text = type === 'python' 
+                ? document.getElementById('python-code').textContent
+                : document.getElementById('formula-summary').textContent;
+            
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Code copied to clipboard!');
+            });
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('export-modal');
+            if (event.target === modal) {
+                closeExportModal();
+            }
+        }
+
+        document.getElementById('fga-weight').addEventListener('input', updateLeaderboard);
+        document.getElementById('tov-weight').addEventListener('input', updateLeaderboard);
+        document.getElementById('fta-mult').addEventListener('input', updateLeaderboard);
+        document.getElementById('pace-factor').addEventListener('input', updateLeaderboard);
+        document.getElementById('ast-threshold').addEventListener('input', updateLeaderboard);
+        document.getElementById('high-mult').addEventListener('input', updateLeaderboard);
+        document.getElementById('low-mult').addEventListener('input', updateLeaderboard);
+
+        originalRankings = calculateRankings(DEFAULTS);
+        updateLeaderboard();
+    </script>
+    <script src="/static/js/theme.js"></script>
+</body>
+</html>

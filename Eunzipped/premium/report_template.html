@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taylor Vector Terminal - Daily Edge Report</title>
+    <link rel="stylesheet" href="/static/css/theme.css">
+</head>
+<body>
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+        <span class="theme-icon">◐</span>
+        <span id="theme-text">Dark</span>
+    </button>
+
+
+    <div class="email-container">
+        <div class="header">
+            <div class="emoji"></div>
+            <h1>TAYLOR VECTOR TERMINAL</h1>
+            <p>Daily Edge Report</p>
+        </div>
+        
+        <div class="report-date">
+             Report Date: <span id="report-date">Monday, November 19, 2025</span>
+        </div>
+        
+        <div class="content">
+            <div class="section">
+                <div class="section-title"> EXECUTIVE SUMMARY</div>
+                
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-label">Total Edges</div>
+                        <div class="metric-value" id="total-edges">12</div>
+                    </div>
+                    
+                    <div class="metric-card">
+                        <div class="metric-label">Average Edge</div>
+                        <div class="metric-value" id="avg-edge">68.5%</div>
+                    </div>
+                    
+                    <div class="metric-card">
+                        <div class="metric-label">Maximum Edge</div>
+                        <div class="metric-value" id="max-edge">74.2%</div>
+                    </div>
+                    
+                    <div class="metric-card">
+                        <div class="metric-label">Avg Confidence</div>
+                        <div class="metric-value" id="avg-confidence">71.8%</div>
+                    </div>
+                </div>
+                
+                <p>
+                    <strong> Today's Insight:</strong> Strong edge opportunities identified across multiple games. 
+                    Focus on picks with TUSG differential >5% and PVR alignment for highest confidence.
+                </p>
+            </div>
+            
+            <div class="section">
+                <div class="section-title"> TOP 5 BETTING EDGES</div>
+                
+                <table class="picks-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Game</th>
+                            <th>Pick</th>
+                            <th>Spread</th>
+                            <th>TUSG%</th>
+                            <th>PVR</th>
+                            <th>Edge</th>
+                        </tr>
+                    </thead>
+                    <tbody id="top-picks">
+                        <tr>
+                            <td><span class="rank">1</span></td>
+                            <td><strong>Lakers @ Warriors</strong></td>
+                            <td>Lakers -3.5</td>
+                            <td>-3.5</td>
+                            <td>H:52.3<br>A:48.1</td>
+                            <td>H:12.5<br>A:10.2</td>
+                            <td><span class="edge-badge high">74.2%</span></td>
+                        </tr>
+                        <tr>
+                            <td><span class="rank">2</span></td>
+                            <td><strong>Celtics @ Heat</strong></td>
+                            <td>Celtics -5.0</td>
+                            <td>-5.0</td>
+                            <td>H:51.8<br>A:47.5</td>
+                            <td>H:13.1<br>A:9.8</td>
+                            <td><span class="edge-badge high">72.8%</span></td>
+                        </tr>
+                        <tr>
+                            <td><span class="rank">3</span></td>
+                            <td><strong>Nuggets @ Suns</strong></td>
+                            <td>Nuggets -2.5</td>
+                            <td>-2.5</td>
+                            <td>H:50.2<br>A:48.9</td>
+                            <td>H:11.7<br>A:10.5</td>
+                            <td><span class="edge-badge high">71.3%</span></td>
+                        </tr>
+                        <tr>
+                            <td><span class="rank">4</span></td>
+                            <td><strong>Bucks @ 76ers</strong></td>
+                            <td>Bucks -4.0</td>
+                            <td>-4.0</td>
+                            <td>H:52.1<br>A:46.8</td>
+                            <td>H:14.2<br>A:8.9</td>
+                            <td><span class="edge-badge high">70.5%</span></td>
+                        </tr>
+                        <tr>
+                            <td><span class="rank">5</span></td>
+                            <td><strong>Mavs @ Clippers</strong></td>
+                            <td>Mavericks -1.5</td>
+                            <td>-1.5</td>
+                            <td>H:49.8<br>A:48.3</td>
+                            <td>H:10.9<br>A:9.7</td>
+                            <td><span class="edge-badge medium">68.1%</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="section">
+                <div class="section-title"> TOMORROW'S GAMES PREVIEW</div>
+                
+                <div class="game-preview">
+                    <div class="game-preview-item">
+                        <div>
+                            <div class="matchup">Lakers @ Warriors</div>
+                            <div class="time"> 7:30 PM ET</div>
+                        </div>
+                        <div class="spread">LAL -3.5</div>
+                    </div>
+                    
+                    <div class="game-preview-item">
+                        <div>
+                            <div class="matchup">Celtics @ Heat</div>
+                            <div class="time"> 8:00 PM ET</div>
+                        </div>
+                        <div class="spread">BOS -5.0</div>
+                    </div>
+                    
+                    <div class="game-preview-item">
+                        <div>
+                            <div class="matchup">Nuggets @ Suns</div>
+                            <div class="time"> 9:00 PM ET</div>
+                        </div>
+                        <div class="spread">DEN -2.5</div>
+                    </div>
+                    
+                    <div class="game-preview-item">
+                        <div>
+                            <div class="matchup">Bucks @ 76ers</div>
+                            <div class="time"> 7:00 PM ET</div>
+                        </div>
+                        <div class="spread">MIL -4.0</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div>
+                <a href="#" class="cta-button"> View Full Dashboard</a>
+            </div>
+            
+            <div class="disclaimer">
+                <p>
+                    <strong> Disclaimer:</strong> This report is for informational and entertainment purposes only. 
+                    Betting involves risk. Never bet more than you can afford to lose. The Taylor Vector Terminal 
+                    uses proprietary TUSG% and PVR metrics to identify betting edges, but past performance does not 
+                    guarantee future results. Always gamble responsibly.
+                </p>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p><strong>Taylor Vector Terminal</strong></p>
+            <p>Advanced NBA Analytics & Betting Intelligence</p>
+            <p> Confidential Report |  2025 All Rights Reserved</p>
+            <p>
+                <a href="#">Unsubscribe</a> | <a href="#">Preferences</a> | <a href="#">Contact</a>
+            </p>
+        </div>
+    </div>
+    
+    <script>
+        const reportDate = new Date();
+        document.getElementById('report-date').textContent = reportDate.toLocaleDateString('en-US', { 
+            weekday: 'long', 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric' 
+        });
+    </script>
+    <script src="/static/js/theme.js"></script>
+</body>
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metric Customizer | TAYLOR VECTOR TERMINAL</title>
+    <link rel="stylesheet" href="/static/css/theme.css">
+</head>
+<body>
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+        <span class="theme-icon">◐</span>
+        <span id="theme-text">Dark</span>
+    </button>
+
+
+    <div class="container">
+        <header>
+            <h1> METRIC CUSTOMIZER</h1>
+            <div class="subtitle">Adjust TUSG% & PVR Formulas in Real-Time</div>
+            <div class="tagline">Experiment with different formula parameters to see how player rankings change</div>
+        </header>
+
+        <div class="info-banner">
+            <h3> How It Works</h3>
+            <p>TUSG% and PVR formulas use specific multipliers that affect how we evaluate player efficiency. Adjust the sliders below to customize these formulas and see how the all-time leaderboard changes instantly. This tool helps you understand why each parameter matters and how it impacts player rankings.</p>
+        </div>
+
+        <div class="section">
+            <h2> Formula Display</h2>
+            <div class="formula-grid">
+                <div class="formula-box">
+                    <h3>TUSG% (True Usage %)</h3>
+                    <div class="formula">
+                        TUSG% = (FGA + TOV + (FTA × <span class="param" id="formula-fta">0.44</span>)) / ((MP/48) × TeamPace) × 100
+                    </div>
+                    <div class="formula-desc">
+                        <strong>What it measures:</strong> Percentage of team possessions used while on court<br>
+                        <strong>Customizable:</strong> FTA Multiplier (default 0.44 represents ~44% of free throws result in possession usage)
+                    </div>
+                </div>
+
+                <div class="formula-box">
+                    <h3>PVR (Possession Value Rating)</h3>
+                    <div class="formula">
+                        PVR = [(PTS + (AST × <span class="param" id="formula-ast-mult">Multiplier</span>)) / (FGA + TOV + (<span class="param" id="formula-pvr-fta">0.44</span> × FTA) + AST) - 1.00] × 100
+                        <br><br>
+                        Multiplier = AST/TOV > <span class="param" id="formula-threshold">1.8</span> ? <span class="param" id="formula-high">2.3</span> : <span class="param" id="formula-low">1.8</span>
+                    </div>
+                    <div class="formula-desc">
+                        <strong>What it measures:</strong> Value generated per possession used<br>
+                        <strong>Customizable:</strong> AST multipliers (high/low ratio) and AST/TOV threshold
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2> Parameter Controls</h2>
+            <div class="controls-grid">
+                <div class="control-group">
+                    <h3> TUSG% Parameters</h3>
+                    <div class="slider-wrapper">
+                        <div class="slider-label">
+                            <span>FTA Multiplier
+                                <span class="tooltip-icon" data-tooltip="Represents how much free throw attempts count toward usage. Higher values mean FTA have more impact on usage calculation.">?</span>
+                            </span>
+                            <span class="slider-value" id="fta-mult-val">0.44</span>
+                        </div>
+                        <input type="range" id="fta-multiplier" min="0.30" max="0.60" step="0.01" value="0.44">
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <h3> PVR AST Multipliers</h3>
+                    <div class="slider-wrapper">
+                        <div class="slider-label">
+                            <span>High Ratio Multiplier
+                                <span class="tooltip-icon" data-tooltip="AST multiplier for players with high AST/TOV ratio (good decision makers). Higher value rewards playmaking more.">?</span>
+                            </span>
+                            <span class="slider-value" id="ast-high-val">2.3</span>
+                        </div>
+                        <input type="range" id="ast-high-multiplier" min="1.0" max="3.0" step="0.1" value="2.3">
+                    </div>
+                    <div class="slider-wrapper">
+                        <div class="slider-label">
+                            <span>Low Ratio Multiplier
+                                <span class="tooltip-icon" data-tooltip="AST multiplier for players with lower AST/TOV ratio. Lower value penalizes turnover-prone playmakers.">?</span>
+                            </span>
+                            <span class="slider-value" id="ast-low-val">1.8</span>
+                        </div>
+                        <input type="range" id="ast-low-multiplier" min="1.0" max="3.0" step="0.1" value="1.8">
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <h3> PVR Threshold</h3>
+                    <div class="slider-wrapper">
+                        <div class="slider-label">
+                            <span>AST/TOV Threshold
+                                <span class="tooltip-icon" data-tooltip="The AST/TOV ratio needed to qualify for high multiplier. Lower = easier to achieve high multiplier.">?</span>
+                            </span>
+                            <span class="slider-value" id="ast-threshold-val">1.8</span>
+                        </div>
+                        <input type="range" id="ast-threshold" min="1.0" max="3.0" step="0.1" value="1.8">
+                    </div>
+                </div>
+            </div>
+            <div>
+                <button class="btn-reset" onclick="resetToDefaults()"> Reset to Default Values</button>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2> Dynamic Insights</h2>
+            <div class="insights-grid" id="insights-grid">
+                <div class="insight-card">
+                    <h4> Loading insights...</h4>
+                    <p>Adjust the sliders above to generate insights about ranking changes.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2> Top 10 Leaderboard (TUSG%)</h2>
+            <table class="leaderboard-table">
+                <thead>
+                    <tr>
+                        <th class="center">Rank</th>
+                        <th>Player</th>
+                        <th>Season</th>
+                        <th class="center">Original TUSG%</th>
+                        <th class="center">Custom TUSG%</th>
+                        <th class="center">Original PVR</th>
+                        <th class="center">Custom PVR</th>
+                        <th class="center">Rank Change</th>
+                    </tr>
+                </thead>
+                <tbody id="leaderboard-body">
+                    <tr>
+                        <td colspan="8">Loading leaderboard...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="metric_customizer.js"></script>
+    <script src="/static/js/theme.js"></script>
+</body>
+</html>

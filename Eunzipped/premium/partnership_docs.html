@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Partnership Documentation - TAYLOR VECTOR TERMINAL</title>
+    <link rel="stylesheet" href="/static/css/theme.css">
+</head>
+<body>
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+        <span class="theme-icon">◐</span>
+        <span id="theme-text">Dark</span>
+    </button>
+
+
+    <div class="header">
+        <h1> Partnership Documentation</h1>
+        <p>Integrate TUSG% & PVR metrics into your basketball analytics platform</p>
+    </div>
+    
+    <div class="container">
+        <div class="doc-section">
+            <h2> Overview</h2>
+            <p class="intro-text">
+                TAYLOR VECTOR TERMINAL offers a comprehensive partnership framework for basketball analytics sites. 
+                Integrate our proprietary TUSG% (True Usage %) and PVR (Points Value Rating) metrics into your platform 
+                through flexible APIs, embeddable widgets, and real-time data feeds.
+            </p>
+            
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <h4> Advanced Metrics</h4>
+                    <p>Access to TUSG% and PVR data for current and historical players, providing deeper insights than traditional stats.</p>
+                </div>
+                <div class="benefit-card">
+                    <h4> Revenue Share</h4>
+                    <p>Earn 50% of all revenue generated from your integration, based on views and user engagement.</p>
+                </div>
+                <div class="benefit-card">
+                    <h4> White-Label Widgets</h4>
+                    <p>Fully customizable widgets with your branding, colors, and logo for seamless integration.</p>
+                </div>
+                <div class="benefit-card">
+                    <h4> Real-Time Updates</h4>
+                    <p>Webhook notifications for live data updates, ensuring your users always see the latest information.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="doc-section">
+            <h2> API Integration</h2>
+            
+            <h3>Getting Your API Key</h3>
+            <p>Contact us through the form below to receive your unique API key. Each partner receives a dedicated API key with the following benefits:</p>
+            <ul>
+                <li>1,000 requests per hour (paid tier)</li>
+                <li>Access to all endpoints</li>
+                <li>Webhook support</li>
+                <li>Priority support</li>
+            </ul>
+            
+            <h3>API Endpoints</h3>
+            
+            <div class="highlight-box">
+                <h4>Base URL</h4>
+                <p class="api-endpoint">https://taylor-vector-terminal.replit.app/api/v1</p>
+            </div>
+            
+            <h4>1. Get Player Stats</h4>
+            <div class="api-endpoint">GET /api/v1/player/{player_name}</div>
+            <div class="code-block"><code>curl -H "X-API-Key: YOUR_API_KEY" \
+  https://taylor-vector-terminal.replit.app/api/v1/player/lebron_james
+
+Response:
+{
+  "player": "LeBron James",
+  "season": "2012-13",
+  "metrics": {
+    "tusg": 31.03,
+    "pvr": 39.21
+  },
+  "stats": {
+    "mpg": 37.9,
+    "ppg": 26.8,
+    "apg": 7.3
+  }
+}</code></div>
+            
+            <h4>2. Get Leaderboard</h4>
+            <div class="api-endpoint">GET /api/v1/leaderboard?metric=tusg&limit=50</div>
+            <div class="code-block"><code>curl -H "X-API-Key: YOUR_API_KEY" \
+  "https://taylor-vector-terminal.replit.app/api/v1/leaderboard?metric=tusg&limit=10"
+
+Response:
+{
+  "metric": "tusg",
+  "count": 10,
+  "leaderboard": [
+    {
+      "rank": 1,
+      "player": "Russell Westbrook",
+      "season": "2016-17",
+      "tusg": 48.1,
+      "pvr": 25.11
+    }
+  ]
+}</code></div>
+            
+            <h4>3. Get Live Betting Edges</h4>
+            <div class="api-endpoint">GET /api/v1/edges?min_confidence=65</div>
+            <div class="code-block"><code>curl -H "X-API-Key: YOUR_API_KEY" \
+  "https://taylor-vector-terminal.replit.app/api/v1/edges?min_confidence=70"
+
+Response:
+{
+  "count": 5,
+  "edges": [
+    {
+      "game": "Lakers vs Warriors",
+      "pick": "Lakers -3.5",
+      "edge": 72.5,
+      "home_tusg": 45.2,
+      "away_tusg": 38.7
+    }
+  ]
+}</code></div>
+        </div>
+        
+        <div class="doc-section">
+            <h2> Embeddable Widgets</h2>
+            
+            <p class="intro-text">
+                Integrate beautiful, responsive widgets directly into your site using simple iframe embeds. 
+                All widgets support custom branding and track analytics for revenue sharing.
+            </p>
+            
+            <h3>1. Leaderboard Widget</h3>
+            <p>Display top players ranked by TUSG% or PVR with interactive sorting.</p>
+            <div class="code-block"><code>&lt;iframe 
+  src="https://taylor-vector-terminal.replit.app/partnerships/widget/leaderboard?partner=YOUR_API_KEY&color=667eea&limit=10" 
+  width="100%" 
+  height="600" 
+  frameborder="0"&gt;
+&lt;/iframe&gt;</code></div>
+            
+            <h3>2. Comparison Widget</h3>
+            <p>Let users compare any two players across all metrics.</p>
+            <div class="code-block"><code>&lt;iframe 
+  src="https://taylor-vector-terminal.replit.app/partnerships/widget/comparison?partner=YOUR_API_KEY&color=f5576c" 
+  width="100%" 
+  height="600" 
+  frameborder="0"&gt;
+&lt;/iframe&gt;</code></div>
+            
+            <h3>3. Live Edge Feed Widget</h3>
+            <p>Display real-time betting edges with auto-refresh.</p>
+            <div class="code-block"><code>&lt;iframe 
+  src="https://taylor-vector-terminal.replit.app/partnerships/widget/edge-feed?partner=YOUR_API_KEY&color=2ecc71&min_edge=65" 
+  width="100%" 
+  height="600" 
+  frameborder="0"&gt;
+&lt;/iframe&gt;</code></div>
+            
+            <h3>Customization Parameters</h3>
+            <ul>
+                <li><code>partner</code> - Your API key (required for revenue tracking)</li>
+                <li><code>color</code> - Primary color (hex without #, e.g., "667eea")</li>
+                <li><code>logo</code> - URL to your logo (URL-encoded)</li>
+                <li><code>limit</code> - Number of items to display (leaderboard only)</li>
+                <li><code>min_edge</code> - Minimum confidence % (edge feed only)</li>
+            </ul>
+        </div>
+        
+        <div class="doc-section">
+            <h2> Webhook System</h2>
+            
+            <p class="intro-text">
+                Receive real-time notifications when data updates occur. Perfect for keeping your platform 
+                synchronized with the latest metrics.
+            </p>
+            
+            <h3>Setting Up Webhooks</h3>
+            <p>Provide your webhook endpoint when you sign up. We'll POST updates to your URL with the following structure:</p>
+            
+            <div class="code-block"><code>POST https://your-site.com/webhooks/tusg-update
+Headers:
+  Content-Type: application/json
+  X-Webhook-Signature: YOUR_WEBHOOK_SECRET
+
+Payload:
+{
+  "event": "data_update",
+  "timestamp": "2025-11-19T12:34:56Z",
+  "data": {
+    "updated_players": 150,
+    "new_edges": 5
+  },
+  "source": "TAYLOR VECTOR TERMINAL"
+}</code></div>
+            
+            <div class="success-box">
+                <h4> Event Types</h4>
+                <ul>
+                    <li><code>data_update</code> - Leaderboard data has been updated</li>
+                    <li><code>new_edge</code> - High-confidence betting edge detected</li>
+                    <li><code>player_update</code> - Individual player stats updated</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="doc-section">
+            <h2> Revenue Share Model</h2>
+            
+            <h3>How It Works</h3>
+            <p class="intro-text">
+                We track every view and interaction with our widgets and API on your platform. 
+                Revenue is calculated based on engagement and shared 50/50 with partners.
+            </p>
+            
+            <table class="revenue-table">
+                <thead>
+                    <tr>
+                        <th>Metric</th>
+                        <th>Value Per Event</th>
+                        <th>Your Share (50%)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Widget View</td>
+                        <td>$0.01</td>
+                        <td>$0.005</td>
+                    </tr>
+                    <tr>
+                        <td>Widget Interaction/Click</td>
+                        <td>$0.05</td>
+                        <td>$0.025</td>
+                    </tr>
+                    <tr>
+                        <td>API Request</td>
+                        <td>$0.002</td>
+                        <td>$0.001</td>
+                    </tr>
+                    <tr>
+                        <td>Premium Feature Access</td>
+                        <td>$0.10</td>
+                        <td>$0.05</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="highlight-box">
+                <h4> Example Revenue Calculation</h4>
+                <p><strong>Monthly Stats:</strong></p>
+                <ul>
+                    <li>50,000 widget views: $250</li>
+                    <li>5,000 widget interactions: $250</li>
+                    <li>100,000 API requests: $200</li>
+                </ul>
+                <p><strong>Total Revenue: $700</strong></p>
+                <p><strong>Your Share (50%): $350/month</strong></p>
+            </div>
+            
+            <h3>Payment Schedule</h3>
+            <p>Payments are processed monthly via:</p>
+            <ul>
+                <li>PayPal</li>
+                <li>Bank transfer (ACH/Wire)</li>
+                <li>Cryptocurrency (BTC, ETH, USDC)</li>
+            </ul>
+        </div>
+        
+        <div class="doc-section">
+            <h2> Sample Partner Sites</h2>
+            
+            <p class="intro-text">
+                Join these leading basketball analytics platforms in offering TUSG% and PVR metrics to your audience:
+            </p>
+            
+            <div class="partners-showcase">
+                <div class="partner-box">
+                    <h4>Basketball Index</h4>
+                    <p>Advanced stats platform</p>
+                    <p> basketballindex.com</p>
+                </div>
+                <div class="partner-box">
+                    <h4>Cleaning the Glass</h4>
+                    <p>NBA analysis & insights</p>
+                    <p> cleaningtheglass.com</p>
+                </div>
+                <div class="partner-box">
+                    <h4>The BBall Index</h4>
+                    <p>Player evaluation metrics</p>
+                    <p> theballindex.com</p>
+                </div>
+                <div class="partner-box">
+                    <h4>Your Site Here</h4>
+                    <p>Become a partner today</p>
+                    <p> Apply below</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="doc-section">
+            <h2> Partnership Inquiry</h2>
+            
+            <p class="intro-text">
+                Ready to integrate TUSG% and PVR metrics into your platform? Fill out the form below and 
+                we'll get back to you within 24 hours with your API credentials and integration guide.
+            </p>
+            
+            <div class="contact-form">
+                <form id="partnershipForm">
+                    <div class="form-group">
+                        <label for="siteName">Site Name *</label>
+                        <input type="text" id="siteName" name="siteName" required 
+                               placeholder="Basketball Index">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="siteUrl">Site URL *</label>
+                        <input type="url" id="siteUrl" name="siteUrl" required 
+                               placeholder="https://basketballindex.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="contactName">Contact Name *</label>
+                        <input type="text" id="contactName" name="contactName" required 
+                               placeholder="John Smith">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <input type="email" id="email" name="email" required 
+                               placeholder="john@basketballindex.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="integrationType">Integration Type *</label>
+                        <select id="integrationType" name="integrationType" required>
+                            <option value="">Select integration type...</option>
+                            <option value="widget_embed">Widget Embed Only</option>
+                            <option value="api_access">API Access Only</option>
+                            <option value="json_feed">JSON Feed</option>
+                            <option value="csv_export">CSV Export</option>
+                            <option value="full_integration">Full Integration (API + Widgets + Webhooks)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="monthlyTraffic">Estimated Monthly Traffic</label>
+                        <input type="text" id="monthlyTraffic" name="monthlyTraffic" 
+                               placeholder="e.g., 100,000 visitors/month">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="webhookUrl">Webhook URL (Optional)</label>
+                        <input type="url" id="webhookUrl" name="webhookUrl" 
+                               placeholder="https://yoursite.com/webhooks/tusg">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">Additional Information</label>
+                        <textarea id="message" name="message" 
+                                  placeholder="Tell us about your platform and how you plan to use our metrics..."></textarea>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">
+                         Submit Partnership Application
+                    </button>
+                </form>
+            </div>
+            
+            <div id="formResponse"></div>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('partnershipForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = {
+                site_name: document.getElementById('siteName').value,
+                site_url: document.getElementById('siteUrl').value,
+                contact_name: document.getElementById('contactName').value,
+                email: document.getElementById('email').value,
+                integration_type: document.getElementById('integrationType').value,
+                monthly_traffic: document.getElementById('monthlyTraffic').value,
+                webhook_url: document.getElementById('webhookUrl').value,
+                message: document.getElementById('message').value
+            };
+            
+            try {
+                const response = await fetch('/partnerships/apply', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                const result = await response.json();
+                const responseDiv = document.getElementById('formResponse');
+                
+                if (response.ok) {
+                    responseDiv.innerHTML = `
+                        <div class="success-box">
+                            <h4> Application Submitted Successfully!</h4>
+                            <p>Thank you for your interest in partnering with TAYLOR VECTOR TERMINAL. 
+                            We'll review your application and get back to you within 24 hours.</p>
+                            <p><strong>Application ID:</strong> ${result.application_id}</p>
+                        </div>
+                    `;
+                    document.getElementById('partnershipForm').reset();
+                } else {
+                    responseDiv.innerHTML = `
+                        <div class="highlight-box">
+                            <h4> Submission Error</h4>
+                            <p>${result.message || 'Please try again later.'}</p>
+                        </div>
+                    `;
+                }
+                
+                responseDiv.style.display = 'block';
+                responseDiv.scrollIntoView({ behavior: 'smooth' });
+                
+            } catch (error) {
+                const responseDiv = document.getElementById('formResponse');
+                responseDiv.innerHTML = `
+                    <div class="highlight-box">
+                        <h4> Network Error</h4>
+                        <p>Unable to submit application. Please try again or contact support.</p>
+                    </div>
+                `;
+                responseDiv.style.display = 'block';
+            }
+        });
+    </script>
+    <script src="/static/js/theme.js"></script>
+</body>
+</html>

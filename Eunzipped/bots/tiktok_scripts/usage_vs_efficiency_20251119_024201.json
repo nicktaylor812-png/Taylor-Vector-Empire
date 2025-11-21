@@ -1,0 +1,51 @@
+{
+  "title": "High usage vs high efficiency: Which matters more?",
+  "topic": "Usage vs Efficiency",
+  "generated_at": "2025-11-19T02:42:01.083076",
+  "total_duration": "60 seconds",
+  "sections": {
+    "hook": {
+      "timestamp": "0:00-0:15",
+      "duration": "15 seconds",
+      "text": "LeBron or Curry? Westbrook or Joki\u0107? The eternal debate.\n\n[On-screen: \"VOLUME VS EFFICIENCY \u2694\ufe0f\"]\n\nHere's what the math actually says..."
+    },
+    "explanation": {
+      "timestamp": "0:15-0:40",
+      "duration": "25 seconds",
+      "text": "TUSG% = Volume (how much you dominate the ball)\nPVR = Efficiency (how well you use each possession)\n\n[Show quadrant chart]\n\nTop right = High usage + High efficiency (MVP tier)\nTop left = High efficiency, low usage (role player/system player)\nBottom right = High usage, low efficiency (volume scorer)\nBottom left = You're getting traded.\n\nThe BEST players? Both high. Curry 2016: 36.9 TUSG + 40.3 PVR."
+    },
+    "example": {
+      "timestamp": "0:40-0:50",
+      "duration": "10 seconds",
+      "text": "Compare:\n- Harden 2019: 45.7 TUSG, 18.6 PVR (elite volume, good efficiency)\n- Joki\u0107 2022: 33.7 TUSG, 44.5 PVR (good volume, ELITE efficiency)\n\n[Show: Both won MVP - different paths]\n\nBoth won MVP. Math says: either path works if you're elite."
+    },
+    "cta": {
+      "timestamp": "0:50-0:60",
+      "duration": "10 seconds",
+      "text": "Want to plot your favorite player? Link in bio. Follow for daily NBA analytics.\n\n[End screen: \"BOTH MATTER \u2696\ufe0f\"]"
+    }
+  },
+  "recommended_sounds": [
+    "Debate-style music",
+    "Analytical content beat",
+    "Sports discussion audio"
+  ],
+  "trending_sounds": [
+    "original sound (use trending audio from FYP)",
+    "Storytelling beat - medium tempo",
+    "Upbeat sports commentary music",
+    "Dramatic reveal audio",
+    "Suspenseful music for analytics",
+    "Epic sports highlight music",
+    "Energetic explainer content beat",
+    "Educational TikTok trending audio"
+  ],
+  "hashtags": "#NBA #Basketball #Analytics #Stats #NBAStats #HoopsAnalytics #BasketballIQ #NBATikTok #Efficiency #Usage",
+  "tips": [
+    "Use text overlays for key stats and formulas",
+    "Show graphics/charts during explanation section",
+    "Keep energy high - fast cuts, dynamic visuals",
+    "Use captions for accessibility",
+    "Test different hooks for best performance"
+  ]
+}

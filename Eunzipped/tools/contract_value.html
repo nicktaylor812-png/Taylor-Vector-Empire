@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contract Value Calculator | TAYLOR VECTOR TERMINAL</title>
+    <link rel="stylesheet" href="/static/css/theme.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+        <span class="theme-icon">◐</span>
+        <span id="theme-text">Dark</span>
+    </button>
+
+
+    <div class="container">
+        <header>
+            <h1> Contract Value Calculator</h1>
+            <p class="subtitle">Find Over/Underpaid Players Using PVR Analysis</p>
+        </header>
+
+        <div class="explanation-box">
+            <h2> How It Works</h2>
+            <p>
+                <strong>Contract Value Analysis</strong> identifies which NBA players provide the best and worst value relative to their salaries.
+                The formula is simple: <strong>Value Score = PVR / (Annual Salary in millions)</strong>.
+            </p>
+            <p>
+                A higher <strong>Value Score</strong> means better value. We also calculate <strong>$/PVR</strong> (how many millions per PVR point),
+                which makes it easier to understand. For example: Nikola Jokić at $51.42M with 44.54 PVR = $1.15M per PVR point = <strong>ELITE VALUE</strong>.
+            </p>
+            <p>
+                <strong>Classification:</strong>
+                 <strong>Elite Value</strong>: &lt;$1.5M per PVR |
+                 <strong>Fair</strong>: $1.5-3M per PVR |
+                 <strong>Overpaid</strong>: &gt;$3M per PVR
+            </p>
+        </div>
+
+        <div class="stats-summary" id="stats-summary">
+        </div>
+
+        <div class="main-content">
+            <div class="controls-panel">
+                <h2 class="controls-title"> Filters & Search</h2>
+                
+                <div class="filter-section">
+                    <div class="filter-label"> Search Player</div>
+                    <input type="text" id="search-box" class="search-box" placeholder="Search by player name...">
+                </div>
+
+                <div class="filter-section">
+                    <div class="filter-label"> Sort By</div>
+                    <div class="filter-buttons">
+                        <button class="filter-btn active" onclick="sortData('best-value')"> Best Value</button>
+                        <button class="filter-btn" onclick="sortData('worst-value')"> Most Overpaid</button>
+                        <button class="filter-btn" onclick="sortData('highest-pvr')"> Highest PVR</button>
+                        <button class="filter-btn" onclick="sortData('highest-salary')"> Highest Salary</button>
+                    </div>
+                </div>
+
+                <div class="filter-section">
+                    <div class="filter-label"> Filter by Tier</div>
+                    <div class="filter-buttons">
+                        <button class="filter-btn active" onclick="filterTier('all')">All Players</button>
+                        <button class="filter-btn" onclick="filterTier('Elite Value')"> Elite Value</button>
+                        <button class="filter-btn" onclick="filterTier('Fair')"> Fair</button>
+                        <button class="filter-btn" onclick="filterTier('Overpaid')"> Overpaid</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="data-panel">
+                <div class="data-header">
+                    <h2 class="data-title"> Player Database</h2>
+                    <div class="view-toggle">
+                        <button class="view-btn active" onclick="switchView('table')"> Table</button>
+                        <button class="view-btn" onclick="switchView('chart')"> Chart</button>
+                    </div>
+                </div>
+
+                <div id="table-view">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Player</th>
+                                <th>Team</th>
+                                <th>Salary</th>
+                                <th>PVR</th>
+                                <th>$/PVR</th>
+                                <th>Classification</th>
+                            </tr>
+                        </thead>
+                        <tbody id="data-tbody">
+                        </tbody>
+                    </table>
+                </div>
+
+                <div id="chart-view" class="chart-container">
+                    <canvas id="scatter-chart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="comparison-section">
+            <h2 class="comparison-title"> Compare Two Players</h2>
+            <div class="comparison-grid">
+                <div class="player-select-box">
+                    <div class="select-label">Player 1</div>
+                    <select class="player-select" id="player1-select">
+                        <option value="">Select Player 1</option>
+                    </select>
+                </div>
+                <div class="player-select-box">
+                    <div class="select-label">Player 2</div>
+                    <select class="player-select" id="player2-select">
+                        <option value="">Select Player 2</option>
+                    </select>
+                </div>
+            </div>
+            <div class="comparison-result" id="comparison-result">
+            </div>
+        </div>
+
+        <div class="insights-box">
+            <h2 class="insights-title"> Key Insights</h2>
+            <div id="insights-container">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let allPlayers = [];
+        let filteredPlayers = [];
+        let currentSort = 'best-value';
+        let currentTier = 'all';
+        let scatterChart = null;
+
+        async function loadData() {
+            try {
+                const response = await fetch('/contract_value_results.json');
+                const data = await response.json();
+                allPlayers = data.players;
+                filteredPlayers = [...allPlayers];
+                
+                updateStats();
+                updateTable();
+                updateSelects();
+                generateInsights();
+            } catch (error) {
+                console.error('Error loading data:', error);
+            }
+        }
+
+        function updateStats() {
+            const elite = allPlayers.filter(p => p.classification === 'Elite Value').length;
+            const fair = allPlayers.filter(p => p.classification === 'Fair').length;
+            const overpaid = allPlayers.filter(p => p.classification === 'Overpaid').length;
+            const avgDollarsPerPVR = (allPlayers.reduce((sum, p) => sum + p.dollars_per_pvr, 0) / allPlayers.length).toFixed(2);
+
+            const statsHTML = `
+                <div class="stat-card">
+                    <div class="stat-label">Total Players</div>
+                    <div class="stat-value">${allPlayers.length}</div>
+                    <div class="stat-subtitle">Analyzed</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label"> Elite Value</div>
+                    <div class="stat-value">${elite}</div>
+                    <div class="stat-subtitle">&lt;$1.5M per PVR</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label"> Fair Value</div>
+                    <div class="stat-value">${fair}</div>
+                    <div class="stat-subtitle">$1.5-3M per PVR</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label"> Overpaid</div>
+                    <div class="stat-value">${overpaid}</div>
+                    <div class="stat-subtitle">&gt;$3M per PVR</div>
+                </div>
+            `;
+
+            document.getElementById('stats-summary').innerHTML = statsHTML;
+        }
+
+        function updateTable() {
+            const tbody = document.getElementById('data-tbody');
+            tbody.innerHTML = '';
+
+            filteredPlayers.forEach((player, index) => {
+                const row = document.createElement('tr');
+                const badgeClass = player.classification === 'Elite Value' ? 'elite-badge' :
+                                  player.classification === 'Fair' ? 'fair-badge' : 'overpaid-badge';
+                
+                row.innerHTML = `
+                    <td class="rank-cell">${index + 1}</td>
+                    <td class="player-cell">${player.player}</td>
+                    <td>${player.team}</td>
+                    <td>$${player.salary.toFixed(2)}M</td>
+                    <td>${player.pvr.toFixed(2)}</td>
+                    <td>$${player.dollars_per_pvr.toFixed(2)}M</td>
+                    <td><span class="tier-badge ${badgeClass}">${player.classification}</span></td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function updateSelects() {
+            const select1 = document.getElementById('player1-select');
+            const select2 = document.getElementById('player2-select');
+            
+            allPlayers.forEach(player => {
+                const option1 = document.createElement('option');
+                option1.value = player.player;
+                option1.textContent = `${player.player} (${player.team})`;
+                select1.appendChild(option1);
+
+                const option2 = document.createElement('option');
+                option2.value = player.player;
+                option2.textContent = `${player.player} (${player.team})`;
+                select2.appendChild(option2);
+            });
+
+            select1.addEventListener('change', comparePlayers);
+            select2.addEventListener('change', comparePlayers);
+        }
+
+        function sortData(sortType) {
+            currentSort = sortType;
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                if (btn.textContent.includes('Best Value') || btn.textContent.includes('Most Overpaid') ||
+                    btn.textContent.includes('Highest PVR') || btn.textContent.includes('Highest Salary')) {
+                    btn.classList.remove('active');
+                }
+            });
+            event.target.classList.add('active');
+
+            switch (sortType) {
+                case 'best-value':
+                    filteredPlayers.sort((a, b) => b.value_score - a.value_score);
+                    break;
+                case 'worst-value':
+                    filteredPlayers.sort((a, b) => b.dollars_per_pvr - a.dollars_per_pvr);
+                    break;
+                case 'highest-pvr':
+                    filteredPlayers.sort((a, b) => b.pvr - a.pvr);
+                    break;
+                case 'highest-salary':
+                    filteredPlayers.sort((a, b) => b.salary - a.salary);
+                    break;
+            }
+
+            updateTable();
+        }
+
+        function filterTier(tier) {
+            currentTier = tier;
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                if (btn.textContent.includes('All Players') || btn.textContent.includes('Elite Value') ||
+                    btn.textContent.includes('Fair') || btn.textContent.includes('Overpaid')) {
+                    btn.classList.remove('active');
+                }
+            });
+            event.target.classList.add('active');
+
+            const searchTerm = document.getElementById('search-box').value.toLowerCase();
+            
+            filteredPlayers = allPlayers.filter(player => {
+                const matchesSearch = player.player.toLowerCase().includes(searchTerm);
+                const matchesTier = tier === 'all' || player.classification === tier;
+                return matchesSearch && matchesTier;
+            });
+
+            sortData(currentSort);
+        }
+
+        function switchView(view) {
+            document.querySelectorAll('.view-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            if (view === 'table') {
+                document.getElementById('table-view').style.display = 'block';
+                document.getElementById('chart-view').classList.remove('active');
+            } else {
+                document.getElementById('table-view').style.display = 'none';
+                document.getElementById('chart-view').classList.add('active');
+                renderChart();
+            }
+        }
+
+        function renderChart() {
+            const ctx = document.getElementById('scatter-chart').getContext('2d');
+            
+            if (scatterChart) {
+                scatterChart.destroy();
+            }
+
+            const datasets = [
+                {
+                    label: 'Elite Value',
+                    data: filteredPlayers.filter(p => p.classification === 'Elite Value').map(p => ({x: p.salary, y: p.pvr, player: p.player})),
+                    backgroundColor: 'rgba(34, 197, 94, 0.6)',
+                    borderColor: 'rgba(34, 197, 94, 1)',
+                    pointRadius: 8,
+                    pointHoverRadius: 12
+                },
+                {
+                    label: 'Fair',
+                    data: filteredPlayers.filter(p => p.classification === 'Fair').map(p => ({x: p.salary, y: p.pvr, player: p.player})),
+                    backgroundColor: 'rgba(251, 191, 36, 0.6)',
+                    borderColor: 'rgba(251, 191, 36, 1)',
+                    pointRadius: 8,
+                    pointHoverRadius: 12
+                },
+                {
+                    label: 'Overpaid',
+                    data: filteredPlayers.filter(p => p.classification === 'Overpaid').map(p => ({x: p.salary, y: p.pvr, player: p.player})),
+                    backgroundColor: 'rgba(239, 68, 68, 0.6)',
+                    borderColor: 'rgba(239, 68, 68, 1)',
+                    pointRadius: 8,
+                    pointHoverRadius: 12
+                }
+            ];
+
+            scatterChart = new Chart(ctx, {
+                type: 'scatter',
+                data: { datasets },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Contract Value Analysis: Salary vs PVR',
+                            font: { size: 18 }
+                        },
+                        legend: {
+                            display: true,
+                            position: 'top'
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.raw.player}: $${context.raw.x.toFixed(2)}M, PVR: ${context.raw.y.toFixed(2)}`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Annual Salary (millions)',
+                                font: { size: 14 }
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'PVR (Possession Value Rating)',
+                                font: { size: 14 }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function comparePlayers() {
+            const player1Name = document.getElementById('player1-select').value;
+            const player2Name = document.getElementById('player2-select').value;
+
+            if (!player1Name || !player2Name) {
+                document.getElementById('comparison-result').classList.remove('active');
+                return;
+            }
+
+            const player1 = allPlayers.find(p => p.player === player1Name);
+            const player2 = allPlayers.find(p => p.player === player2Name);
+
+            const resultHTML = `
+                <h3>Comparison Results</h3>
+                <div>
+                    <div>
+                        <h4>${player1.player}</h4>
+                        <p><strong>Team:</strong> ${player1.team}</p>
+                        <p><strong>Salary:</strong> $${player1.salary.toFixed(2)}M</p>
+                        <p><strong>PVR:</strong> ${player1.pvr.toFixed(2)}</p>
+                        <p><strong>$/PVR:</strong> $${player1.dollars_per_pvr.toFixed(2)}M</p>
+                        <p><strong>Classification:</strong> ${player1.classification}</p>
+                    </div>
+                    <div>
+                        <h4>${player2.player}</h4>
+                        <p><strong>Team:</strong> ${player2.team}</p>
+                        <p><strong>Salary:</strong> $${player2.salary.toFixed(2)}M</p>
+                        <p><strong>PVR:</strong> ${player2.pvr.toFixed(2)}</p>
+                        <p><strong>$/PVR:</strong> $${player2.dollars_per_pvr.toFixed(2)}M</p>
+                        <p><strong>Classification:</strong> ${player2.classification}</p>
+                    </div>
+                </div>
+                <div>
+                    <strong>Verdict:</strong> ${player1.dollars_per_pvr < player2.dollars_per_pvr ? 
+                        `${player1.player} provides better value ($${player1.dollars_per_pvr.toFixed(2)}M/PVR vs $${player2.dollars_per_pvr.toFixed(2)}M/PVR)` :
+                        `${player2.player} provides better value ($${player2.dollars_per_pvr.toFixed(2)}M/PVR vs $${player1.dollars_per_pvr.toFixed(2)}M/PVR)`}
+                </div>
+            `;
+
+            document.getElementById('comparison-result').innerHTML = resultHTML;
+            document.getElementById('comparison-result').classList.add('active');
+        }
+
+        function generateInsights() {
+            const bestValue = allPlayers[0];
+            const worstValue = [...allPlayers].sort((a, b) => b.dollars_per_pvr - a.dollars_per_pvr)[0];
+            const highestPVR = [...allPlayers].sort((a, b) => b.pvr - a.pvr)[0];
+            const jokic = allPlayers.find(p => p.player.includes('Jokić'));
+
+            const insightsHTML = `
+                <div class="insight-item">
+                    <strong> Best Value Contract:</strong> ${bestValue.player} (${bestValue.team}) - 
+                    $${bestValue.salary.toFixed(2)}M salary, ${bestValue.pvr.toFixed(2)} PVR = 
+                    $${bestValue.dollars_per_pvr.toFixed(2)}M per PVR point - ${bestValue.classification}
+                </div>
+                <div class="insight-item">
+                    <strong> Worst Value Contract:</strong> ${worstValue.player} (${worstValue.team}) - 
+                    $${worstValue.salary.toFixed(2)}M salary, ${worstValue.pvr.toFixed(2)} PVR = 
+                    $${worstValue.dollars_per_pvr.toFixed(2)}M per PVR point - ${worstValue.classification}
+                </div>
+                <div class="insight-item">
+                    <strong> Highest PVR:</strong> ${highestPVR.player} (${highestPVR.team}) - 
+                    ${highestPVR.pvr.toFixed(2)} PVR with $${highestPVR.salary.toFixed(2)}M salary = 
+                    $${highestPVR.dollars_per_pvr.toFixed(2)}M per PVR
+                </div>
+                ${jokic ? `
+                <div class="insight-item">
+                    <strong> Nikola Jokić Analysis:</strong> 
+                    $${jokic.salary.toFixed(2)}M salary, ${jokic.pvr.toFixed(2)} PVR = 
+                    $${jokic.dollars_per_pvr.toFixed(2)}M per PVR point - ${jokic.classification.toUpperCase()}
+                </div>
+                ` : ''}
+                <div class="insight-item">
+                    <strong> Rookie Scale Impact:</strong> Rookies on rookie-scale contracts (like Paolo Banchero, Victor Wembanyama) 
+                    dominate the Elite Value tier due to artificially low salaries compared to their production.
+                </div>
+            `;
+
+            document.getElementById('insights-container').innerHTML = insightsHTML;
+        }
+
+        document.getElementById('search-box').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            filteredPlayers = allPlayers.filter(player => {
+                const matchesSearch = player.player.toLowerCase().includes(searchTerm);
+                const matchesTier = currentTier === 'all' || player.classification === currentTier;
+                return matchesSearch && matchesTier;
+            });
+            updateTable();
+        });
+
+        loadData();
+    </script>
+    <script src="/static/js/theme.js"></script>
+</body>
+</html>

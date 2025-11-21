@@ -1,0 +1,76 @@
+TAYLOR VECTOR TERMINAL - EXPORT MANIFEST
+==========================================
+
+📦 ALL 27 PRODUCTS INCLUDED:
+
+TIER 1 - Foundation (6):
+✓ All-Time TUSG% Leaderboard (15 legends)
+✓ Player Comparison Tool (radar charts)
+✓ Real-Time Edge Notifications (Discord/Telegram)
+✓ Live Web Dashboard (port 5000)
+✓ Reddit Bot (r/NBATalk)
+✓ Discord Community Bot (slash commands)
+
+TIER 2 - Scale (11):
+✓ Cross-Era PVR Comparisons (MJ/LeBron/Kobe/Wilt)
+✓ Westbrook Rule Historical Machine (30 seasons)
+✓ Westbrook Hall of Fame (validated vs exposed)
+✓ Positionless GOAT Rankings (50 players)
+✓ Draft Prospect PVR Predictor
+✓ Trade Impact Calculator
+✓ Contract Value Calculator (54 players)
+✓ Metric Customizer Web App
+✓ All-Time Team Builder ($120M cap)
+✓ Fantasy Basketball Optimizer
+✓ Instagram Metrics Visualizer (1080x1080)
+✓ TikTok Explanation Bot (10 scripts)
+
+TIER 3 - Monetization (10):
+✓ Daily Edge Report Generator (8am PDF)
+✓ Weekly Player Deep Dive (Mondays 9am)
+✓ Season Prediction Engine (MVP/DPOY/MIP/ROY)
+✓ Underrated PVR Stars Series (Fridays 10am)
+✓ Westbrook Rule Hall of Fame
+✓ Premium API Service (6 endpoints)
+✓ Paid Newsletter System
+✓ Betting Group Consulting Portal
+✓ Analytics Site Partnership Framework
+
+🎯 CORE METRICS:
+- TUSG% (True Usage Percentage)
+- PVR (Possession Value Rating with AST/TOV multiplier)
+- Edge Calculation (65%+ threshold)
+- 954 NBA players analyzed per cycle
+
+🗄️ DATABASE: taylor_62.db
+- Picks table (all edges ≥65%)
+- API keys (premium authentication)
+- Newsletter subscribers
+- Consulting groups
+- Partnership tracking
+
+🎨 DESIGN SYSTEM:
+- DeepSeek-inspired aesthetic
+- Full light/dark mode with persistence
+- Teal/green gradients (#10a37f, #38d9a9)
+- Ultra-minimalist multi-color raccoon logo
+- 40+ responsive HTML pages
+
+🤖 BOTS & AUTOMATION:
+- Discord bot (slash commands)
+- Reddit bot (auto-posting)
+- Edge notifier (webhooks)
+- APScheduler (daily/weekly tasks)
+
+📡 APIs INTEGRATED:
+- The Odds API (live spreads)
+- Free NBA Stats API (954 players)
+- Discord API
+- Reddit API
+- Telegram Bot API
+
+DEPLOYMENT READY FOR:
+✓ Heroku (Procfile included)
+✓ Railway/Render
+✓ VPS (DigitalOcean, AWS, etc)
+✓ Local development

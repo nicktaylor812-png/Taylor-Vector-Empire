@@ -1,0 +1,225 @@
+.comparison-section {
+    background: #ffffff;
+    padding: 24px;
+    border-radius: 8px;
+    margin: 24px 0;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.comparison-section h2 {
+    color: #1a1a1a;
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 20px;
+    letter-spacing: normal;
+}
+
+.player-selectors {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 24px;
+    margin-bottom: 24px;
+}
+
+.player-selector-card {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #e5e5e5;
+}
+
+.player-selector-card h3 {
+    color: #1a1a1a;
+    margin-bottom: 16px;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.search-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.player-search {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #e5e5e5;
+    border-radius: 6px;
+    background: #ffffff;
+    color: #1a1a1a;
+    font-size: 14px;
+    transition: border-color 0.15s ease;
+}
+
+.player-search:focus {
+    outline: none;
+    border-color: #10a37f;
+}
+
+.player-search::placeholder {
+    color: #6e6e6e;
+}
+
+.player-select {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #e5e5e5;
+    border-radius: 6px;
+    background: #ffffff;
+    color: #1a1a1a;
+    font-size: 14px;
+    cursor: pointer;
+    min-height: 200px;
+}
+
+.player-select option {
+    background: #ffffff;
+    padding: 8px;
+}
+
+.vs-separator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.vs-text {
+    background: #10a37f;
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: 700;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.player-info {
+    margin-top: 16px;
+    min-height: 100px;
+}
+
+.player-card {
+    background: #ffffff;
+    padding: 16px;
+    border-radius: 6px;
+    border: 1px solid #e5e5e5;
+}
+
+.player-card h4 {
+    color: #1a1a1a;
+    margin-bottom: 8px;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.player-card .season {
+    color: #6e6e6e;
+    font-size: 13px;
+    margin-bottom: 12px;
+}
+
+.player-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    gap: 12px;
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.stat-item .label {
+    color: #6e6e6e;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.stat-item .value {
+    color: #10a37f;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.compare-btn {
+    width: 100%;
+    padding: 12px;
+    background: #10a37f;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    margin-top: 20px;
+}
+
+.compare-btn:hover {
+    background: #0e8c6f;
+}
+
+.compare-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.comparison-results {
+    margin-top: 40px;
+}
+
+.comparison-results h2 {
+    color: #1a1a1a;
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 24px;
+    letter-spacing: normal;
+}
+
+.comparison-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+}
+
+.comparison-card {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.comparison-card h3 {
+    color: #1a1a1a;
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 16px;
+}
+
+.radar-chart-container {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    margin-top: 24px;
+}
+
+.radar-chart-container canvas {
+    max-width: 100%;
+    height: auto;
+}
+
+@media (max-width: 768px) {
+    .player-selectors {
+        grid-template-columns: 1fr;
+    }
+    
+    .vs-separator {
+        order: 2;
+    }
+}

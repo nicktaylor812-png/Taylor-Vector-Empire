@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{PLAYER_NAME}} - Deep Dive | Taylor Vector Terminal</title>
+    <link rel="stylesheet" href="/static/css/theme.css">
+    <meta name="description" content="In-depth analysis of {{PLAYER_NAME}}'s TUSG%, PVR, and betting implications">
+    <meta property="og:title" content="{{PLAYER_NAME}} Deep Dive - Taylor Vector Terminal">
+    <meta property="og:description" content="Complete breakdown: {{TUSG}}% TUSG, {{PVR}} PVR, peer rankings, and betting insights">
+</head>
+<body>
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+        <span class="theme-icon">◐</span>
+        <span id="theme-text">Dark</span>
+    </button>
+
+
+    <div class="container">
+        <header>
+            <div class="logo"> TAYLOR VECTOR TERMINAL</div>
+            <div class="player-name">{{PLAYER_NAME}}</div>
+            <div class="report-date">Weekly Player Deep Dive • {{DATE}}</div>
+        </header>
+
+        <section class="section">
+            <h2 class="section-title"><span class="emoji"></span> Career Overview</h2>
+            
+            <div class="stat-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Career TUSG%</div>
+                    <div class="stat-value">{{CAREER_TUSG}}%</div>
+                    <div class="stat-sublabel">True Usage Percentage</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Career PVR</div>
+                    <div class="stat-value">{{CAREER_PVR}}</div>
+                    <div class="stat-sublabel">Possession Value Rating</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Career PPG</div>
+                    <div class="stat-value">{{CAREER_PPG}}</div>
+                    <div class="stat-sublabel">Points Per Game</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Total Seasons</div>
+                    <div class="stat-value">{{TOTAL_SEASONS}}</div>
+                    <div class="stat-sublabel">NBA Experience</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title"><span class="emoji"></span> Current Season ({{CURRENT_SEASON}})</h2>
+            
+            <div class="stat-grid">
+                <div class="stat-card">
+                    <div class="stat-label">TUSG%</div>
+                    <div class="stat-value">{{CURRENT_TUSG}}%</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">PVR</div>
+                    <div class="stat-value">{{CURRENT_PVR}}</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">PPG</div>
+                    <div class="stat-value">{{CURRENT_PPG}}</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">APG</div>
+                    <div class="stat-value">{{CURRENT_APG}}</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title"><span class="emoji"></span> Strengths & Weaknesses</h2>
+            
+            <h3> Key Strengths</h3>
+            <ul class="analysis-list">
+                {{STRENGTHS_LIST}}
+            </ul>
+
+            <h3> Areas for Improvement</h3>
+            <ul class="analysis-list">
+                {{WEAKNESSES_LIST}}
+            </ul>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title"><span class="emoji"></span> Position Peer Comparison</h2>
+            
+            <p>{{PEER_COMPARISON}}</p>
+
+            <div>
+                <span class="rank-badge">TUSG% Rank: #{{TUSG_RANK}} (Top {{TUSG_PERCENTILE}}%)</span>
+                <span class="rank-badge">PVR Rank: #{{PVR_RANK}} (Top {{PVR_PERCENTILE}}%)</span>
+            </div>
+
+            <p>
+                Compared against {{PEERS_ANALYZED}} active NBA players
+            </p>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title"><span class="emoji"></span> Betting Implications</h2>
+            
+            <div class="betting-summary">
+                {{BETTING_SUMMARY}}
+            </div>
+
+            <div class="betting-box">
+                <h3>Key Betting Insights</h3>
+                <ul class="analysis-list">
+                    {{BETTING_IMPLICATIONS}}
+                </ul>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title"><span class="emoji"></span> Season-by-Season Breakdown</h2>
+            
+            <div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Season</th>
+                            <th>Team</th>
+                            <th>Games</th>
+                            <th>MPG</th>
+                            <th>PPG</th>
+                            <th>APG</th>
+                            <th>RPG</th>
+                            <th>TUSG%</th>
+                            <th>PVR</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{SEASON_TABLE}}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title"><span class="emoji"></span> Methodology</h2>
+            
+            <div class="methodology">
+                <h4>TUSG% (True Usage Percentage)</h4>
+                <p>
+                    Measures the percentage of team possessions used by a player when on the court.<br>
+                    <strong>Formula:</strong> (FGA + TOV + (FTA × 0.44)) / ((MP/48) × TeamPace) × 100<br>
+                    <strong>Interpretation:</strong> Higher values indicate more offensive responsibility
+                </p>
+            </div>
+
+            <div class="methodology">
+                <h4>PVR (Possession Value Rating)</h4>
+                <p>
+                    Measures the value created per possession used by a player.<br>
+                    <strong>Formula:</strong> [(PTS + (AST × Multiplier)) / (FGA + TOV + (0.44 × FTA) + AST) - 1.00] × 100<br>
+                    <strong>Interpretation:</strong> Higher values indicate more efficient production
+                </p>
+            </div>
+        </section>
+
+        <div class="download-buttons">
+            <a href="#" class="btn btn-primary" onclick="window.print(); return false;">
+                <span class="emoji"></span> Print / Save as PDF
+            </a>
+            <a href="/" class="btn btn-secondary">
+                <span class="emoji"></span> Back to Dashboard
+            </a>
+        </div>
+
+        <footer>
+            <p><strong>Taylor Vector Terminal</strong></p>
+            <p>Advanced NBA Analytics & Betting Intelligence</p>
+            <p>
+                Generated on {{DATE}} • All metrics calculated using proprietary TUSG% and PVR formulas
+            </p>
+        </footer>
+    </div>
+    <script src="/static/js/theme.js"></script>
+</body>
+</html>

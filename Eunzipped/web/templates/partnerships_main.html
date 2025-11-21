@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Partnership Framework - TAYLOR VECTOR TERMINAL</title>
+    <link rel="stylesheet" href="/static/css/theme.css">
+</head>
+<body>
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+        <span class="theme-icon">◐</span>
+        <span id="theme-text">Dark</span>
+    </button>
+
+
+    <div class="hero">
+        <h1> Partnership Framework</h1>
+        <p>Integrate TUSG% & PVR metrics into your basketball analytics platform</p>
+        <div class="cta-buttons">
+            <a href="/partnerships/docs" class="btn btn-primary">View Documentation</a>
+            <a href="#demo" class="btn btn-secondary">Try Demo Widgets</a>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="section">
+            <h2>Why Partner With Us?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="icon"></div>
+                    <h3>Advanced Metrics</h3>
+                    <p>Access to proprietary TUSG% and PVR data for current and historical players</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon"></div>
+                    <h3>Revenue Share</h3>
+                    <p>Earn 50% of all revenue generated from your integration</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon"></div>
+                    <h3>White-Label</h3>
+                    <p>Fully customizable widgets with your branding and colors</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon"></div>
+                    <h3>Real-Time</h3>
+                    <p>Webhook notifications for live data updates</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon"></div>
+                    <h3>Easy Setup</h3>
+                    <p>Simple iframe embeds or full API integration</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon"></div>
+                    <h3>Full Support</h3>
+                    <p>Dedicated partner support and documentation</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>Partnership Stats</h2>
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <div class="number">50%</div>
+                    <div class="label">Revenue Share</div>
+                </div>
+                <div class="stat-box">
+                    <div class="number">3</div>
+                    <div class="label">Widget Types</div>
+                </div>
+                <div class="stat-box">
+                    <div class="number">100+</div>
+                    <div class="label">Historical Players</div>
+                </div>
+                <div class="stat-box">
+                    <div class="number">24/7</div>
+                    <div class="label">Live Updates</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section" id="demo">
+            <h2>Widget Demos</h2>
+            <p style="text-align: center; color: #666; font-size: 18px; margin-bottom: 40px;">
+                Try out our embeddable widgets. Each can be customized with your branding.
+            </p>
+            
+            <div class="widget-grid">
+                <div class="widget-demo">
+                    <h3> Leaderboard Widget</h3>
+                    <p>Display top players ranked by TUSG% or PVR. Interactive sorting and responsive design.</p>
+                    <div class="widget-preview">
+                        <iframe src="/partnerships/widget/leaderboard?limit=10"></iframe>
+                    </div>
+                    <div class="widget-actions">
+                        <button class="btn-small btn-view" onclick="window.open('/partnerships/widget/leaderboard', '_blank')">
+                            Open Full Screen
+                        </button>
+                        <button class="btn-small btn-code" onclick="showEmbedCode('leaderboard')">
+                            Get Embed Code
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="widget-demo">
+                    <h3> Comparison Widget</h3>
+                    <p>Let users compare any two players across all metrics with visual bars.</p>
+                    <div class="widget-preview">
+                        <iframe src="/partnerships/widget/comparison"></iframe>
+                    </div>
+                    <div class="widget-actions">
+                        <button class="btn-small btn-view" onclick="window.open('/partnerships/widget/comparison', '_blank')">
+                            Open Full Screen
+                        </button>
+                        <button class="btn-small btn-code" onclick="showEmbedCode('comparison')">
+                            Get Embed Code
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="widget-demo">
+                    <h3> Live Edge Feed</h3>
+                    <p>Display real-time betting edges with auto-refresh and scrolling ticker.</p>
+                    <div class="widget-preview">
+                        <iframe src="/partnerships/widget/edge-feed"></iframe>
+                    </div>
+                    <div class="widget-actions">
+                        <button class="btn-small btn-view" onclick="window.open('/partnerships/widget/edge-feed', '_blank')">
+                            Open Full Screen
+                        </button>
+                        <button class="btn-small btn-code" onclick="showEmbedCode('edge-feed')">
+                            Get Embed Code
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>What Our Partners Say</h2>
+            
+            <div class="testimonial">
+                <p>"Integrating TUSG% metrics transformed how our users analyze player efficiency. The widget customization is fantastic."</p>
+                <div class="author">— Basketball Analytics Platform</div>
+            </div>
+            
+            <div class="testimonial">
+                <p>"The revenue share model is generous and the real-time data keeps our content fresh. Setup took less than 10 minutes."</p>
+                <div class="author">— Sports Betting Intelligence Site</div>
+            </div>
+            
+            <div class="testimonial">
+                <p>"PVR has become our go-to metric for player value assessment. The API is reliable and well-documented."</p>
+                <div class="author">— Fantasy Basketball Tools Provider</div>
+            </div>
+        </div>
+        
+        <div class="section" style="text-align: center; background: linear-gradient(135deg, #667eea, #764ba2); color: #1a1a1a;">
+            <h2 style="color: #1a1a1a;">Ready to Partner?</h2>
+            <p style="font-size: 20px; margin-bottom: 32px; opacity: 0.95;">
+                Join leading basketball analytics platforms in offering TUSG% and PVR metrics
+            </p>
+            <a href="/partnerships/docs" class="btn btn-primary" style="font-size: 20px; padding: 18px 48px;">
+                Get Started Now
+            </a>
+        </div>
+    </div>
+    
+    <div id="codeModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; align-items: center; justify-content: center;">
+        <div style="background: white; padding: 40px; border-radius: 16px; max-width: 700px; width: 90%;">
+            <h3 style="margin-bottom: 20px; color: #10a37f;">Embed Code</h3>
+            <p style="color: #666; margin-bottom: 16px;">Copy this code to embed the widget on your site:</p>
+            <textarea id="embedCodeArea" readonly style="width: 100%; height: 150px; padding: 16px; border: 2px solid #ddd; border-radius: 8px; font-family: monospace; font-size: 14px;"></textarea>
+            <div style="display: flex; gap: 12px; margin-top: 20px;">
+                <button onclick="copyEmbedCode()" style="flex: 1; padding: 12px; background: #10a37f; color: #1a1a1a; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">
+                    Copy to Clipboard
+                </button>
+                <button onclick="closeModal()" style="flex: 1; padding: 12px; background: #e0e0e0; color: #333; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function showEmbedCode(widgetType) {
+            const codes = {
+                'leaderboard': `<iframe 
+  src="https://taylor-vector-terminal.replit.app/partnerships/widget/leaderboard?partner=YOUR_API_KEY&color=667eea&limit=10" 
+  width="100%" 
+  height="600" 
+  frameborder="0">
+</iframe>`,
+                'comparison': `<iframe 
+  src="https://taylor-vector-terminal.replit.app/partnerships/widget/comparison?partner=YOUR_API_KEY&color=f5576c" 
+  width="100%" 
+  height="600" 
+  frameborder="0">
+</iframe>`,
+                'edge-feed': `<iframe 
+  src="https://taylor-vector-terminal.replit.app/partnerships/widget/edge-feed?partner=YOUR_API_KEY&color=2ecc71&min_edge=65" 
+  width="100%" 
+  height="600" 
+  frameborder="0">
+</iframe>`
+            };
+            
+            document.getElementById('embedCodeArea').value = codes[widgetType];
+            document.getElementById('codeModal').style.display = 'flex';
+        }
+        
+        function closeModal() {
+            document.getElementById('codeModal').style.display = 'none';
+        }
+        
+        function copyEmbedCode() {
+            const codeArea = document.getElementById('embedCodeArea');
+            codeArea.select();
+            document.execCommand('copy');
+            
+            alert(' Embed code copied to clipboard!');
+        }
+        
+        window.onclick = function(event) {
+            const modal = document.getElementById('codeModal');
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+    </script>
+    <script src="/static/js/theme.js"></script>
+</body>
+</html>

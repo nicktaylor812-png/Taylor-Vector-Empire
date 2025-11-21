@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cross-Era PVR Comparisons - TAYLOR VECTOR TERMINAL</title>
+    <link rel="stylesheet" href="/static/css/theme.css">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/cross_era.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+        <span class="theme-icon">◐</span>
+        <span id="theme-text">Dark</span>
+    </button>
+
+
+    <div class="container">
+        <header>
+            <h1> CROSS-ERA PVR COMPARISONS</h1>
+            <p class="tagline">Compare NBA Legends Across Different Eras</p>
+            <div class="nav-links">
+                <a href="/" class="nav-link"> Home</a>
+                <a href="/compare" class="nav-link"> Player Comparison</a>
+            </div>
+        </header>
+
+        <section class="intro-section">
+            <h2>How It Works</h2>
+            <p>Adjust era pace multipliers to see how players would perform in different eras. Default values represent historical NBA pace averages.</p>
+        </section>
+
+        <section class="controls-section">
+            <h2>Player Selection</h2>
+            <div class="player-selection-grid">
+                <div class="player-select-wrapper">
+                    <label for="player1">Player 1</label>
+                    <select id="player1" class="player-select">
+                        <option value="">Select Player...</option>
+                    </select>
+                </div>
+                <div class="player-select-wrapper">
+                    <label for="player2">Player 2</label>
+                    <select id="player2" class="player-select">
+                        <option value="">Select Player...</option>
+                    </select>
+                </div>
+                <div class="player-select-wrapper">
+                    <label for="player3">Player 3</label>
+                    <select id="player3" class="player-select">
+                        <option value="">Select Player...</option>
+                    </select>
+                </div>
+                <div class="player-select-wrapper">
+                    <label for="player4">Player 4</label>
+                    <select id="player4" class="player-select">
+                        <option value="">Select Player...</option>
+                    </select>
+                </div>
+            </div>
+        </section>
+
+        <section class="era-controls-section">
+            <h2>Era Pace Adjustments</h2>
+            <div class="era-sliders-grid">
+                <div class="era-slider-wrapper">
+                    <label for="pace-1960s">
+                        1960s Pace 
+                        <span class="tooltip" data-tooltip="Average possessions per 48 minutes in the 1960s era. Higher pace = more possessions = higher TUSG%"></span>
+                    </label>
+                    <div class="slider-container">
+                        <input type="range" id="pace-1960s" class="era-slider" min="90" max="125" value="115" step="0.5">
+                        <span class="pace-value" id="pace-1960s-value">115.0</span>
+                    </div>
+                </div>
+
+                <div class="era-slider-wrapper">
+                    <label for="pace-1970s">
+                        1970s-1980s Pace 
+                        <span class="tooltip" data-tooltip="Average possessions per 48 minutes in the 1970s-1980s era"></span>
+                    </label>
+                    <div class="slider-container">
+                        <input type="range" id="pace-1970s" class="era-slider" min="90" max="125" value="107" step="0.5">
+                        <span class="pace-value" id="pace-1970s-value">107.0</span>
+                    </div>
+                </div>
+
+                <div class="era-slider-wrapper">
+                    <label for="pace-1990s">
+                        1990s-2000s Pace 
+                        <span class="tooltip" data-tooltip="Average possessions per 48 minutes in the 1990s-2000s era. Slowest pace in NBA history"></span>
+                    </label>
+                    <div class="slider-container">
+                        <input type="range" id="pace-1990s" class="era-slider" min="90" max="125" value="95" step="0.5">
+                        <span class="pace-value" id="pace-1990s-value">95.0</span>
+                    </div>
+                </div>
+
+                <div class="era-slider-wrapper">
+                    <label for="pace-2010s">
+                        2010s Pace 
+                        <span class="tooltip" data-tooltip="Average possessions per 48 minutes in the 2010s era"></span>
+                    </label>
+                    <div class="slider-container">
+                        <input type="range" id="pace-2010s" class="era-slider" min="90" max="125" value="98" step="0.5">
+                        <span class="pace-value" id="pace-2010s-value">98.0</span>
+                    </div>
+                </div>
+
+                <div class="era-slider-wrapper">
+                    <label for="pace-2020s">
+                        2020s Pace 
+                        <span class="tooltip" data-tooltip="Average possessions per 48 minutes in the 2020s era"></span>
+                    </label>
+                    <div class="slider-container">
+                        <input type="range" id="pace-2020s" class="era-slider" min="90" max="125" value="99.5" step="0.5">
+                        <span class="pace-value" id="pace-2020s-value">99.5</span>
+                    </div>
+                </div>
+            </div>
+            <div class="reset-controls">
+                <button id="reset-pace" class="btn-reset">Reset to Historical Averages</button>
+            </div>
+        </section>
+
+        <section class="comparison-section">
+            <h2>Adjusted Metrics Comparison</h2>
+            
+            <div class="charts-grid">
+                <div class="chart-container">
+                    <h3>TUSG% (True Usage %) 
+                        <span class="tooltip" data-tooltip="TUSG% = (FGA + TOV + (FTA × 0.44)) / ((MP/48) × TeamPace) × 100"></span>
+                    </h3>
+                    <canvas id="tusg-chart"></canvas>
+                </div>
+                
+                <div class="chart-container">
+                    <h3>PVR (Possession Value Rating) 
+                        <span class="tooltip" data-tooltip="PVR = [(PTS + (AST × Multiplier)) / (FGA + TOV + (0.44 × FTA) + AST) - 1.00] × 100"></span>
+                    </h3>
+                    <canvas id="pvr-chart"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-container" style="margin-top: 30px;">
+                <h3> PVR Sensitivity to Pace Changes
+                    <span class="tooltip" data-tooltip="Shows how each player's PVR would change across different pace values (90-130 possessions per 48 min). This demonstrates the impact of era-adjustment on player evaluation."></span>
+                </h3>
+                <canvas id="pvr-evolution-chart"></canvas>
+            </div>
+        </section>
+
+        <section class="what-if-section">
+            <h2>What-If Scenarios</h2>
+            <div id="what-if-container" class="what-if-grid">
+                <p class="placeholder-text">Select players and adjust era pace to see "what if" scenarios</p>
+            </div>
+        </section>
+
+        <section class="detailed-comparison">
+            <h2>Detailed Stats</h2>
+            <div class="stats-table-container">
+                <table id="detailed-stats-table" class="stats-table">
+                    <thead>
+                        <tr>
+                            <th>Player</th>
+                            <th>Season</th>
+                            <th>Original TUSG%</th>
+                            <th>Adjusted TUSG%</th>
+                            <th>PVR</th>
+                            <th>PPG</th>
+                            <th>APG</th>
+                            <th>MPG</th>
+                        </tr>
+                    </thead>
+                    <tbody id="stats-table-body">
+                        <tr>
+                            <td colspan="8" class="no-data">Select players to see detailed comparison</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="formula-section">
+            <h2>Understanding the Metrics</h2>
+            <div class="formula-grid">
+                <div class="formula-card">
+                    <h3>TUSG% (True Usage %)</h3>
+                    <p class="formula">TUSG% = (FGA + TOV + (FTA × 0.44)) / ((MP/48) × TeamPace) × 100</p>
+                    <p class="description">Measures what percentage of team possessions a player uses. Era-adjusted by team pace - higher pace means more possessions available, which affects the denominator.</p>
+                </div>
+                <div class="formula-card">
+                    <h3>PVR (Possession Value Rating)</h3>
+                    <p class="formula">PVR = [(PTS + (AST × Multiplier)) / (FGA + TOV + (0.44 × FTA) + AST) - 1.00] × 100</p>
+                    <p class="description">Measures efficiency per possession. PVR is NOT era-adjusted because it measures efficiency, not volume. A good shot is a good shot in any era.</p>
+                    <p class="rule">Multiplier: AST/TOV ≤1.8 → 1.8x | AST/TOV >1.8 → 2.3x</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/cross_era.js') }}"></script>
+    <script src="/static/js/theme.js"></script>
+</body>
+</html>

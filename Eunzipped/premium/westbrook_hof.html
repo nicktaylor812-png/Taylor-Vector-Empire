@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Westbrook Rule Hall of Fame - TAYLOR VECTOR TERMINAL</title>
+    <link rel="stylesheet" href="/static/css/theme.css">
+</head>
+<body>
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+        <span class="theme-icon">◐</span>
+        <span id="theme-text">Dark</span>
+    </button>
+
+
+    <div class="container">
+        <a href="/" class="back-link">← Back to Dashboard</a>
+        
+        <header>
+            <h1> WESTBROOK RULE HALL OF FAME</h1>
+            <div class="subtitle">Historical Impact of the AST/TOV Multiplier Rule</div>
+            <p class="description">
+                The Westbrook Rule: AST/TOV ratio > 1.8 earns a 2.3x assist multiplier in PVR calculations.
+                This hall showcases which players benefited most from this rule across NBA history.
+            </p>
+        </header>
+        
+        <div class="stats-overview" id="stats-overview">
+            <div class="stat-card">
+                <div class="stat-value" id="total-inductees">--</div>
+                <div class="stat-label">Total Inductees</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="exposed-count">--</div>
+                <div class="stat-label">Exposed Wing</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="validated-count">--</div>
+                <div class="stat-label">Validated Wing</div>
+            </div>
+        </div>
+        
+        <div class="wings-container">
+            <div class="wing exposed">
+                <div class="wing-header">
+                    <div class="wing-title"> EXPOSED WING</div>
+                    <div class="wing-subtitle">Players who needed the rule to shine (AST/TOV < 1.8)</div>
+                    <div class="wing-subtitle">Benefited from lenient 1.8x multiplier despite poor ball security</div>
+                </div>
+                <div id="exposed-players" class="loading">Loading exposed players...</div>
+            </div>
+            
+            <div class="wing validated">
+                <div class="wing-header">
+                    <div class="wing-title"> VALIDATED WING</div>
+                    <div class="wing-subtitle">Elite playmakers who earned the premium (AST/TOV > 1.8)</div>
+                    <div class="wing-subtitle">Efficient decision-makers rewarded with 2.3x multiplier</div>
+                </div>
+                <div id="validated-players" class="loading">Loading validated players...</div>
+            </div>
+        </div>
+        
+        <div class="insights-section">
+            <div class="insights-title"> KEY INSIGHTS</div>
+            <div id="insights-content" class="loading">Loading insights...</div>
+        </div>
+        
+        <div class="westbrook-effect-section">
+            <div class="westbrook-effect-title"> THE WESTBROOK EFFECT</div>
+            <div class="westbrook-effect-subtitle">Why This Rule Exists: The 2016-17 MVP Season</div>
+            
+            <div class="westbrook-story">
+                <div class="westbrook-card">
+                    <div class="westbrook-header">
+                        <h3> Russell Westbrook - 2016-17 Season</h3>
+                        <p class="westbrook-achievement">First player since Oscar Robertson to average a triple-double</p>
+                    </div>
+                    
+                    <div class="westbrook-stats-grid">
+                        <div class="westbrook-stat">
+                            <div class="stat-big">31.6</div>
+                            <div class="stat-desc">PPG</div>
+                        </div>
+                        <div class="westbrook-stat">
+                            <div class="stat-big">10.4</div>
+                            <div class="stat-desc">APG</div>
+                        </div>
+                        <div class="westbrook-stat">
+                            <div class="stat-big">5.4</div>
+                            <div class="stat-desc">TOV</div>
+                        </div>
+                        <div class="westbrook-stat critical">
+                            <div class="stat-big">1.93</div>
+                            <div class="stat-desc">AST/TOV</div>
+                        </div>
+                    </div>
+                    
+                    <div class="westbrook-analysis">
+                        <h4> The Critical Threshold</h4>
+                        <p>Westbrook's AST/TOV ratio of <strong>1.93</strong> sits just above the <strong>1.8 threshold</strong>, qualifying him for the premium 2.3x assist multiplier. This narrow margin perfectly illustrates why the rule exists:</p>
+                        
+                        <div class="pvr-breakdown">
+                            <div class="pvr-scenario">
+                                <div class="scenario-label">Without Multiplier (1.0x)</div>
+                                <div class="scenario-value negative">-5.35 PVR</div>
+                                <div class="scenario-desc">High volume with turnovers hurts efficiency</div>
+                            </div>
+                            <div class="pvr-arrow">→</div>
+                            <div class="pvr-scenario">
+                                <div class="scenario-label">With 2.3x Multiplier</div>
+                                <div class="scenario-value positive">+25.11 PVR</div>
+                                <div class="scenario-desc">Elite playmaking rewarded</div>
+                            </div>
+                        </div>
+                        
+                        <div class="rule-impact-box">
+                            <strong>Rule Impact:</strong> +30.46 PVR
+                            <p>Westbrook's playmaking and ball security earned him the premium multiplier, transforming his raw efficiency into elite production value.</p>
+                        </div>
+                        
+                        <h4> Historical Significance</h4>
+                        <ul class="significance-list">
+                            <li><strong>42 triple-doubles</strong> in a single season - an NBA record</li>
+                            <li><strong>League MVP</strong> despite Thunder's 6th seed finish</li>
+                            <li><strong>The defining case</strong> for why AST/TOV ratio matters in advanced metrics</li>
+                            <li>Demonstrated that <strong>volume playmaking</strong> can be efficient with proper ball security</li>
+                        </ul>
+                        
+                        <div class="westbrook-quote">
+                            <p>"The rule recognizes that high-volume playmakers who protect the ball deserve credit. Westbrook's 1.93 AST/TOV shows he maintained elite decision-making despite unprecedented usage."</p>
+                            <cite>- Taylor Vector Terminal Analytics Team</cite>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="timeline-section">
+            <div class="timeline-title"> AST/TOV TRENDS BY DECADE</div>
+            <div class="timeline-chart" id="timeline-chart">
+                <div class="loading">Loading timeline...</div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        async function loadHallOfFame() {
+            try {
+                const response = await fetch('/api/westbrook-hall/data');
+                const data = await response.json();
+                
+                // Update stats overview
+                document.getElementById('total-inductees').textContent = data.total_inductees;
+                document.getElementById('exposed-count').textContent = data.exposed_count;
+                document.getElementById('validated-count').textContent = data.validated_count;
+                
+                // Render exposed wing
+                renderPlayers(data.exposed_wing, 'exposed-players', 'exposed');
+                
+                // Render validated wing
+                renderPlayers(data.validated_wing, 'validated-players', 'validated');
+                
+                // Render insights
+                renderInsights(data.insights);
+                
+                // Render timeline
+                renderTimeline(data.timeline);
+                
+            } catch (error) {
+                console.error('Error loading Hall of Fame data:', error);
+                document.getElementById('exposed-players').innerHTML = '<p>Error loading data</p>';
+                document.getElementById('validated-players').innerHTML = '<p>Error loading data</p>';
+            }
+        }
+        
+        function renderPlayers(players, containerId, category) {
+            const container = document.getElementById(containerId);
+            
+            if (!players || players.length === 0) {
+                container.innerHTML = '<p>No players in this category</p>';
+                return;
+            }
+            
+            container.innerHTML = players.map(player => `
+                <div class="player-card">
+                    <div class="player-name">${player.name}</div>
+                    <div class="player-season">${player.season} • Era Pace: ${player.era_pace}</div>
+                    <div class="player-context">${player.context}</div>
+                    
+                    <div class="player-stats">
+                        <div class="stat-item"><strong>PPG:</strong> ${player.ppg.toFixed(1)}</div>
+                        <div class="stat-item"><strong>APG:</strong> ${player.apg.toFixed(1)}</div>
+                        <div class="stat-item"><strong>TOV:</strong> ${player.tov.toFixed(1)}</div>
+                        <div class="stat-item"><strong>AST/TOV:</strong> ${player.ast_tov_ratio.toFixed(2)}</div>
+                    </div>
+                    
+                    <div class="pvr-comparison">
+                        <div class="pvr-row">
+                            <span class="pvr-label">PVR (No Multiplier):</span>
+                            <span class="pvr-value">${player.pvr_no_multiplier.toFixed(2)}</span>
+                        </div>
+                        <div class="pvr-row">
+                            <span class="pvr-label">PVR (With ${player.multiplier_used}x):</span>
+                            <span class="pvr-value positive">${player.pvr_actual.toFixed(2)}</span>
+                        </div>
+                        <div class="pvr-row">
+                            <span class="pvr-label">PVR (Max 2.3x):</span>
+                            <span class="pvr-value">${player.pvr_max_multiplier.toFixed(2)}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="rule-impact">
+                        Rule Impact: +${player.rule_impact.toFixed(2)} PVR
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function renderInsights(insights) {
+            const container = document.getElementById('insights-content');
+            
+            let html = '';
+            
+            if (insights.most_exposed) {
+                html += `
+                    <div class="insight-item">
+                        <strong>Most Exposed Player:</strong> ${insights.most_exposed.name} (${insights.most_exposed.season})
+                        <br>AST/TOV Ratio: ${insights.most_exposed.ast_tov_ratio.toFixed(2)} - Still received 1.8x multiplier
+                    </div>
+                `;
+            }
+            
+            if (insights.most_validated) {
+                html += `
+                    <div class="insight-item">
+                        <strong>Most Validated Player:</strong> ${insights.most_validated.name} (${insights.most_validated.season})
+                        <br>AST/TOV Ratio: ${insights.most_validated.ast_tov_ratio.toFixed(2)} - Earned maximum 2.3x multiplier
+                    </div>
+                `;
+            }
+            
+            if (insights.biggest_impact) {
+                html += `
+                    <div class="insight-item">
+                        <strong>Biggest Rule Beneficiary:</strong> ${insights.biggest_impact.name} (${insights.biggest_impact.season})
+                        <br>Gained +${insights.biggest_impact.rule_impact.toFixed(2)} PVR from the rule
+                    </div>
+                `;
+            }
+            
+            html += `
+                <div class="insight-item">
+                    <strong>Average Rule Impact:</strong>
+                    <br>Exposed Wing: +${insights.avg_exposed_impact.toFixed(2)} PVR
+                    <br>Validated Wing: +${insights.avg_validated_impact.toFixed(2)} PVR
+                </div>
+                
+                <div class="insight-item">
+                    <strong>Rule Parameters:</strong>
+                    <br>Threshold: AST/TOV ratio of ${insights.rule_threshold}
+                    <br>Below threshold: ${insights.low_multiplier}x multiplier
+                    <br>Above threshold: ${insights.high_multiplier}x multiplier
+                </div>
+            `;
+            
+            container.innerHTML = html;
+        }
+        
+        function renderTimeline(timeline) {
+            const container = document.getElementById('timeline-chart');
+            
+            if (!timeline || Object.keys(timeline).length === 0) {
+                container.innerHTML = '<p>No timeline data available</p>';
+                return;
+            }
+            
+            // Sort decades
+            const decades = Object.keys(timeline).sort();
+            
+            // Find max value for scaling
+            const maxRatio = Math.max(...decades.map(d => timeline[d].avg_ast_tov));
+            
+            container.innerHTML = decades.map(decade => {
+                const data = timeline[decade];
+                const height = (data.avg_ast_tov / maxRatio) * 250; // Scale to 250px max
+                
+                return `
+                    <div class="timeline-bar" title="${decade}: ${data.avg_ast_tov} (${data.sample_size} players)">
+                        <div class="timeline-value">${data.avg_ast_tov.toFixed(2)}</div>
+                        <div class="timeline-decade">${decade}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        // Load data on page load
+        loadHallOfFame();
+    </script>
+    <script src="/static/js/theme.js"></script>
+</body>
+</html>

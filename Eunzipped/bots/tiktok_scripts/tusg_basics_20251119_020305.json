@@ -1,0 +1,50 @@
+{
+  "title": "TUSG% in 60 seconds: Stop using USG% wrong",
+  "topic": "TUSG% Basics",
+  "generated_at": "2025-11-19T02:03:05.168522",
+  "total_duration": "60 seconds",
+  "sections": {
+    "hook": {
+      "timestamp": "0:00-0:15",
+      "duration": "15 seconds",
+      "text": "You've been using Usage % wrong this whole time. Let me show you why TUSG% is better.\n\n[On-screen text: \"TRADITIONAL USG% IS BROKEN \ud83d\udea8\"]\n\nTraditional Usage % ignores pace. A player in 1962 played at 126 possessions per game. Today? 99. That's broken math."
+    },
+    "explanation": {
+      "timestamp": "0:15-0:40",
+      "duration": "25 seconds",
+      "text": "TUSG% fixes this. True Usage % = how much a player controls the offense, adjusted for team pace.\n\n[Show formula graphic: (FGA + TOV + FTA\u00d70.44) / (MIN/48 \u00d7 Pace) \u00d7 100]\n\nIt answers: 'If this player was on ANY team, how much would they dominate the ball?'\n\nNow we can compare Wilt to Harden. Modern stars to '80s legends. Fair math."
+    },
+    "example": {
+      "timestamp": "0:40-0:50",
+      "duration": "10 seconds",
+      "text": "Russell Westbrook 2017: 48.1% TUSG - highest EVER. He controlled nearly HALF his team's possessions.\n\n[Show graphic: Westbrook 48.1% > League Average 20%]\n\nThat's why he averaged a triple-double. Pure ball dominance."
+    },
+    "cta": {
+      "timestamp": "0:50-0:60",
+      "duration": "10 seconds",
+      "text": "Follow for more NBA metrics that actually make sense. Link in bio for the full TUSG% leaderboard.\n\n[End screen: \"TUSG% > USG%\" + \"Link in bio \ud83d\udd17\"]"
+    }
+  },
+  "recommended_sounds": [
+    "original sound (trending audio for sports content)",
+    "Storytelling beat (medium tempo)",
+    "Upbeat sports commentary audio"
+  ],
+  "trending_sounds": [
+    "original sound (use trending audio from FYP)",
+    "Storytelling beat - medium tempo",
+    "Upbeat sports commentary music",
+    "Dramatic reveal audio",
+    "Suspenseful music for analytics",
+    "Epic sports highlight music",
+    "Energetic explainer content beat",
+    "Educational TikTok trending audio"
+  ],
+  "tips": [
+    "Use text overlays for key stats and formulas",
+    "Show graphics/charts during explanation section",
+    "Keep energy high - fast cuts, dynamic visuals",
+    "Use captions for accessibility",
+    "Test different hooks for best performance"
+  ]
+}

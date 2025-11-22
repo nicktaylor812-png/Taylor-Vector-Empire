@@ -228,12 +228,40 @@ def get_current_players():
             page += 1
             time.sleep(0.15)
 
-        # Fetch season averages in batches and merge into players list
-        if bdl_player_ids:
-            season = int(os.getenv('SEASON_YEAR', datetime.now().year))
-            batch_size = 100
-            stats_map = {}
+        # Fetch internal season averages first (preferred), fall back to balldontlie season_averages
+        season = int(os.getenv('SEASON_YEAR', datetime.now().year))
+        internal_url = os.getenv('INTERNAL_STATS_URL', 'https://api.server.nbaapi.com/api/playertotals')
+        internal_map = {}
 
+        try:
+            # paginate through internal stats API if reachable
+            page = 1
+            page_size = 200
+            while True:
+                resp = requests.get(f"{internal_url}?season={season}&pageSize={page_size}&page={page}", timeout=12)
+                if resp.status_code != 200:
+                    break
+                data = resp.json()
+                items = data.get('data', [])
+                if not items:
+                    break
+                for it in items:
+                    name = (it.get('playerName') or '').strip().lower()
+                    if not name:
+                        continue
+                    internal_map[name] = it
+                if len(items) < page_size:
+                    break
+                page += 1
+                time.sleep(0.2)
+        except Exception:
+            # ignore internal API failures and fallback to balldontlie-only
+            internal_map = {}
+
+        # Now fetch balldontlie season averages in batches to fill any remaining players
+        bdl_stats_map = {}
+        if bdl_player_ids:
+            batch_size = 100
             for i in range(0, len(bdl_player_ids), batch_size):
                 batch_ids = bdl_player_ids[i:i+batch_size]
                 params = [('season', season)] + [(f'player_ids[]', str(x)) for x in batch_ids]
@@ -245,23 +273,37 @@ def get_current_players():
                     data = resp.json().get('data', [])
                     for s in data:
                         pid = s.get('player_id')
-                        stats_map[pid] = s
+                        bdl_stats_map[pid] = s
                 except Exception:
                     continue
 
-            # Merge stats into player objects and compute TUSG/PVR using helpers
-            for p in players:
+        # Merge stats into player objects, preferring internal API by player name, else balldontlie
+        for p in players:
+            name = p.get('name', '').strip().lower()
+            used_stats = None
+            # prefer internal mapping by name
+            if name and name in internal_map:
+                used_stats = internal_map[name]
+                # internal API uses different keys; normalize
+                mpg = used_stats.get('minutesPg') or used_stats.get('min') or 0
+                pts = (used_stats.get('points') or 0)
+                ast = (used_stats.get('assists') or 0)
+                tov = (used_stats.get('turnovers') or 0)
+                fga = (used_stats.get('fieldAttempts') or 0)
+                fta = (used_stats.get('ftAttempts') or 0)
+                stat_for_calc = {
+                    'min': mpg,
+                    'fga': fga,
+                    'tov': tov,
+                    'fta': fta,
+                    'pts': pts,
+                    'ast': ast
+                }
+            else:
+                # fallback to balldontlie
                 pid = p.get('bdl_id')
-                s = stats_map.get(pid)
+                s = bdl_stats_map.get(pid)
                 if s:
-                    # season_averages fields: games_played, min, pts, ast, reb, fgm, fga, ftm, fta, turnovers
-                    p['mpg'] = s.get('min') or 0
-                    p['ppg'] = s.get('pts', 0)
-                    p['apg'] = s.get('ast', 0)
-                    p['fga'] = s.get('fga', 0)
-                    p['fta'] = s.get('fta', 0)
-                    p['tov'] = s.get('turnovers', 0)
-                    # For calculate_player_tusg/calculate_player_pvr, prepare a compatible dict
                     stat_for_calc = {
                         'min': s.get('min', 0),
                         'fga': s.get('fga', 0),
@@ -270,19 +312,30 @@ def get_current_players():
                         'pts': s.get('pts', 0),
                         'ast': s.get('ast', 0)
                     }
+                else:
+                    stat_for_calc = None
+
+            if stat_for_calc:
+                try:
                     team_abbr = p.get('team')
                     team_pace = TEAM_PACE.get(team_abbr, 99.5)
-                    try:
-                        tusg_val = calculate_player_tusg(stat_for_calc, team_pace)
-                    except Exception:
-                        tusg_val = 0
-                    try:
-                        pvr_val = calculate_player_pvr(stat_for_calc)
-                    except Exception:
-                        pvr_val = 0
+                    tusg_val = calculate_player_tusg(stat_for_calc, team_pace)
+                except Exception:
+                    tusg_val = 0
+                try:
+                    pvr_val = calculate_player_pvr(stat_for_calc)
+                except Exception:
+                    pvr_val = 0
 
-                    p['tusg'] = tusg_val
-                    p['pvr'] = pvr_val
+                # Populate common fields
+                p['mpg'] = stat_for_calc.get('min', 0)
+                p['ppg'] = stat_for_calc.get('pts', 0)
+                p['apg'] = stat_for_calc.get('ast', 0)
+                p['fga'] = stat_for_calc.get('fga', 0)
+                p['fta'] = stat_for_calc.get('fta', 0)
+                p['tov'] = stat_for_calc.get('tov', 0)
+                p['tusg'] = tusg_val
+                p['pvr'] = pvr_val
 
     except Exception as e:
         print(f"Error fetching current players: {e}")

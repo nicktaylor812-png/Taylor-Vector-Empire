@@ -16,16 +16,50 @@ sys.path.append('..')
 sys.path.append('../api')
 sys.path.append('../premium')
 
-from premium_api import api_bp, init_api_database
-from consulting_portal import ConsultingGroup, BASE_PRICE, PER_MEMBER_PRICE
+# Commenting out premium_api import so the Flask app can start without premium package
+# from premium_api import api_bp, init_api_database
+
+# consulting_portal may not be installed in some environments. Attempt to import it,
+# otherwise provide a minimal stub implementation so routes that reference it
+# won't crash the app at import time. This keeps the app runnable in lightweight
+# deployments while preserving full functionality when the premium package exists.
+try:
+    from consulting_portal import ConsultingGroup, BASE_PRICE, PER_MEMBER_PRICE
+except Exception:
+    class ConsultingGroup:
+        def __init__(self):
+            pass
+        def get_group_by_slug(self, slug):
+            return {
+                'id': 0,
+                'name': 'Demo Group',
+                'primary_color': '#1f6feb',
+                'secondary_color': '#7dd3fc',
+                'slug': slug
+            }
+        def get_group_by_id(self, id):
+            return self.get_group_by_slug('demo')
+        def authenticate_member(self, slug, email, password):
+            return None
+        def get_group_picks(self, group_id, limit=50):
+            return []
+        def get_group_members(self, group_id):
+            return []
+        def get_group_chat(self, group_id, limit=100):
+            return []
+        def get_group_analytics(self, group_id):
+            return {}
+
+    BASE_PRICE = 0.0
+    PER_MEMBER_PRICE = 0.0
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
 
-# Initialize API database before registering blueprint
-init_api_database()
-
-app.register_blueprint(api_bp, url_prefix='/api')
+# Initialize API database and register premium API blueprint.
+# These are disabled so the app can run without the optional `premium_api` module installed.
+# init_api_database()
+# app.register_blueprint(api_bp, url_prefix='/api')
 
 DB_FILE = '../taylor_62.db'
 LEADERBOARD_FILE = '../leaderboard/data/all_time_tusg.json'

@@ -182,6 +182,10 @@ def get_current_players():
     """Fetch current NBA players from API"""
     players = []
     try:
+        app.logger.info("get_current_players: start fetching players")
+    except Exception:
+        print("get_current_players: start fetching players")
+    try:
         # Use the free balldontlie players endpoint to populate current roster list
         per_page = 100
         page = 1
@@ -254,7 +258,11 @@ def get_current_players():
                     break
                 page += 1
                 time.sleep(0.2)
-        except Exception:
+        except Exception as e:
+            try:
+                app.logger.warning(f"get_current_players: internal stats fetch failed: {e}")
+            except Exception:
+                print(f"get_current_players: internal stats fetch failed: {e}")
             # ignore internal API failures and fallback to balldontlie-only
             internal_map = {}
 
@@ -277,6 +285,7 @@ def get_current_players():
                 except Exception:
                     continue
 
+        enriched = 0
         # Merge stats into player objects, preferring internal API by player name, else balldontlie
         for p in players:
             name = p.get('name', '').strip().lower()
@@ -336,6 +345,12 @@ def get_current_players():
                 p['tov'] = stat_for_calc.get('tov', 0)
                 p['tusg'] = tusg_val
                 p['pvr'] = pvr_val
+                enriched += 1
+
+        try:
+            app.logger.info(f"get_current_players: fetched {len(players)} players, enriched {enriched} with season stats")
+        except Exception:
+            print(f"get_current_players: fetched {len(players)} players, enriched {enriched} with season stats")
 
     except Exception as e:
         print(f"Error fetching current players: {e}")

@@ -181,6 +181,50 @@ def calculate_player_pvr(player_stats):
 def get_current_players():
     """Fetch current NBA players from API"""
     players = []
+    try:
+        # Use the free balldontlie players endpoint to populate current roster list
+        per_page = 100
+        page = 1
+        fetched = 0
+        while True:
+            url = f"https://www.balldontlie.io/api/v1/players?per_page={per_page}&page={page}"
+            resp = requests.get(url, timeout=10)
+            if resp.status_code != 200:
+                break
+            data = resp.json()
+            items = data.get('data', [])
+            if not items:
+                break
+
+            for p in items:
+                team = p.get('team') or {}
+                team_abbr = team.get('abbreviation') if isinstance(team, dict) else None
+                players.append({
+                    'id': f"bdl_{p.get('id')}",
+                    'name': f"{p.get('first_name', '').strip()} {p.get('last_name', '').strip()}".strip(),
+                    'team': team_abbr or (team.get('full_name') if isinstance(team, dict) else 'Unknown'),
+                    'is_historical': False,
+                    'mpg': 0,
+                    'ppg': 0,
+                    'apg': 0,
+                    'fga': 0,
+                    'fta': 0,
+                    'tov': 0,
+                    'tusg': 0,
+                    'pvr': 0
+                })
+                fetched += 1
+                if fetched >= 500:
+                    break
+
+            if fetched >= 500 or not data.get('meta') or page >= data.get('meta', {}).get('total_pages', page):
+                break
+
+            page += 1
+            time.sleep(0.2)
+    except Exception as e:
+        print(f"Error fetching current players: {e}")
+
     return players
 
 def get_historical_players():

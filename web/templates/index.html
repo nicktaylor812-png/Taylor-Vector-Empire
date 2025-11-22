@@ -109,11 +109,31 @@
                 </div>
             </div>
         </section>
-
         <section class="picks-section">
             <h2>Recent Edges (≥65% Confidence)</h2>
             <div id="picks-container" class="picks-container">
                 <div class="loading">Loading picks...</div>
+            </div>
+        </section>
+
+        <!-- Elite Bettors Section (new dark-mode friendly card) -->
+        <section class="metrics-info" id="elite-bettors" style="margin-top:24px;">
+            <h2>Elite Bettors</h2>
+            <div class="metrics-grid">
+                <div class="metric-card" style="background: linear-gradient(180deg, rgba(16,163,127,0.06), rgba(16,163,127,0.02));">
+                    <h3>Top Syndicates</h3>
+                    <p class="description">Invite-only syndicates that consistently extract high edge opportunities.</p>
+                    <ul style="margin-top:12px; list-style:none; padding:0;">
+                        <li style="display:flex; align-items:center; gap:12px; margin-bottom:10px;"><img src="{{ url_for('static', filename='images/bandit_logo.png') }}" alt="Bandit" style="width:36px;height:36px;border-radius:6px;"> <strong>Bandit Syndicate</strong> — Avg Edge: 68%</li>
+                        <li style="display:flex; align-items:center; gap:12px; margin-bottom:10px;"><img src="{{ url_for('static', filename='images/logo_small.png') }}" alt="Raccoon" style="width:36px;height:36px;border-radius:6px;"> <strong>Raccoon Fund</strong> — Avg Edge: 66%</li>
+                    </ul>
+                    <p class="rule" style="margin-top:8px;">Dark-mode UI applied; uses theme variables for accessibility.</p>
+                </div>
+                <div class="metric-card">
+                    <h3>Join Elite</h3>
+                    <p class="description">Interested in applying? Contact partnerships@taylorterminal.example to request access.</p>
+                    <button class="btn btn-primary" onclick="window.location.href='/portal/demo'">Request Access</button>
+                </div>
             </div>
         </section>
     </div>

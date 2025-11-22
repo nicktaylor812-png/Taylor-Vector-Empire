@@ -131,6 +131,9 @@ body {
     position: relative;
     transition: background-color var(--transition-base), color var(--transition-base);
 }
+html, body {
+    overflow-x: hidden;
+}
 
 /* Ambient Background Pattern */
 body::before {
@@ -660,7 +663,7 @@ section h2::after {
 /* Metrics Grid */
 .metrics-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: var(--space-6);
 }
 
@@ -1083,4 +1086,21 @@ tr:hover td {
         top: 12px;
         right: 12px;
     }
+}
+
+/* Safety rules to avoid horizontal overflow */
+img, video, canvas {
+    max-width: 100%;
+    height: auto;
+}
+
+table {
+    max-width: 100%;
+    width: 100%;
+    border-collapse: collapse;
+    overflow-wrap: break-word;
+}
+
+.container {
+    overflow-x: hidden;
 }

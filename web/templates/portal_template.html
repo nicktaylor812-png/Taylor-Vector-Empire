@@ -17,7 +17,11 @@
         <div class="header-content">
             <div class="logo-section">
                 {% if group.logo_url %}
-                    <img src="{{ group.logo_url }}" alt="{{ group.name }}" class="group-logo">
+                    {% if group.logo_url.startswith('http') or 'static' in group.logo_url %}
+                        <img src="{{ group.logo_url }}" alt="{{ group.name }}" class="group-logo">
+                    {% else %}
+                        <img src="{{ url_for('static', filename=group.logo_url) }}" alt="{{ group.name }}" class="group-logo">
+                    {% endif %}
                 {% else %}
                     <div class="group-logo">{{ group.name[0] }}</div>
                 {% endif %}

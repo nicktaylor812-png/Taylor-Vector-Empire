@@ -186,6 +186,8 @@ def get_current_players():
         per_page = 100
         page = 1
         fetched = 0
+        bdl_player_ids = []
+
         while True:
             url = f"https://www.balldontlie.io/api/v1/players?per_page={per_page}&page={page}"
             resp = requests.get(url, timeout=10)
@@ -197,10 +199,12 @@ def get_current_players():
                 break
 
             for p in items:
+                pid = p.get('id')
                 team = p.get('team') or {}
                 team_abbr = team.get('abbreviation') if isinstance(team, dict) else None
                 players.append({
-                    'id': f"bdl_{p.get('id')}",
+                    'bdl_id': pid,
+                    'id': f"bdl_{pid}",
                     'name': f"{p.get('first_name', '').strip()} {p.get('last_name', '').strip()}".strip(),
                     'team': team_abbr or (team.get('full_name') if isinstance(team, dict) else 'Unknown'),
                     'is_historical': False,
@@ -213,6 +217,7 @@ def get_current_players():
                     'tusg': 0,
                     'pvr': 0
                 })
+                bdl_player_ids.append(pid)
                 fetched += 1
                 if fetched >= 500:
                     break
@@ -221,7 +226,64 @@ def get_current_players():
                 break
 
             page += 1
-            time.sleep(0.2)
+            time.sleep(0.15)
+
+        # Fetch season averages in batches and merge into players list
+        if bdl_player_ids:
+            season = int(os.getenv('SEASON_YEAR', datetime.now().year))
+            batch_size = 100
+            stats_map = {}
+
+            for i in range(0, len(bdl_player_ids), batch_size):
+                batch_ids = bdl_player_ids[i:i+batch_size]
+                params = [('season', season)] + [(f'player_ids[]', str(x)) for x in batch_ids]
+                stats_url = 'https://www.balldontlie.io/api/v1/season_averages'
+                try:
+                    resp = requests.get(stats_url, params=params, timeout=10)
+                    if resp.status_code != 200:
+                        continue
+                    data = resp.json().get('data', [])
+                    for s in data:
+                        pid = s.get('player_id')
+                        stats_map[pid] = s
+                except Exception:
+                    continue
+
+            # Merge stats into player objects and compute TUSG/PVR using helpers
+            for p in players:
+                pid = p.get('bdl_id')
+                s = stats_map.get(pid)
+                if s:
+                    # season_averages fields: games_played, min, pts, ast, reb, fgm, fga, ftm, fta, turnovers
+                    p['mpg'] = s.get('min') or 0
+                    p['ppg'] = s.get('pts', 0)
+                    p['apg'] = s.get('ast', 0)
+                    p['fga'] = s.get('fga', 0)
+                    p['fta'] = s.get('fta', 0)
+                    p['tov'] = s.get('turnovers', 0)
+                    # For calculate_player_tusg/calculate_player_pvr, prepare a compatible dict
+                    stat_for_calc = {
+                        'min': s.get('min', 0),
+                        'fga': s.get('fga', 0),
+                        'tov': s.get('turnovers', 0),
+                        'fta': s.get('fta', 0),
+                        'pts': s.get('pts', 0),
+                        'ast': s.get('ast', 0)
+                    }
+                    team_abbr = p.get('team')
+                    team_pace = TEAM_PACE.get(team_abbr, 99.5)
+                    try:
+                        tusg_val = calculate_player_tusg(stat_for_calc, team_pace)
+                    except Exception:
+                        tusg_val = 0
+                    try:
+                        pvr_val = calculate_player_pvr(stat_for_calc)
+                    except Exception:
+                        pvr_val = 0
+
+                    p['tusg'] = tusg_val
+                    p['pvr'] = pvr_val
+
     except Exception as e:
         print(f"Error fetching current players: {e}")
 
